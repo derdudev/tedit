@@ -1,0 +1,30 @@
+{
+  "name": "tedit",
+  "version": "1.0.0",
+  "description": "This will become a powerful online text editor for an amazing website which is still to be published.",
+  "main": "index.js",
+  "scripts": {
+    "start": "node dist/index.js",
+    "dev": "nodemon dist/index.js",
+    "watch": "tsc -w"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Matteo-Dev/tedit.git"
+  },
+  "author": "Yurugen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Matteo-Dev/tedit/issues"
+  },
+  "homepage": "https://github.com/Matteo-Dev/tedit#readme",
+  "devDependencies": {
+    "@types/express": "^4.17.11",
+    "@types/node": "^14.14.37",
+    "typescript": "^4.2.3"
+  },
+  "dependencies": {
+    "express": "^4.17.1",
+    "path": "^0.12.7"
+  }
+}
