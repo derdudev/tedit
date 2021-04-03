@@ -1,13 +1,18 @@
 const getKeyValue = (key) => (obj) => obj[key];
-function prop(obj, key) {
-    return obj[key];
-}
 export default class DOM {
     static create(tagName, options) {
         let element = document.createElement(tagName);
+        let valueOfKey;
         for (let key in options) {
-            console.log(typeof key);
-            element.setAttribute(key, prop(options, key));
+            valueOfKey = getKeyValue(key)(options);
+            if (key !== "style") {
+                element.setAttribute(key, valueOfKey);
+            }
+            else {
+                for (let style in valueOfKey) {
+                    element.style.setProperty(style, getKeyValue(style)(valueOfKey));
+                }
+            }
         }
         return element;
     }
