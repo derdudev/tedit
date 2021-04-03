@@ -1,18 +1,4 @@
 import * as CSS from 'csstype';
-
-interface FontOptions {
-    family: String,
-    size: string,
-    color: string,
-    weight: string,
-}
-
-interface CSSStyle{
-    font?: FontOptions,
-    color?: string,
-
-}
-
 interface DomOptions {
     style?: CSS.Properties;
     contentEditable?: boolean;
