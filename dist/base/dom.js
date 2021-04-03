@@ -9,9 +9,7 @@ export default class DOM {
                 element.setAttribute(key, valueOfKey);
             }
             else {
-                for (let style in valueOfKey) {
-                    element.style.setProperty(style, getKeyValue(style)(valueOfKey));
-                }
+                Object.assign(element.style, getKeyValue(key)(options));
             }
         }
         return element;

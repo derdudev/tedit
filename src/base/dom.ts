@@ -1,3 +1,5 @@
+import * as CSS from 'csstype';
+
 interface FontOptions {
     family: String,
     size: string,
@@ -8,10 +10,11 @@ interface FontOptions {
 interface CSSStyle{
     font?: FontOptions,
     color?: string,
+
 }
 
 interface DomOptions {
-    style?: CSSStyle;
+    style?: CSS.Properties;
     contentEditable?: boolean;
     spellcheck?: boolean;
 }
@@ -28,9 +31,7 @@ export default class DOM {
             if(key !== "style"){
                 element.setAttribute(key, valueOfKey as string);
             } else {
-                for(let style in valueOfKey as CSSStyle){
-                    element.style.setProperty(style, getKeyValue(style as never)(valueOfKey));
-                }
+                Object.assign(element.style, getKeyValue(key as never)(options));
             }
         }
 
