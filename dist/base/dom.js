@@ -1,5 +1,4 @@
-const getKeyValue = (key) => (obj) => obj[key];
-const setKeyValue = (key, value) => (obj) => obj[key] = value;
+import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 export default class DOM {
     static create(tagName, options, children) {
         let element = document.createElement(tagName);
@@ -9,9 +8,7 @@ export default class DOM {
             if (key !== "style") {
                 element.setAttribute(key, valueOfKey);
                 setKeyValue(key, valueOfKey)(element);
-            }
-            else if (key === "style") {
-                Object.assign(element.style, getKeyValue(key)(options));
+                console.log(element.className);
             }
             else {
                 Object.assign(element.style, getKeyValue(key)(options));
@@ -21,6 +18,14 @@ export default class DOM {
             element.appendChild(getKeyValue(child)(children));
         }
         return element;
+    }
+    static render(element, parent) {
+        if (parent) {
+            parent.appendChild(element);
+        }
+        else {
+            document.body.appendChild(element);
+        }
     }
 }
 //# sourceMappingURL=dom.js.map

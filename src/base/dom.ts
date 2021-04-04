@@ -1,4 +1,5 @@
 import * as CSS from 'csstype';
+import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
 
 interface DomOptions {
     style?: CSS.Properties;
@@ -6,10 +7,8 @@ interface DomOptions {
     contentEditable?: boolean;
     spellcheck?: boolean;
     innerText?: string;
+    className?: string;
 }
-
-const getKeyValue = <T extends object, U extends keyof T>(key: U) => (obj: T) => obj[key];
-const setKeyValue = <T extends object, U extends keyof T>(key: U, value: any) => (obj: T) => obj[key] = value;
 
 export default class DOM {
     static create(tagName: string, options?: DomOptions, children?: Object): HTMLElement {
@@ -21,8 +20,7 @@ export default class DOM {
             if(key !== "style"){
                 element.setAttribute(key, valueOfKey as string);
                 setKeyValue(key as never, valueOfKey as string)(element);
-            } else if (key === "style") {
-                Object.assign(element.style, getKeyValue(key as never)(options));
+                console.log(element.className)
             } else {
                 Object.assign(element.style, getKeyValue(key as never)(options));
             }
@@ -34,4 +32,12 @@ export default class DOM {
 
         return element;
     }    
+
+    static render(element: HTMLElement, parent?: HTMLElement){
+        if(parent){
+            parent.appendChild(element);
+        } else {
+            document.body.appendChild(element);
+        }
+    }
 }
