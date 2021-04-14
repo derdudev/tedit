@@ -1,6 +1,7 @@
 import Content from "../core/content.js";
 import DOM from "../base/dom.js";
 import Component from "../core/component.js";
+import { Variant } from "../core/variant.js";
 
 class TxtContent implements Content{
     type: String;
@@ -8,8 +9,8 @@ class TxtContent implements Content{
 }
 class Txt extends Component{
     protected name: String;
-    content: TxtContent;
-    domElement: HTMLElement;
+    protected content: TxtContent;
+    protected domElement: HTMLElement;
 
     constructor(){
         super();
@@ -20,6 +21,11 @@ class Txt extends Component{
             data: {
                 text: "",
             },
+        }
+
+        this.variants = {
+            0: new Variant(),
+            1: new Variant(),
         }
 
         this.domElement = DOM.create("p", {

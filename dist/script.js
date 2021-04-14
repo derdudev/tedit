@@ -2,7 +2,7 @@ import DOM from "./base/dom.js";
 import Tedit from "./core/tedit.js";
 import Txt from "./components/text.js";
 const tedit = new Tedit();
-let text = new Txt(tedit);
+let text = new Txt();
 tedit.append(text);
 tedit.append(text);
 const button = DOM.create("button", {
@@ -14,7 +14,7 @@ const button = DOM.create("button", {
 });
 DOM.render(tedit.getDomElement());
 DOM.render(button);
-let text2 = new Txt(tedit);
+let text2 = new Txt();
 tedit.append(text2);
 DOM.render(DOM.create("pre", { className: "out", innerText: JSON.stringify(tedit.getContent(), null, 3) }));
 //# sourceMappingURL=script.js.map

@@ -1,5 +1,6 @@
 import DOM from "../base/dom.js";
 import Component from "../core/component.js";
+import { Variant } from "../core/variant.js";
 class TxtContent {
 }
 class Txt extends Component {
@@ -11,6 +12,10 @@ class Txt extends Component {
             data: {
                 text: "",
             },
+        };
+        this.variants = {
+            0: new Variant(),
+            1: new Variant(),
         };
         this.domElement = DOM.create("p", {
             placeHolder: "This is a text element.",

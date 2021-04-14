@@ -3,7 +3,7 @@ import Tedit from "./core/tedit.js";
 import Txt from "./components/text.js";
 
 const tedit = new Tedit();
-let text = new Txt(tedit);
+let text = new Txt();
 
 tedit.append(text);
 tedit.append(text);
@@ -19,7 +19,7 @@ const button = DOM.create("button", {
 DOM.render(tedit.getDomElement());
 DOM.render(button);
 
-let text2 = new Txt(tedit);
+let text2 = new Txt();
 
 tedit.append(text2);
 
