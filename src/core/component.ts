@@ -1,15 +1,12 @@
 
 import Content from "./content.js";
-import Tedit from "./tedit.js";
 
 abstract class Component {
-    protected abstract _content:Content;
-    protected abstract _domElement:HTMLElement;
+    protected abstract content:Content;
+    protected abstract domElement:HTMLElement;
     protected abstract name: String;
-    protected tedit: Tedit;
 
-    constructor(tedit: Tedit){
-        this.tedit = tedit;
+    constructor(){
     }
 
     public abstract getContent(): Content;

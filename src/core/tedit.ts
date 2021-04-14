@@ -2,7 +2,6 @@ import DOM from "../base/dom.js";
 import Component from "./component.js";
 import { isDuplicate } from "../utilities/listOperations.js";
 import {setKeyValue} from "../utilities/objectOperations.js";
-import Content from "./content.js";
 
 class Tedit {
     private activeElement: Component;

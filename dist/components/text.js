@@ -3,42 +3,41 @@ import Component from "../core/component.js";
 class TxtContent {
 }
 class Txt extends Component {
-    constructor(tedit) {
-        super(tedit);
+    constructor() {
+        super();
         this.name = "text";
-        this._content = {
+        this.content = {
             type: this.name,
             data: {
                 text: "",
             },
         };
-        this._domElement = DOM.create("p", {
+        this.domElement = DOM.create("p", {
             placeHolder: "This is a text element.",
             contentEditable: true,
             className: "p",
             spellcheck: false,
         });
-        this._domElement.addEventListener("keydown", (e) => {
-            this._content = {
+        this.domElement.addEventListener("keydown", (e) => {
+            this.content = {
                 type: this.name,
                 data: {
                     text: e.target.innerText + e.key,
                 }
             };
-            console.log(tedit.getContent());
         });
     }
     getContent() {
-        return this._content;
+        return this.content;
     }
     setContent(content) {
-        this._content = content;
+        this.content = content;
     }
     getDomElement() {
-        return this._domElement;
+        return this.domElement;
     }
     setDomElement(domElement) {
-        this._domElement = domElement;
+        this.domElement = domElement;
     }
     getName() {
         return this.name;

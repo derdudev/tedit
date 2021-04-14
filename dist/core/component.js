@@ -1,6 +1,5 @@
 class Component {
-    constructor(tedit) {
-        this.tedit = tedit;
+    constructor() {
     }
 }
 export default Component;
