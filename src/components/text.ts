@@ -2,30 +2,37 @@ import Content from "../core/content.js";
 import DOM from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
+import Tedit from "../core/tedit.js";
 
 class TxtContent implements Content{
     type: String;
-    data: {text: String};
+    data: {text: String, variant: number};
 }
 class Txt extends Component{
     protected name: String;
     protected content: TxtContent;
     protected domElement: HTMLElement;
 
-    constructor(){
-        super();
+    constructor(tedit: Tedit){
+        super(tedit);
         this.name = "text";
 
         this.content = {
             type: this.name,
             data: {
                 text: "",
+                variant: this.state.variant,
             },
         }
 
         this.variants = {
             0: new Variant(),
             1: new Variant(),
+        }
+
+        this.actions = {
+            0: () => { this.setState({ variant: 0 }) },
+            1: () => { this.setState({ variant: 1 }) },
         }
 
         this.domElement = DOM.create("p", {
@@ -40,9 +47,14 @@ class Txt extends Component{
                 type: this.name,
                 data: { 
                     text: (e.target as HTMLElement).innerText + e.key,
+                    variant: this.state.variant,
                 }
             };
         });
+
+        this.domElement.addEventListener("click", ()=>{
+            this.tedit.setActiveElement(this);
+        })
     }
 
     public getContent(): TxtContent {

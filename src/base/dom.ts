@@ -43,3 +43,5 @@ export default class DOM {
         }
     }
 }
+
+export {DomOptions};

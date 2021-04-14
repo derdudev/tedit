@@ -4,18 +4,23 @@ import { Variant } from "../core/variant.js";
 class TxtContent {
 }
 class Txt extends Component {
-    constructor() {
-        super();
+    constructor(tedit) {
+        super(tedit);
         this.name = "text";
         this.content = {
             type: this.name,
             data: {
                 text: "",
+                variant: this.state.variant,
             },
         };
         this.variants = {
             0: new Variant(),
             1: new Variant(),
+        };
+        this.actions = {
+            0: () => { this.setState({ variant: 0 }); },
+            1: () => { this.setState({ variant: 1 }); },
         };
         this.domElement = DOM.create("p", {
             placeHolder: "This is a text element.",
@@ -28,8 +33,12 @@ class Txt extends Component {
                 type: this.name,
                 data: {
                     text: e.target.innerText + e.key,
+                    variant: this.state.variant,
                 }
             };
+        });
+        this.domElement.addEventListener("click", () => {
+            this.tedit.setActiveElement(this);
         });
     }
     getContent() {
