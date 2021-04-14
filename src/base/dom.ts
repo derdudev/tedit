@@ -9,6 +9,7 @@ interface DomOptions {
     innerText?: string;
     className?: string;
     placeHolder?: string;
+    onclick?: Function;
 }
 
 export default class DOM {

@@ -3,9 +3,10 @@ import Content from "./content.js";
 import Tedit from "./tedit.js";
 
 abstract class Component {
-    abstract _content:Content;
-    abstract _domElement:HTMLElement;
-    private tedit: Tedit;
+    protected abstract _content:Content;
+    protected abstract _domElement:HTMLElement;
+    protected abstract name: String;
+    protected tedit: Tedit;
 
     constructor(tedit: Tedit){
         this.tedit = tedit;
@@ -15,10 +16,7 @@ abstract class Component {
     public abstract setContent(content:Content): void;
     public abstract getDomElement(): HTMLElement;
     public abstract setDomElement(domElement: HTMLElement): void;
-
-    public getTedit(): Tedit{
-        return this.tedit;
-    }
+    public abstract getName(): String;
 }
 
 export default Component;

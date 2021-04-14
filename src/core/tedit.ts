@@ -1,5 +1,8 @@
 import DOM from "../base/dom.js";
-import Component from "./component";
+import Component from "./component.js";
+import { isDuplicate } from "../utilities/listOperations.js";
+import {setKeyValue} from "../utilities/objectOperations.js";
+import Content from "./content.js";
 
 class Tedit {
     private activeElement: Component;
@@ -21,13 +24,31 @@ class Tedit {
         return this.domElement;
     }
 
+    public getContent(){
+        
+
+        let result = {};
+        for(let i=0; i<this.elements.length; i++){
+            setKeyValue(typeof (this.elements[i] as any) as never, this.elements[i].getContent())(result);
+        }
+        return this.elements.map((element) => {
+            return element.getContent();
+        });
+    }
+
     public append(element: Component){
-        this.elements.push(element);
-        this.render();
+        if(isDuplicate(this.elements, element)) {
+            this.elements.push(element);
+            this.render();
+        }
     }
 
     public render(){
-        if(this.elements.length != 1) this.elements.map((element)=>this.domElement.removeChild(element.getDomElement()));
+        if(this.elements.length != 1) {
+            for(let i=0; i<this.elements.length-1; i++){
+                this.domElement.removeChild(this.elements[i].getDomElement())
+            }
+        }
 
         this.elements.map((element) => this.domElement.appendChild(element.getDomElement()))
     }
