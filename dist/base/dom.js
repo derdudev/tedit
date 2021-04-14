@@ -8,7 +8,6 @@ export default class DOM {
             if (key !== "style") {
                 element.setAttribute(key, valueOfKey);
                 setKeyValue(key, valueOfKey)(element);
-                console.log(element.className);
             }
             else {
                 Object.assign(element.style, getKeyValue(key)(options));

@@ -13,8 +13,14 @@
             font-family: monospace;
         }
         .p:hover{
-            color: #f7403a !important;
-            cursor: pointer;
+            cursor: text;
+        }
+        .p:focus{
+            outline: none;
+        }
+        .p[placeholder]:empty::before{
+            content: attr(placeholder);
+            color: #d9d9d9;
         }
     </style>
 </body>

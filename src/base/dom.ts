@@ -8,6 +8,7 @@ interface DomOptions {
     spellcheck?: boolean;
     innerText?: string;
     className?: string;
+    placeHolder?: string;
 }
 
 export default class DOM {
@@ -20,7 +21,7 @@ export default class DOM {
             if(key !== "style"){
                 element.setAttribute(key, valueOfKey as string);
                 setKeyValue(key as never, valueOfKey as string)(element);
-                console.log(element.className)
+                //console.log(element.className)
             } else {
                 Object.assign(element.style, getKeyValue(key as never)(options));
             }
