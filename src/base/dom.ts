@@ -42,20 +42,6 @@ export default class DOM {
             document.body.appendChild(element);
         }
     }
-
-    static update(element: HTMLElement, options?: DomOptions){
-        let valueOfKey;
-        for(let key in options){
-            valueOfKey = getKeyValue(key as never)(options);
-            if(key !== "style"){
-                element.setAttribute(key, valueOfKey as string);
-                setKeyValue(key as never, valueOfKey as string)(element);
-                //console.log(element.className)
-            } else {
-                Object.assign(element.style, getKeyValue(key as never)(options));
-            }
-        }
-    }
 }
 
 export {DomOptions};

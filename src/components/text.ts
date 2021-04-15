@@ -31,12 +31,14 @@ class Txt extends Component{
         this.variants = {
             0: new Variant({
                 style: {
-                    color: "#000000"
+                    color: "#000000",
+                    fontSize: "16px",
                 }
             }),
             1: new Variant({
                 style: {
-                    color: "#23d6c2"
+                    color: "#23d6c2",
+                    fontSize: "22px",
                 }
             }),
         }
