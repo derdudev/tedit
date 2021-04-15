@@ -7,15 +7,6 @@ let text = new Txt(tedit);
 
 tedit.append(text);
 
-const changeVariantButton = DOM.create("button", { 
-    innerText: "Change Variant", 
-    onclick: () => {
-        let activeElement = tedit.getActiveElement();
-        if(activeElement) activeElement.setState({variant: 1});
-    }
-});
-DOM.render(changeVariantButton);
-
 const button = DOM.create("button", {
     innerText: "Get Content",
     onclick: ()=>{

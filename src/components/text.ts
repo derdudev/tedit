@@ -3,7 +3,8 @@ import DOM from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
 import Tedit from "../core/tedit.js";
-import { NavbarConfig } from "src/core/navbar.js";
+import { NavbarConfig } from "../core/navbar.js";
+import Button from "../base/button.js";
 
 class TxtContent implements Content{
     type: String;
@@ -37,6 +38,17 @@ class Txt extends Component{
             1: () => { this.setState({ variant: 1 }) },
         }
 
+        this.navbarConfig = {
+            0: new Button({
+                innerText: "V0",
+                onclick: () => { this.setState({ variant: 0 }) },
+            }),
+            1: new Button({
+                innerText: "V1",
+                onclick: () => { this.setState({ variant: 1 }) },
+            }),
+        }
+
         this.domElement = DOM.create("p", {
             placeHolder: "This is a text element.",
             contentEditable: true,
@@ -56,6 +68,7 @@ class Txt extends Component{
 
         this.domElement.addEventListener("click", ()=>{
             this.tedit.setActiveElement(this);
+            this.tedit.navbar.load(this.navbarConfig);
         })
     }
 

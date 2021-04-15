@@ -1,10 +1,13 @@
 import DOM from "../base/dom.js";
 import { isDuplicate } from "../utilities/listOperations.js";
 import { setKeyValue } from "../utilities/objectOperations.js";
+import Navbar from "./navbar.js";
 class Tedit {
     constructor() {
         this.elements = [];
         this.domElement = DOM.create("div");
+        this.navbar = new Navbar();
+        this.domElement.appendChild(this.navbar.getDomElement());
     }
     getActiveElement() {
         return this.activeElement;
