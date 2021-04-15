@@ -15,6 +15,7 @@ class Tedit {
         this.domElement = DOM.create("div");
         this.navbar = new Navbar();
         this.domElement.appendChild(this.navbar.getDomElement());
+        this.domElement.appendChild(DOM.create("div"));
     }
 
     public getActiveElement(): Component{
@@ -48,12 +49,10 @@ class Tedit {
 
     public render(){
         if(this.elements.length != 1) {
-            for(let i=0; i<this.elements.length-1; i++){
-                this.domElement.removeChild(this.elements[i].getDomElement())
-            }
+            (this.domElement.childNodes[1] as HTMLElement).innerHTML = "";
         }
 
-        this.elements.map((element) => this.domElement.appendChild(element.getDomElement()))
+        this.elements.map((element) => this.domElement.childNodes[1].appendChild(element.getDomElement()))
     }
 }
 

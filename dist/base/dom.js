@@ -26,5 +26,18 @@ export default class DOM {
             document.body.appendChild(element);
         }
     }
+    static update(element, options) {
+        let valueOfKey;
+        for (let key in options) {
+            valueOfKey = getKeyValue(key)(options);
+            if (key !== "style") {
+                element.setAttribute(key, valueOfKey);
+                setKeyValue(key, valueOfKey)(element);
+            }
+            else {
+                Object.assign(element.style, getKeyValue(key)(options));
+            }
+        }
+    }
 }
 //# sourceMappingURL=dom.js.map

@@ -1,5 +1,9 @@
 class Variant {
-    constructor() {
+    constructor(domOptions) {
+        this.domOptions = domOptions;
+    }
+    getDomOptions() {
+        return this.domOptions;
     }
 }
 export { Variant };

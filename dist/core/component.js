@@ -1,4 +1,4 @@
-import { getKeyValue } from "../utilities/objectOperations.js";
+import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 class Component {
     constructor(tedit) {
         this.tedit = tedit;
@@ -10,9 +10,24 @@ class Component {
         updatedData.variant = this.state.variant;
         this.content = { type: this.name, data: updatedData };
         getKeyValue("variant")(this.state);
+        let domOptions = getKeyValue(getKeyValue("variant")(this.state))(this.variants).getDomOptions();
+        this.update(domOptions);
+        console.log(getKeyValue(getKeyValue("variant")(this.state))(this.variants).getDomOptions());
         console.log(this.state);
     }
-    update(_options) {
+    update(options) {
+        let valueOfKey;
+        for (let key in options) {
+            valueOfKey = getKeyValue(key)(options);
+            if (key !== "style") {
+                this.domElement.setAttribute(key, valueOfKey);
+                setKeyValue(key, valueOfKey)(this.domElement);
+            }
+            else {
+                Object.assign(this.domElement.style, getKeyValue(key)(options));
+            }
+        }
+        this.tedit.render();
     }
 }
 export default Component;

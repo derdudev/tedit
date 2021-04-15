@@ -16,8 +16,16 @@ class Txt extends Component {
             },
         };
         this.variants = {
-            0: new Variant(),
-            1: new Variant(),
+            0: new Variant({
+                style: {
+                    color: "#000000"
+                }
+            }),
+            1: new Variant({
+                style: {
+                    color: "#23d6c2"
+                }
+            }),
         };
         this.actions = {
             0: () => { this.setState({ variant: 0 }); },

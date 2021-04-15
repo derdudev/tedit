@@ -7,12 +7,12 @@ import { NavbarConfig } from "../core/navbar.js";
 import Button from "../base/button.js";
 
 class TxtContent implements Content{
-    type: String;
-    data: {text: String, variant: number};
+    type: string;
+    data: {text: string, variant: number};
 }
 class Txt extends Component{
     protected navbarConfig: NavbarConfig;
-    protected name: String;
+    protected name: string;
     protected content: TxtContent;
     protected domElement: HTMLElement;
 
@@ -29,8 +29,16 @@ class Txt extends Component{
         }
 
         this.variants = {
-            0: new Variant(),
-            1: new Variant(),
+            0: new Variant({
+                style: {
+                    color: "#000000"
+                }
+            }),
+            1: new Variant({
+                style: {
+                    color: "#23d6c2"
+                }
+            }),
         }
 
         this.actions = {
@@ -84,7 +92,7 @@ class Txt extends Component{
     public setDomElement(domElement: HTMLElement): void {
         this.domElement = domElement;
     }    
-    public getName(): String{
+    public getName(): string{
         return this.name;
     }
 }

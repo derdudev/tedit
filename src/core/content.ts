@@ -1,5 +1,5 @@
 interface Content{
-    type: String;
+    type: string;
     data: any | {variant?: number};
 }
 
