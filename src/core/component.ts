@@ -3,6 +3,7 @@ import { DomOptions } from "../base/dom.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import Actions from "./actions.js";
 import Content from "./content.js";
+import { NavbarConfig } from "./navbar.js";
 import State from "./state.js";
 import Tedit from "./tedit.js";
 import { Variants } from "./variant.js";
@@ -11,6 +12,7 @@ abstract class Component {
     protected abstract content:Content;
     protected abstract domElement:HTMLElement;
     protected abstract name: String;
+    protected abstract navbarConfig: NavbarConfig;
     protected variants: Variants;
     protected state: State;
     protected actions: Actions;
@@ -38,8 +40,8 @@ abstract class Component {
         console.log(this.state)
     }
 
-    public update(options: DomOptions){
-
+    public update(_options: DomOptions){
+        
     }
 }
 

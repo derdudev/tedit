@@ -3,12 +3,14 @@ import DOM from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
 import Tedit from "../core/tedit.js";
+import { NavbarConfig } from "src/core/navbar.js";
 
 class TxtContent implements Content{
     type: String;
     data: {text: String, variant: number};
 }
 class Txt extends Component{
+    protected navbarConfig: NavbarConfig;
     protected name: String;
     protected content: TxtContent;
     protected domElement: HTMLElement;

@@ -12,7 +12,7 @@ class Component {
         getKeyValue("variant")(this.state);
         console.log(this.state);
     }
-    update(options) {
+    update(_options) {
     }
 }
 export default Component;
