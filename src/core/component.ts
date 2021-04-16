@@ -11,6 +11,7 @@ import { Variant, Variants } from "./variant.js";
 abstract class Component {
     protected abstract content:Content;
     protected abstract domElement:HTMLElement;
+    protected abstract ID: string;
     protected abstract name: string;
     protected abstract navbarConfig: NavbarConfig;
     protected variants: Variants;
@@ -57,7 +58,6 @@ abstract class Component {
                 Object.assign(this.domElement.style, getKeyValue(key as never)(options));
             }
         }
-        this.tedit.render();
     }
 }
 

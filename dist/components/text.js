@@ -2,6 +2,7 @@ import DOM from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
+import { randstr } from "../utilities/random.js";
 class TxtContent {
 }
 class Txt extends Component {
@@ -19,12 +20,13 @@ class Txt extends Component {
             0: new Variant({
                 style: {
                     color: "#000000",
+                    fontWeight: 500,
                     fontSize: "16px",
                 }
             }),
             1: new Variant({
                 style: {
-                    color: "#23d6c2",
+                    fontWeight: "bold",
                     fontSize: "22px",
                 }
             }),
@@ -36,18 +38,22 @@ class Txt extends Component {
         this.navbarConfig = {
             0: new Button({
                 innerText: "V0",
-                onclick: () => { this.setState({ variant: 0 }); },
+                onclick: (_e) => {
+                    this.setState({ variant: 0 });
+                },
             }),
             1: new Button({
                 innerText: "V1",
                 onclick: () => { this.setState({ variant: 1 }); },
             }),
         };
+        this.ID = randstr();
         this.domElement = DOM.create("p", {
             placeHolder: "This is a text element.",
             contentEditable: true,
             className: "p",
             spellcheck: false,
+            id: this.ID,
         });
         this.domElement.addEventListener("keydown", (e) => {
             this.content = {
@@ -62,6 +68,7 @@ class Txt extends Component {
             this.tedit.setActiveElement(this);
             this.tedit.navbar.load(this.navbarConfig);
         });
+        this.domElement.id = randstr();
     }
     getContent() {
         return this.content;
@@ -77,6 +84,9 @@ class Txt extends Component {
     }
     getName() {
         return this.name;
+    }
+    getID() {
+        return this.ID;
     }
 }
 export default Txt;

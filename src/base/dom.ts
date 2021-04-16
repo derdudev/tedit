@@ -9,8 +9,11 @@ interface DomOptions {
     innerText?: string;
     className?: string;
     placeHolder?: string;
+    id?: string;
     onclick?: Function;
 }
+
+
 
 export default class DOM {
     static create(tagName: string, options?: DomOptions, children?: Object): HTMLElement {

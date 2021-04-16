@@ -5,12 +5,14 @@ import { Variant } from "../core/variant.js";
 import Tedit from "../core/tedit.js";
 import { NavbarConfig } from "../core/navbar.js";
 import Button from "../base/button.js";
+import { randstr } from "../utilities/random.js";
 
 class TxtContent implements Content{
     type: string;
     data: {text: string, variant: number};
 }
 class Txt extends Component{
+    protected ID: string;
     protected navbarConfig: NavbarConfig;
     protected name: string;
     protected content: TxtContent;
@@ -32,12 +34,13 @@ class Txt extends Component{
             0: new Variant({
                 style: {
                     color: "#000000",
+                    fontWeight: 500,
                     fontSize: "16px",
                 }
             }),
             1: new Variant({
                 style: {
-                    color: "#23d6c2",
+                    fontWeight: "bold",
                     fontSize: "22px",
                 }
             }),
@@ -51,7 +54,9 @@ class Txt extends Component{
         this.navbarConfig = {
             0: new Button({
                 innerText: "V0",
-                onclick: () => { this.setState({ variant: 0 }) },
+                onclick: (_e:any) => { 
+                    this.setState({ variant: 0 });
+                },
             }),
             1: new Button({
                 innerText: "V1",
@@ -59,11 +64,14 @@ class Txt extends Component{
             }),
         }
 
+        this.ID = randstr();
+
         this.domElement = DOM.create("p", {
             placeHolder: "This is a text element.",
             contentEditable: true,
             className: "p",
             spellcheck: false,
+            id: this.ID,
         });
 
         this.domElement.addEventListener("keydown", (e)=>{
@@ -79,7 +87,9 @@ class Txt extends Component{
         this.domElement.addEventListener("click", ()=>{
             this.tedit.setActiveElement(this);
             this.tedit.navbar.load(this.navbarConfig);
-        })
+        });
+
+        this.domElement.id = randstr();
     }
 
     public getContent(): TxtContent {
@@ -96,6 +106,9 @@ class Txt extends Component{
     }    
     public getName(): string{
         return this.name;
+    }
+    public getID(): string{
+        return this.ID;
     }
 }
 

@@ -27,7 +27,6 @@ class Component {
                 Object.assign(this.domElement.style, getKeyValue(key)(options));
             }
         }
-        this.tedit.render();
     }
 }
 export default Component;
