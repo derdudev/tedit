@@ -6,7 +6,7 @@ import { randstr } from "../utilities/random.js";
 class TxtContent {
 }
 class Txt extends Component {
-    constructor(tedit) {
+    constructor(tedit, config) {
         super(tedit);
         this.name = "text";
         this.content = {
@@ -68,7 +68,8 @@ class Txt extends Component {
             this.tedit.setActiveElement(this);
             this.tedit.navbar.load(this.navbarConfig);
         });
-        this.domElement.id = randstr();
+        if (config === null || config === void 0 ? void 0 : config.variant)
+            this.setState({ variant: config.variant });
     }
     getContent() {
         return this.content;

@@ -18,7 +18,7 @@ class Txt extends Component{
     protected content: TxtContent;
     protected domElement: HTMLElement;
 
-    constructor(tedit: Tedit){
+    constructor(tedit: Tedit, config?: {variant: number}){
         super(tedit);
         this.name = "text";
 
@@ -89,7 +89,7 @@ class Txt extends Component{
             this.tedit.navbar.load(this.navbarConfig);
         });
 
-        this.domElement.id = randstr();
+        if(config?.variant) this.setState({variant: config.variant});
     }
 
     public getContent(): TxtContent {

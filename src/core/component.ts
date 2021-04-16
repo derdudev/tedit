@@ -53,7 +53,6 @@ abstract class Component {
             if(key !== "style"){
                 this.domElement.setAttribute(key, valueOfKey as string);
                 setKeyValue(key as never, valueOfKey as string)(this.domElement);
-                //console.log(element.className)
             } else {
                 Object.assign(this.domElement.style, getKeyValue(key as never)(options));
             }

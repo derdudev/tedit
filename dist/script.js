@@ -2,7 +2,9 @@ import DOM from "./base/dom.js";
 import Tedit from "./core/tedit.js";
 import Txt from "./components/text.js";
 const tedit = new Tedit();
-let text = new Txt(tedit);
+let text = new Txt(tedit, {
+    variant: 1
+});
 tedit.append(text);
 const button = DOM.create("button", {
     innerText: "Get Content",
