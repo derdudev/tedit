@@ -31,8 +31,6 @@ class Tedit {
     }
 
     public getContent(){
-        
-
         let result = {};
         for(let i=0; i<this.elements.length; i++){
             setKeyValue(typeof (this.elements[i] as any) as never, this.elements[i].getContent())(result);
@@ -40,6 +38,22 @@ class Tedit {
         return this.elements.map((element) => {
             return element.getContent();
         });
+    }
+
+    public save() {
+        const content = this.getContent();
+        fetch("/save", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content),
+        }).then((res)=>{
+            return res.body;
+        }).then((_data)=>{
+            console.log("successfull");
+        })
     }
 
     public append(element: Component){

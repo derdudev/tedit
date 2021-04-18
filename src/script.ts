@@ -14,6 +14,7 @@ const button = DOM.create("button", {
     onclick: ()=>{
         document.body.removeChild(document.body.childNodes[document.body.childNodes.length-1]);
         DOM.render(DOM.create("pre", {className: "out", innerText: JSON.stringify(tedit.getContent(), null, 3)}));
+        tedit.save();
     }
 })
 

@@ -30,6 +30,21 @@ class Tedit {
             return element.getContent();
         });
     }
+    save() {
+        const content = this.getContent();
+        fetch("/save", {
+            method: "POST",
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(content),
+        }).then((res) => {
+            return res.body;
+        }).then((_data) => {
+            console.log("successfull");
+        });
+    }
     append(element) {
         if (isDuplicate(this.elements, element)) {
             this.elements.push(element);
