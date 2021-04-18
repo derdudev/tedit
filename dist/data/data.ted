@@ -1,0 +1,16 @@
+[
+   {
+      "type": "text",
+      "data": {
+         "text": "Header",
+         "variant": 1
+      }
+   },
+   {
+      "type": "text",
+      "data": {
+         "text": "",
+         "variant": 0
+      }
+   }
+]

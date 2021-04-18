@@ -17,6 +17,8 @@ class Navbar extends Bar{
         this.domElement = DOM.create("div", {
             style: {
                 height: "20px",
+                display: "flex",
+                alignItems: "center",
             }
         });
     }

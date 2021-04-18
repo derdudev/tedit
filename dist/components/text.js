@@ -1,7 +1,7 @@
 import DOM from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
-import Button from "../base/button.js";
+import Button, { MaterialIconButton } from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 class TxtContent {
 }
@@ -37,14 +37,20 @@ class Txt extends Component {
         };
         this.navbarConfig = {
             0: new Button({
-                innerText: "V0",
+                innerText: "P",
                 onclick: (_e) => {
                     this.setState({ variant: 0 });
                 },
             }),
             1: new Button({
-                innerText: "V1",
+                innerText: "H1",
                 onclick: () => { this.setState({ variant: 1 }); },
+            }),
+            2: new MaterialIconButton("favorite", {
+                style: {
+                    fontSize: "16px",
+                },
+                onclick: () => { this.setState({ variant: 2 }); }
             }),
         };
         this.ID = randstr();

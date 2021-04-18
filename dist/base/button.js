@@ -11,5 +11,20 @@ class Button extends HTMLComponent {
         }
     }
 }
+class MaterialIconButton extends Button {
+    constructor(name, options) {
+        super({ innerText: name });
+        if (options) {
+            options.className += " material-icons";
+            this.update(options);
+        }
+        else {
+            options = {};
+            options.className = "material-icons";
+            this.update(options);
+        }
+    }
+}
 export default Button;
+export { MaterialIconButton };
 //# sourceMappingURL=button.js.map
