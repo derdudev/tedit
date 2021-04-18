@@ -1,8 +1,10 @@
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 class Component {
-    constructor(tedit) {
-        this.tedit = tedit;
+    constructor() {
         this.state = { variant: 0 };
+    }
+    static setTedit(tedit) {
+        Component.tedit = tedit;
     }
     setState(state) {
         this.state = state;

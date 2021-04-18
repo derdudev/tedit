@@ -16,6 +16,8 @@ class Tedit {
         this.navbar = new Navbar();
         this.domElement.appendChild(this.navbar.getDomElement());
         this.domElement.appendChild(DOM.create("div"));
+
+        Component.setTedit(this);
     }
 
     public getActiveElement(): Component{

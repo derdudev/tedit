@@ -2,7 +2,6 @@ import Content from "../core/content.js";
 import DOM from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
-import Tedit from "../core/tedit.js";
 import { NavbarConfig } from "../core/navbar.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
@@ -18,8 +17,8 @@ class Txt extends Component{
     protected content: TxtContent;
     protected domElement: HTMLElement;
 
-    constructor(tedit: Tedit, config?: {variant: number}){
-        super(tedit);
+    constructor(config?: {variant: number}){
+        super();
         this.name = "text";
 
         this.content = {
@@ -85,8 +84,8 @@ class Txt extends Component{
         });
 
         this.domElement.addEventListener("click", ()=>{
-            this.tedit.setActiveElement(this);
-            this.tedit.navbar.load(this.navbarConfig);
+            Component.tedit.setActiveElement(this);
+            Component.tedit.navbar.load(this.navbarConfig);
         });
 
         if(config?.variant) this.setState({variant: config.variant});

@@ -18,10 +18,9 @@ abstract class Component {
     protected state: State;
     protected actions: Actions;
 
-    protected tedit: Tedit;
+    protected static tedit: Tedit;
 
-    constructor(tedit: Tedit){
-        this.tedit = tedit;
+    constructor(){
         this.state = {variant: 0};
     }
 
@@ -30,6 +29,10 @@ abstract class Component {
     public abstract getDomElement(): HTMLElement;
     public abstract setDomElement(domElement: HTMLElement): void;
     public abstract getName(): string;
+    
+    public static setTedit(tedit: Tedit){
+        Component.tedit = tedit;
+    }
     public setState(state: State){
         this.state = state;
         let updatedData = this.content.data;

@@ -1,4 +1,5 @@
 import DOM from "../base/dom.js";
+import Component from "./component.js";
 import { isDuplicate } from "../utilities/listOperations.js";
 import { setKeyValue } from "../utilities/objectOperations.js";
 import Navbar from "./navbar.js";
@@ -9,6 +10,7 @@ class Tedit {
         this.navbar = new Navbar();
         this.domElement.appendChild(this.navbar.getDomElement());
         this.domElement.appendChild(DOM.create("div"));
+        Component.setTedit(this);
     }
     getActiveElement() {
         return this.activeElement;
