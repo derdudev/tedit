@@ -40,17 +40,24 @@ class Txt extends Component {
                 innerText: "P",
                 onclick: (_e) => {
                     this.setState({ variant: 0 });
+                    this.domElement.focus();
                 },
             }),
             1: new Button({
                 innerText: "H1",
-                onclick: () => { this.setState({ variant: 1 }); },
+                onclick: () => {
+                    this.setState({ variant: 1 });
+                    this.domElement.focus();
+                },
             }),
             2: new MaterialIconButton("favorite", {
                 style: {
                     fontSize: "16px",
                 },
-                onclick: () => { this.setState({ variant: 2 }); }
+                onclick: () => {
+                    this.setState({ variant: 2 });
+                    this.domElement.focus();
+                }
             }),
         };
         this.ID = randstr();
