@@ -1,4 +1,5 @@
 
+import HTMLComponent from "../base/HTMLComponent.js";
 import { DomOptions } from "../base/dom.js";
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 import Actions from "./actions.js";
@@ -10,7 +11,7 @@ import { Variant, Variants } from "./variant.js";
 
 abstract class Component {
     protected abstract content:Content;
-    protected abstract domElement:HTMLElement;
+    protected abstract domComponent:HTMLComponent;
     protected abstract ID: string;
     protected abstract name: string;
     protected abstract navbarConfig: NavbarConfig;
@@ -26,8 +27,8 @@ abstract class Component {
 
     public abstract getContent(): Content;
     public abstract setContent(content:Content): void;
-    public abstract getDomElement(): HTMLElement;
-    public abstract setDomElement(domElement: HTMLElement): void;
+    public abstract getDomComponent(): HTMLComponent;
+    public abstract setDomComponent(domComponent: HTMLComponent): void;
     public abstract getName(): string;
     
     public static setTedit(tedit: Tedit){
@@ -41,11 +42,13 @@ abstract class Component {
 
         getKeyValue("variant" as never)(this.state);
 
+        console.log((getKeyValue(getKeyValue("variant" as never)(this.state))(this.variants) as Variant).getDomOptions());
+
         let domOptions = (getKeyValue(getKeyValue("variant" as never)(this.state))(this.variants) as Variant).getDomOptions();
         //domOptions.innerText = this.domElement.innerText;
         this.update(domOptions);
 
-        console.log((getKeyValue(getKeyValue("variant" as never)(this.state))(this.variants) as Variant).getDomOptions());
+        
         console.log(this.state)
     }
 
@@ -54,10 +57,10 @@ abstract class Component {
         for(let key in options){
             valueOfKey = getKeyValue(key as never)(options);
             if(key !== "style"){
-                this.domElement.setAttribute(key, valueOfKey as string);
-                setKeyValue(key as never, valueOfKey as string)(this.domElement);
+                this.domComponent.getDomElement().setAttribute(key, valueOfKey as string);
+                setKeyValue(key as never, valueOfKey as string)(this.domComponent.getDomElement());
             } else {
-                Object.assign(this.domElement.style, getKeyValue(key as never)(options));
+                Object.assign(this.domComponent.getDomElement().style, getKeyValue(key as never)(options));
             }
         }
     }

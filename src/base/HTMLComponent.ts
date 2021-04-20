@@ -1,8 +1,12 @@
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 import { DomOptions } from "./dom.js";
 
-abstract class HTMLComponent{
+class HTMLComponent{
     protected domElement: HTMLElement;
+
+    constructor(domElement?: HTMLElement){
+        if(domElement) this.domElement = domElement;
+    }
 
     public getDomElement(): HTMLElement {
         return this.domElement;
@@ -19,6 +23,21 @@ abstract class HTMLComponent{
                 Object.assign(this.domElement.style, getKeyValue(key as never)(options));
             }
         }
+    }
+
+    public replace(newElement: HTMLElement){
+        //let index = this.getIndex(this.domElement, this.domElement.parentElement);
+        this.domElement.parentElement?.replaceChild(newElement, this.domElement);
+        this.domElement = newElement;
+    }
+
+    private getIndex(element: HTMLElement, parent: HTMLElement | null): number{
+        if(parent) {
+            for(let i=0; i<parent.childNodes.length; i++){
+                if(parent.childNodes[i] == element) return i;
+            }
+        }
+        return -1;
     }
 }
 

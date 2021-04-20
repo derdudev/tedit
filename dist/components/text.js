@@ -3,6 +3,7 @@ import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
 import Button, { MaterialIconButton } from "../base/button.js";
 import { randstr } from "../utilities/random.js";
+import HTMLComponent from "../base/HTMLComponent.js";
 class TxtContent {
 }
 class Txt extends Component {
@@ -40,14 +41,14 @@ class Txt extends Component {
                 innerText: "P",
                 onclick: (_e) => {
                     this.setState({ variant: 0 });
-                    this.domElement.focus();
+                    this.getDomElement().focus();
                 },
             }),
             1: new Button({
                 innerText: "H1",
                 onclick: () => {
                     this.setState({ variant: 1 });
-                    this.domElement.focus();
+                    this.getDomElement().focus();
                 },
             }),
             2: new MaterialIconButton("favorite", {
@@ -55,20 +56,22 @@ class Txt extends Component {
                     fontSize: "16px",
                 },
                 onclick: () => {
-                    this.setState({ variant: 2 });
-                    this.domElement.focus();
+                    this.domComponent.replace(DOM.create("h1", { className: "p", placeHolder: "Header element", contentEditable: true }));
+                    this.getDomElement().focus();
+                    console.log(this.getDomElement());
                 }
             }),
         };
         this.ID = randstr();
-        this.domElement = DOM.create("p", {
+        let domElement;
+        domElement = DOM.create("p", {
             placeHolder: "This is a text element.",
             contentEditable: true,
             className: "p",
             spellcheck: false,
             id: this.ID,
         });
-        this.domElement.addEventListener("keydown", (e) => {
+        domElement.addEventListener("keydown", (e) => {
             this.content = {
                 type: this.name,
                 data: {
@@ -77,10 +80,11 @@ class Txt extends Component {
                 }
             };
         });
-        this.domElement.addEventListener("click", () => {
+        domElement.addEventListener("click", () => {
             Component.tedit.setActiveElement(this);
             Component.tedit.navbar.load(this.navbarConfig);
         });
+        this.domComponent = new HTMLComponent(domElement);
         if (config === null || config === void 0 ? void 0 : config.variant)
             this.setState({ variant: config.variant });
     }
@@ -90,11 +94,14 @@ class Txt extends Component {
     setContent(content) {
         this.content = content;
     }
-    getDomElement() {
-        return this.domElement;
+    getDomComponent() {
+        return this.domComponent;
     }
-    setDomElement(domElement) {
-        this.domElement = domElement;
+    setDomComponent(domComponent) {
+        this.domComponent = domComponent;
+    }
+    getDomElement() {
+        return this.domComponent.getDomElement();
     }
     getName() {
         return this.name;

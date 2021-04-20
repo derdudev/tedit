@@ -5,6 +5,7 @@ import { Variant } from "../core/variant.js";
 import { NavbarConfig } from "../core/navbar.js";
 import Button, { MaterialIconButton } from "../base/button.js";
 import { randstr } from "../utilities/random.js";
+import HTMLComponent from "../base/HTMLComponent.js";
 
 class TxtContent implements Content{
     type: string;
@@ -15,6 +16,7 @@ class Txt extends Component{
     protected navbarConfig: NavbarConfig;
     protected name: string;
     protected content: TxtContent;
+    protected domComponent: HTMLComponent;
     protected domElement: HTMLElement;
 
     constructor(config?: {variant: number}){
@@ -55,14 +57,14 @@ class Txt extends Component{
                 innerText: "P",
                 onclick: (_e:any) => { 
                     this.setState({ variant: 0 });
-                    this.domElement.focus()
+                    this.getDomElement().focus()
                 },
             }),
             1: new Button({
                 innerText: "H1",
                 onclick: () => { 
                     this.setState({ variant: 1 });
-                    this.domElement.focus()
+                    this.getDomElement().focus()
                 },
             }),
             2: new MaterialIconButton("favorite", {
@@ -70,15 +72,18 @@ class Txt extends Component{
                     fontSize: "16px",
                 }, 
                 onclick: () => {
-                    this.setState({ variant: 2});
-                    this.domElement.focus()
+                    //this.setState({ variant: 2});
+                    this.domComponent.replace(DOM.create("h1", {className: "p", placeHolder:"Header element", contentEditable:true}));
+                    this.getDomElement().focus();
+                    console.log(this.getDomElement());
                 }
             }),
         }
 
         this.ID = randstr();
 
-        this.domElement = DOM.create("p", {
+        let domElement;
+        domElement = DOM.create("p", {
             placeHolder: "This is a text element.",
             contentEditable: true,
             className: "p",
@@ -86,7 +91,7 @@ class Txt extends Component{
             id: this.ID,
         });
 
-        this.domElement.addEventListener("keydown", (e)=>{
+        domElement.addEventListener("keydown", (e)=>{
             this.content = {
                 type: this.name,
                 data: { 
@@ -96,10 +101,12 @@ class Txt extends Component{
             };
         });
 
-        this.domElement.addEventListener("click", ()=>{
+        domElement.addEventListener("click", ()=>{
             Component.tedit.setActiveElement(this);
             Component.tedit.navbar.load(this.navbarConfig);
         });
+
+        this.domComponent = new HTMLComponent(domElement);
 
         if(config?.variant) this.setState({variant: config.variant});
     }
@@ -109,13 +116,16 @@ class Txt extends Component{
     }
     public setContent(content: TxtContent): void {
         this.content = content;
+    }  
+    public getDomComponent(): HTMLComponent{
+        return this.domComponent;
     }
-    public getDomElement(): HTMLElement {
-        return this.domElement;
+    public setDomComponent(domComponent: HTMLComponent): void {
+        this.domComponent = domComponent;
     }
-    public setDomElement(domElement: HTMLElement): void {
-        this.domElement = domElement;
-    }    
+    public getDomElement(): HTMLElement{
+        return this.domComponent.getDomElement();
+    }
     public getName(): string{
         return this.name;
     }
