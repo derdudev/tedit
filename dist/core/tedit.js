@@ -1,16 +1,23 @@
 import DOM from "../base/dom.js";
 import Component from "./component.js";
 import { isDuplicate } from "../utilities/listOperations.js";
-import { setKeyValue } from "../utilities/objectOperations.js";
+import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 import Navbar from "./navbar.js";
+import blockMap from "./internals/blockMap.js";
 class Tedit {
-    constructor() {
+    constructor(data) {
         this.elements = [];
         this.domElement = DOM.create("div");
         this.navbar = new Navbar();
         this.domElement.appendChild(this.navbar.getDomElement());
         this.domElement.appendChild(DOM.create("div"));
         Component.setTedit(this);
+        if (data) {
+            for (let i = 0; i < data.length; i++) {
+                console.log();
+                this.append((new (getKeyValue(data[i].type)(blockMap))({ variant: data[i].data.variant })));
+            }
+        }
     }
     getActiveElement() {
         return this.activeElement;

@@ -1,11 +1,21 @@
 import DOM from "./base/dom.js";
 import Tedit from "./core/tedit.js";
-import Txt from "./components/text.js";
-const tedit = new Tedit();
-let text = new Txt({
-    variant: 1
-});
-tedit.append(text);
+const tedit = new Tedit([
+    {
+        type: "text",
+        data: {
+            text: "hello",
+            variant: 1,
+        }
+    },
+    {
+        type: "text",
+        data: {
+            text: "hello",
+            variant: 0,
+        }
+    },
+]);
 const button = DOM.create("button", {
     innerText: "Get Content",
     onclick: () => {
@@ -16,7 +26,5 @@ const button = DOM.create("button", {
 });
 DOM.render(tedit.getDomElement());
 DOM.render(button);
-let text2 = new Txt();
-tedit.append(text2);
 DOM.render(DOM.create("pre", { className: "out", innerText: JSON.stringify(tedit.getContent(), null, 3) }));
 //# sourceMappingURL=script.js.map

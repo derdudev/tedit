@@ -29,6 +29,7 @@ abstract class Component {
     public abstract setContent(content:Content): void;
     public abstract getDomComponent(): HTMLComponent;
     public abstract setDomComponent(domComponent: HTMLComponent): void;
+    public abstract getDomElement(): HTMLElement;
     public abstract getName(): string;
     
     public static setTedit(tedit: Tedit){
@@ -42,9 +43,9 @@ abstract class Component {
 
         getKeyValue("variant" as never)(this.state);
 
-        console.log((getKeyValue(getKeyValue("variant" as never)(this.state))(this.variants) as Variant).getDomOptions());
+        console.log((getKeyValue(getKeyValue("variant" as never)(this.state) as never)(this.variants) as Variant).getDomOptions());
 
-        let domOptions = (getKeyValue(getKeyValue("variant" as never)(this.state))(this.variants) as Variant).getDomOptions();
+        let domOptions = (getKeyValue(getKeyValue("variant" as never)(this.state) as never)(this.variants) as Variant).getDomOptions();
         //domOptions.innerText = this.domElement.innerText;
         this.update(domOptions);
 

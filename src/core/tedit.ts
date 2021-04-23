@@ -1,8 +1,10 @@
 import DOM from "../base/dom.js";
 import Component from "./component.js";
 import { isDuplicate } from "../utilities/listOperations.js";
-import {setKeyValue} from "../utilities/objectOperations.js";
+import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
 import Navbar from "./navbar.js";
+import blockMap from "./internals/blockMap.js";
+import Data from "./data.js";
 
 class Tedit {
     private activeElement: Component;
@@ -10,7 +12,7 @@ class Tedit {
     private domElement: HTMLElement;
     public navbar: Navbar;
 
-    constructor(){
+    constructor(data?: Data[]){
         this.elements = [];
         this.domElement = DOM.create("div");
         this.navbar = new Navbar();
@@ -18,6 +20,14 @@ class Tedit {
         this.domElement.appendChild(DOM.create("div"));
 
         Component.setTedit(this);
+
+        if(data) {
+            for(let i=0; i<data.length; i++){
+                //blockMap[data[i].type]
+                console.log();
+                this.append((new (getKeyValue(data[i].type as never)(blockMap))({variant: data[i].data.variant})));
+            }
+        }
     }
 
     public getActiveElement(): Component{
