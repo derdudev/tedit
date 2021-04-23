@@ -5,7 +5,9 @@ export default class DOM {
         let valueOfKey;
         for (let key in options) {
             valueOfKey = getKeyValue(key)(options);
-            if (key !== "style") {
+            if (key == "tagName") {
+            }
+            else if (key !== "style") {
                 element.setAttribute(key, valueOfKey);
                 setKeyValue(key, valueOfKey)(element);
             }
@@ -13,6 +15,7 @@ export default class DOM {
                 Object.assign(element.style, getKeyValue(key)(options));
             }
         }
+        console.log(options);
         for (let child in children) {
             element.appendChild(getKeyValue(child)(children));
         }

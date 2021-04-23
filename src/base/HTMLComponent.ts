@@ -1,8 +1,9 @@
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
-import { DomOptions } from "./dom.js";
+import DOM, { DomOptions } from "./dom.js";
 
 class HTMLComponent{
     protected domElement: HTMLElement;
+    private domOptions: DomOptions;
 
     constructor(domElement?: HTMLElement){
         if(domElement) this.domElement = domElement;
@@ -12,7 +13,16 @@ class HTMLComponent{
         return this.domElement;
     }
 
+    public setOptions(options: DomOptions){
+        this.domOptions = options;
+    }
+    public getOptions(): DomOptions{
+        return this.domOptions;
+    }
+
     public update(options: DomOptions){
+        this.domOptions = options;
+
         let valueOfKey;
         for(let key in options){
             valueOfKey = getKeyValue(key as never)(options);
@@ -21,6 +31,24 @@ class HTMLComponent{
                 setKeyValue(key as never, valueOfKey as string)(this.domElement);
             } else {
                 Object.assign(this.domElement.style, getKeyValue(key as never)(options));
+            }
+        }
+    }
+
+    static update(htmlComponent: HTMLComponent, options: DomOptions){
+        let valueOfKey, element;
+        
+        for(let key in options){
+            valueOfKey = getKeyValue(key as never)(options);
+            element = htmlComponent.getDomElement();
+            if(key === "tagName"){
+                console.log(options);
+                htmlComponent.replace(DOM.create(valueOfKey, options));
+            } else if(key !== "style"){
+                element.setAttribute(key, valueOfKey as string);
+                setKeyValue(key as never, valueOfKey as string)(element);
+            } else {
+                Object.assign(element.style, getKeyValue(key as never)(options));
             }
         }
     }

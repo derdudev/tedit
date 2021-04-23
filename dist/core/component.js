@@ -1,4 +1,5 @@
-import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
+import HTMLComponent from "../base/HTMLComponent.js";
+import { getKeyValue } from "../utilities/objectOperations.js";
 class Component {
     constructor() {
         this.state = { variant: 0 };
@@ -18,17 +19,7 @@ class Component {
         console.log(this.state);
     }
     update(options) {
-        let valueOfKey;
-        for (let key in options) {
-            valueOfKey = getKeyValue(key)(options);
-            if (key !== "style") {
-                this.domComponent.getDomElement().setAttribute(key, valueOfKey);
-                setKeyValue(key, valueOfKey)(this.domComponent.getDomElement());
-            }
-            else {
-                Object.assign(this.domComponent.getDomElement().style, getKeyValue(key)(options));
-            }
-        }
+        HTMLComponent.update(this.domComponent, options);
     }
 }
 export default Component;

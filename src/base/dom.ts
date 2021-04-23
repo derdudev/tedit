@@ -1,5 +1,6 @@
 import * as CSS from 'csstype';
 import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
+import HTMLComponent from './HTMLComponent.js';
 
 interface DomOptions {
     style?: CSS.Properties;
@@ -10,6 +11,7 @@ interface DomOptions {
     className?: string;
     placeHolder?: string;
     id?: string;
+    tagName?: string;
     onclick?: Function;
 }
 
@@ -22,7 +24,9 @@ export default class DOM {
         let valueOfKey;
         for(let key in options){
             valueOfKey = getKeyValue(key as never)(options);
-            if(key !== "style"){
+            if (key == "tagName"){
+
+            } else if(key !== "style"){
                 element.setAttribute(key, valueOfKey as string);
                 setKeyValue(key as never, valueOfKey as string)(element);
                 //console.log(element.className)
@@ -30,6 +34,8 @@ export default class DOM {
                 Object.assign(element.style, getKeyValue(key as never)(options));
             }
         }
+
+        console.log(options);
 
         for(let child in children){
             element.appendChild(getKeyValue(child as never)(children));

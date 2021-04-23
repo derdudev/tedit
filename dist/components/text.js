@@ -23,13 +23,21 @@ class Txt extends Component {
                     color: "#000000",
                     fontWeight: 500,
                     fontSize: "16px",
-                }
+                },
+                tagName: "p",
+                placeHolder: "Just a normal text field",
+                contentEditable: true,
+                className: "p",
             }),
             1: new Variant({
                 style: {
                     fontWeight: "bold",
                     fontSize: "22px",
-                }
+                },
+                tagName: "h1",
+                placeHolder: "Header",
+                contentEditable: true,
+                className: "p",
             }),
         };
         this.actions = {
@@ -85,8 +93,13 @@ class Txt extends Component {
             Component.tedit.navbar.load(this.navbarConfig);
         });
         this.domComponent = new HTMLComponent(domElement);
-        if (config === null || config === void 0 ? void 0 : config.variant)
+        if (config === null || config === void 0 ? void 0 : config.variant) {
             this.setState({ variant: config.variant });
+            this.domComponent.getDomElement().addEventListener("click", () => {
+                Component.tedit.setActiveElement(this);
+                Component.tedit.navbar.load(this.navbarConfig);
+            });
+        }
     }
     getContent() {
         return this.content;

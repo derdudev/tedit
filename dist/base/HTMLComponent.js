@@ -1,4 +1,5 @@
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
+import DOM from "./dom.js";
 class HTMLComponent {
     constructor(domElement) {
         if (domElement)
@@ -7,7 +8,14 @@ class HTMLComponent {
     getDomElement() {
         return this.domElement;
     }
+    setOptions(options) {
+        this.domOptions = options;
+    }
+    getOptions() {
+        return this.domOptions;
+    }
     update(options) {
+        this.domOptions = options;
         let valueOfKey;
         for (let key in options) {
             valueOfKey = getKeyValue(key)(options);
@@ -17,6 +25,24 @@ class HTMLComponent {
             }
             else {
                 Object.assign(this.domElement.style, getKeyValue(key)(options));
+            }
+        }
+    }
+    static update(htmlComponent, options) {
+        let valueOfKey, element;
+        for (let key in options) {
+            valueOfKey = getKeyValue(key)(options);
+            element = htmlComponent.getDomElement();
+            if (key === "tagName") {
+                console.log(options);
+                htmlComponent.replace(DOM.create(valueOfKey, options));
+            }
+            else if (key !== "style") {
+                element.setAttribute(key, valueOfKey);
+                setKeyValue(key, valueOfKey)(element);
+            }
+            else {
+                Object.assign(element.style, getKeyValue(key)(options));
             }
         }
     }

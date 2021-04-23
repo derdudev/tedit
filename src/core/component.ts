@@ -1,6 +1,6 @@
 
 import HTMLComponent from "../base/HTMLComponent.js";
-import { DomOptions } from "../base/dom.js";
+import DOM, { DomOptions } from "../base/dom.js";
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 import Actions from "./actions.js";
 import Content from "./content.js";
@@ -54,17 +54,10 @@ abstract class Component {
     }
 
     public update(options: DomOptions){
-        let valueOfKey;
-        for(let key in options){
-            valueOfKey = getKeyValue(key as never)(options);
-            if(key !== "style"){
-                this.domComponent.getDomElement().setAttribute(key, valueOfKey as string);
-                setKeyValue(key as never, valueOfKey as string)(this.domComponent.getDomElement());
-            } else {
-                Object.assign(this.domComponent.getDomElement().style, getKeyValue(key as never)(options));
-            }
-        }
+        HTMLComponent.update(this.domComponent, options);
     }
+
+    
 }
 
 export default Component;
