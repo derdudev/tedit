@@ -13,6 +13,7 @@ interface DomOptions {
     id?: string;
     tagName?: string;
     onclick?: Function;
+    onkeydown?: Function;
 }
 
 

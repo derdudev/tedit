@@ -3,7 +3,9 @@ const bodyParser = require("body-parser");
 const fs = require("fs");
 const path = require("path");
 const app = express();
+const AdmZip = require("adm-zip");
 const DATA_DIR = "/data";
+const TEMP_DIR = "/temp";
 const jsonParser = bodyParser.json();
 app.use("/public", express.static(path.join(__dirname, "/")));
 app.use(jsonParser);
@@ -12,9 +14,21 @@ app.get("/", (_req, res) => {
 });
 app.post("/save", (req, res) => {
     console.log(req.body);
-    fs.writeFile(__dirname + DATA_DIR + "/data.json", JSON.stringify(req.body, null, 3), (err) => {
-        if (err)
-            return console.log(err);
+    const saveDir = __dirname + DATA_DIR + TEMP_DIR + "/data.json";
+    fs.mkdirSync(__dirname + DATA_DIR + TEMP_DIR);
+    fs.writeFile(saveDir, JSON.stringify(req.body, null, 3), (err) => {
+        if (err) {
+            throw err;
+        }
+        const file = new AdmZip();
+        file.addLocalFile(saveDir);
+        fs.writeFile(__dirname + DATA_DIR + "/untitled.ted", file.toBuffer(), () => {
+        });
+        fs.rmdir(__dirname + DATA_DIR + TEMP_DIR, { recursive: true }, (err) => {
+            if (err) {
+                throw err;
+            }
+        });
     });
     res.json({ error: false });
 });

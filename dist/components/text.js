@@ -38,6 +38,15 @@ class Txt extends Component {
                 placeHolder: "Header",
                 contentEditable: true,
                 className: "p",
+                onkeydown: (e) => {
+                    this.content = {
+                        type: this.name,
+                        data: {
+                            text: e.target.innerText + e.key,
+                            variant: this.state.variant,
+                        }
+                    };
+                }
             }),
         };
         this.actions = {
