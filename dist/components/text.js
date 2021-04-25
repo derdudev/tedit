@@ -18,6 +18,7 @@ class Txt extends Component {
             },
         };
         this.variants = {
+            "default": {},
             0: new Variant({
                 style: {
                     color: "#000000",

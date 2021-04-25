@@ -1,1 +1,1 @@
-{"version":3,"file":"variant.js","sourceRoot":"","sources":["../../src/core/variant.ts"],"names":[],"mappings":"AAKA,MAAM,OAAO;IAGT,YAAY,UAAsB;QAC9B,IAAI,CAAC,UAAU,GAAG,UAAU,CAAC;IACjC,CAAC;IAEM,aAAa;QAChB,OAAO,IAAI,CAAC,UAAU,CAAC;IAC3B,CAAC;CACJ;AAED,OAAO,EAAC,OAAO,EAAW,CAAA"}
+{"version":3,"file":"variant.js","sourceRoot":"","sources":["../../src/core/variant.ts"],"names":[],"mappings":"AAQA,MAAM,OAAO;IAGT,YAAY,UAAsB;QAC9B,IAAI,CAAC,UAAU,GAAG,UAAU,CAAC;IACjC,CAAC;IAEM,aAAa;QAChB,OAAO,IAAI,CAAC,UAAU,CAAC;IAC3B,CAAC;CACJ;AAED,OAAO,EAAC,OAAO,EAAW,CAAA"}

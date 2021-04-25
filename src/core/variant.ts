@@ -1,6 +1,9 @@
 import { DomOptions } from "../base/dom"
 
-interface Variants{
+type Variants = {
+    "default": {};
+} & {
+    [key: number]: Variant;
 }
 
 class Variant{

@@ -1,7 +1,7 @@
 
 import HTMLComponent from "../base/HTMLComponent.js";
-import DOM, { DomOptions } from "../base/dom.js";
-import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
+import { DomOptions } from "../base/dom.js";
+import { getKeyValue } from "../utilities/objectOperations.js";
 import Actions from "./actions.js";
 import Content from "./content.js";
 import { NavbarConfig } from "./navbar.js";
