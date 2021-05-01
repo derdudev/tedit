@@ -29,7 +29,9 @@ abstract class Component {
     public abstract setContent(content:Content): void;
     public abstract getDomComponent(): HTMLComponent;
     public abstract setDomComponent(domComponent: HTMLComponent): void;
-    public abstract getDomElement(): HTMLElement;
+    public getDomElement(): HTMLElement{
+        return this.domComponent.getDomElement();
+    }
     public abstract getName(): string;
     
     public static setTedit(tedit: Tedit){
@@ -57,7 +59,12 @@ abstract class Component {
         HTMLComponent.update(this.domComponent, options);
     }
 
-    
+    public focus(): void{
+        setTimeout(()=> {
+            this.getDomElement().focus();
+            this.getDomElement().click();
+        }, 1);
+    }
 }
 
 export default Component;

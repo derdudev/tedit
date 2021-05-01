@@ -59,6 +59,7 @@ class HTMLComponent{
         this.domElement = newElement;
     }
 
+    /*
     private getIndex(element: HTMLElement, parent: HTMLElement | null): number{
         if(parent) {
             for(let i=0; i<parent.childNodes.length; i++){
@@ -67,6 +68,7 @@ class HTMLComponent{
         }
         return -1;
     }
+    */
 }
 
 export default HTMLComponent;

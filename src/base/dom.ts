@@ -1,6 +1,5 @@
 import * as CSS from 'csstype';
 import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
-import HTMLComponent from './HTMLComponent.js';
 
 interface DomOptions {
     style?: CSS.Properties;

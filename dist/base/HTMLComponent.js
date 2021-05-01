@@ -51,15 +51,6 @@ class HTMLComponent {
         (_a = this.domElement.parentElement) === null || _a === void 0 ? void 0 : _a.replaceChild(newElement, this.domElement);
         this.domElement = newElement;
     }
-    getIndex(element, parent) {
-        if (parent) {
-            for (let i = 0; i < parent.childNodes.length; i++) {
-                if (parent.childNodes[i] == element)
-                    return i;
-            }
-        }
-        return -1;
-    }
 }
 export default HTMLComponent;
 //# sourceMappingURL=HTMLComponent.js.map

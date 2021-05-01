@@ -17,6 +17,7 @@ class Tedit {
                 console.log();
                 this.append((new (getKeyValue(data[i].type)(blockMap))({ variant: data[i].data.variant })));
             }
+            this.elements[0].focus();
         }
     }
     getActiveElement() {

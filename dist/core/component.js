@@ -4,6 +4,9 @@ class Component {
     constructor() {
         this.state = { variant: 0 };
     }
+    getDomElement() {
+        return this.domComponent.getDomElement();
+    }
     static setTedit(tedit) {
         Component.tedit = tedit;
     }
@@ -20,6 +23,12 @@ class Component {
     }
     update(options) {
         HTMLComponent.update(this.domComponent, options);
+    }
+    focus() {
+        setTimeout(() => {
+            this.getDomElement().focus();
+            this.getDomElement().click();
+        }, 1);
     }
 }
 export default Component;
