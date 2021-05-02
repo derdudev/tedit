@@ -35,8 +35,6 @@ export default class DOM {
             }
         }
 
-        console.log(options);
-
         for(let child in children){
             element.appendChild(getKeyValue(child as never)(children));
         }

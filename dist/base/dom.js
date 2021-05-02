@@ -15,7 +15,6 @@ export default class DOM {
                 Object.assign(element.style, getKeyValue(key)(options));
             }
         }
-        console.log(options);
         for (let child in children) {
             element.appendChild(getKeyValue(child)(children));
         }
