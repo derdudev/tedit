@@ -41,18 +41,20 @@ abstract class Component {
         this.state = state;
         let updatedData = this.content.data;
         updatedData.variant = this.state.variant;
-        this.content = {type: this.name, data: updatedData}
+        this.content.data = updatedData;
 
-        getKeyValue("variant" as never)(this.state);
-
-        console.log((getKeyValue(getKeyValue("variant" as never)(this.state) as never)(this.variants) as Variant).getDomOptions());
-
-        let domOptions = (getKeyValue(getKeyValue("variant" as never)(this.state) as never)(this.variants) as Variant).getDomOptions();
-        //domOptions.innerText = this.domElement.innerText;
+        let domOptions = this.getCurrentVariant().getDomOptions();
+        domOptions.innerText = this.domComponent.getDomElement().innerText;
+        domOptions = Object.assign(domOptions, this.variants.default.getDomOptions());
         this.update(domOptions);
+    }
 
-        
-        console.log(this.state)
+    private getCurrentVariantID(): keyof Variants {
+        return getKeyValue("variant" as never)(this.state);
+    }
+
+    private getCurrentVariant(): Variant {
+        return getKeyValue(this.getCurrentVariantID() as never)(this.variants);
     }
 
     public update(options: DomOptions){

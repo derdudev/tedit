@@ -32,7 +32,14 @@ class Txt extends Component{
         }
 
         this.variants = {
-            "default": {},
+            "default": new Variant ({
+                className: "p",
+                onkeydown: this.handleKeyDown.bind(this),
+                onclick: (()=>{
+                    Component.tedit.setActiveElement(this);
+                    Component.tedit.navbar.load(this.navbarConfig);
+                }).bind(this),
+            }),
             0: new Variant({
                 style: {
                     color: "#000000",
@@ -91,33 +98,19 @@ class Txt extends Component{
             id: this.ID,
         });
 
-        domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
-
-        domElement.addEventListener("click", ()=>{
-            Component.tedit.setActiveElement(this);
-            Component.tedit.navbar.load(this.navbarConfig);
-        });
-
         this.domComponent = new HTMLComponent(domElement);
 
-        if(config?.variant) {
+        if(config?.variant != null) {
             this.setState({variant: config.variant});
-            this.domComponent.getDomElement().addEventListener("click", ()=>{
-                Component.tedit.setActiveElement(this);
-                Component.tedit.navbar.load(this.navbarConfig);
-            });
         }
     }
 
     private handleKeyDown(e: Event): void {
         setTimeout(()=>{
-            this.content = {
-                type: this.name,
-                data: { 
+            this.content.data = { 
                     text: (e.target as HTMLElement).innerText,
                     variant: this.state.variant,
                 }
-            };
         }, 1);
     }
 

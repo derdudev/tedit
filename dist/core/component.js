@@ -14,12 +14,17 @@ class Component {
         this.state = state;
         let updatedData = this.content.data;
         updatedData.variant = this.state.variant;
-        this.content = { type: this.name, data: updatedData };
-        getKeyValue("variant")(this.state);
-        console.log(getKeyValue(getKeyValue("variant")(this.state))(this.variants).getDomOptions());
-        let domOptions = getKeyValue(getKeyValue("variant")(this.state))(this.variants).getDomOptions();
+        this.content.data = updatedData;
+        let domOptions = this.getCurrentVariant().getDomOptions();
+        domOptions.innerText = this.domComponent.getDomElement().innerText;
+        domOptions = Object.assign(domOptions, this.variants.default.getDomOptions());
         this.update(domOptions);
-        console.log(this.state);
+    }
+    getCurrentVariantID() {
+        return getKeyValue("variant")(this.state);
+    }
+    getCurrentVariant() {
+        return getKeyValue(this.getCurrentVariantID())(this.variants);
     }
     update(options) {
         HTMLComponent.update(this.domComponent, options);

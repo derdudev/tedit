@@ -1,7 +1,7 @@
 import { DomOptions } from "../base/dom"
 
 type Variants = {
-    "default": {};
+    "default": Variant;
 } & {
     [key: number]: Variant;
 }

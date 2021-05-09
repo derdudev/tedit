@@ -18,7 +18,14 @@ class Txt extends Component {
             },
         };
         this.variants = {
-            "default": {},
+            "default": new Variant({
+                className: "p",
+                onkeydown: this.handleKeyDown.bind(this),
+                onclick: (() => {
+                    Component.tedit.setActiveElement(this);
+                    Component.tedit.navbar.load(this.navbarConfig);
+                }).bind(this),
+            }),
             0: new Variant({
                 style: {
                     color: "#000000",
@@ -71,28 +78,16 @@ class Txt extends Component {
             spellcheck: false,
             id: this.ID,
         });
-        domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
-        domElement.addEventListener("click", () => {
-            Component.tedit.setActiveElement(this);
-            Component.tedit.navbar.load(this.navbarConfig);
-        });
         this.domComponent = new HTMLComponent(domElement);
-        if (config === null || config === void 0 ? void 0 : config.variant) {
+        if ((config === null || config === void 0 ? void 0 : config.variant) != null) {
             this.setState({ variant: config.variant });
-            this.domComponent.getDomElement().addEventListener("click", () => {
-                Component.tedit.setActiveElement(this);
-                Component.tedit.navbar.load(this.navbarConfig);
-            });
         }
     }
     handleKeyDown(e) {
         setTimeout(() => {
-            this.content = {
-                type: this.name,
-                data: {
-                    text: e.target.innerText,
-                    variant: this.state.variant,
-                }
+            this.content.data = {
+                text: e.target.innerText,
+                variant: this.state.variant,
             };
         }, 1);
     }

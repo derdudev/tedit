@@ -29,20 +29,19 @@ class HTMLComponent {
         }
     }
     static update(htmlComponent, options) {
-        let valueOfKey, element;
-        for (let key in options) {
-            valueOfKey = getKeyValue(key)(options);
+        let domOption, element;
+        for (let domOptionName in options) {
+            domOption = getKeyValue(domOptionName)(options);
             element = htmlComponent.getDomElement();
-            if (key === "tagName") {
-                console.log(options);
-                htmlComponent.replace(DOM.create(valueOfKey, options));
+            if (domOptionName === "tagName") {
+                htmlComponent.replace(DOM.create(domOption, options));
             }
-            else if (key !== "style") {
-                element.setAttribute(key, valueOfKey);
-                setKeyValue(key, valueOfKey)(element);
+            else if (domOptionName !== "style") {
+                element.setAttribute(domOptionName, domOption);
+                setKeyValue(domOptionName, domOption)(element);
             }
             else {
-                Object.assign(element.style, getKeyValue(key)(options));
+                Object.assign(element.style, getKeyValue(domOptionName)(options));
             }
         }
     }

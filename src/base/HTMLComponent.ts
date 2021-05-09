@@ -36,19 +36,18 @@ class HTMLComponent{
     }
 
     static update(htmlComponent: HTMLComponent, options: DomOptions){
-        let valueOfKey, element;
+        let domOption, element;
         
-        for(let key in options){
-            valueOfKey = getKeyValue(key as never)(options);
+        for(let domOptionName in options){
+            domOption = getKeyValue(domOptionName as never)(options);
             element = htmlComponent.getDomElement();
-            if(key === "tagName"){
-                console.log(options);
-                htmlComponent.replace(DOM.create(valueOfKey, options));
-            } else if(key !== "style"){
-                element.setAttribute(key, valueOfKey as string);
-                setKeyValue(key as never, valueOfKey as string)(element);
+            if(domOptionName === "tagName"){
+                htmlComponent.replace(DOM.create(domOption, options));
+            } else if(domOptionName !== "style"){
+                element.setAttribute(domOptionName, domOption as string);
+                setKeyValue(domOptionName as never, domOption as string)(element);
             } else {
-                Object.assign(element.style, getKeyValue(key as never)(options));
+                Object.assign(element.style, getKeyValue(domOptionName as never)(options));
             }
         }
     }
