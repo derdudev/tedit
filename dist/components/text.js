@@ -82,6 +82,9 @@ class Txt extends Component {
         if ((config === null || config === void 0 ? void 0 : config.variant) != null) {
             this.setState({ variant: config.variant });
         }
+        if ((config === null || config === void 0 ? void 0 : config.content) != null) {
+            this.setContent(config.content);
+        }
     }
     handleKeyDown(e) {
         setTimeout(() => {
@@ -96,6 +99,7 @@ class Txt extends Component {
     }
     setContent(content) {
         this.content = content;
+        this.getDomElement().innerText = content.data.text;
     }
     getDomComponent() {
         return this.domComponent;

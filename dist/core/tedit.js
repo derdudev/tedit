@@ -14,8 +14,7 @@ class Tedit {
         Component.setTedit(this);
         if (data) {
             for (let i = 0; i < data.length; i++) {
-                console.log();
-                this.append((new (getKeyValue(data[i].type)(blockMap))({ variant: data[i].data.variant })));
+                this.append((new (getKeyValue(data[i].type)(blockMap))({ variant: data[i].data.variant, content: data[i] })));
             }
             this.elements[0].focus();
         }

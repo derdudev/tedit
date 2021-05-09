@@ -19,7 +19,7 @@ class Txt extends Component{
     protected domComponent: HTMLComponent;
     protected domElement: HTMLElement;
 
-    constructor(config?: {variant: number}){
+    constructor(config?: {variant: number, content: TxtContent}){
         super();
         this.name = "text";
 
@@ -103,6 +103,10 @@ class Txt extends Component{
         if(config?.variant != null) {
             this.setState({variant: config.variant});
         }
+
+        if(config?.content != null){
+            this.setContent(config.content);
+        }
     }
 
     private handleKeyDown(e: Event): void {
@@ -119,6 +123,7 @@ class Txt extends Component{
     }
     public setContent(content: TxtContent): void {
         this.content = content;
+        this.getDomElement().innerText = content.data.text;
     }  
     public getDomComponent(): HTMLComponent{
         return this.domComponent;

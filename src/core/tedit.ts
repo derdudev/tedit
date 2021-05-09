@@ -24,8 +24,7 @@ class Tedit {
         if(data) {
             for(let i=0; i<data.length; i++){
                 //blockMap[data[i].type]
-                console.log();
-                this.append((new (getKeyValue(data[i].type as never)(blockMap))({variant: data[i].data.variant})));
+                this.append((new (getKeyValue(data[i].type as never)(blockMap))({variant: data[i].data.variant, content: data[i]})));
             }
             this.elements[0].focus();
         }

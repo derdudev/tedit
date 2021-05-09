@@ -5,14 +5,14 @@ const tedit = new Tedit([
     {
         type: "text", 
         data: {
-            text: "hello",
+            text: "This is a headline",
             variant: 1,
         }
     },
     {
         type: "text", 
         data: {
-            text: "hello",
+            text: "And this one is a very nice",
             variant: 0,
         }
     },
