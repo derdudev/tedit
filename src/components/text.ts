@@ -84,6 +84,17 @@ class Txt extends Component{
                     this.setState({ variant: 1 });
                     this.getDomElement().focus()
                 },
+            }),
+            2: new Button({
+                innerText: "B",
+                onclick: () => {
+                    console.log(window.getSelection()?.focusNode?.parentElement)
+                    if(window.getSelection()?.focusNode?.parentElement?.tagName != "B") window.getSelection()?.getRangeAt(0).cloneRange().surroundContents(DOM.create("b"));
+                    else window.getSelection()?.focusNode?.parentNode?.parentNode?.replaceChild(window.getSelection()?.focusNode as Node, window.getSelection()?.focusNode?.parentElement as Node);
+                    
+                    
+                },
+                contentEditable: false,
             })
         }
 

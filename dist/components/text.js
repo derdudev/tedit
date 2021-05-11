@@ -67,6 +67,18 @@ class Txt extends Component {
                     this.setState({ variant: 1 });
                     this.getDomElement().focus();
                 },
+            }),
+            2: new Button({
+                innerText: "B",
+                onclick: () => {
+                    var _a, _b, _c, _d, _f, _g, _h, _j, _k, _l, _m, _o, _p;
+                    console.log((_b = (_a = window.getSelection()) === null || _a === void 0 ? void 0 : _a.focusNode) === null || _b === void 0 ? void 0 : _b.parentElement);
+                    if (((_f = (_d = (_c = window.getSelection()) === null || _c === void 0 ? void 0 : _c.focusNode) === null || _d === void 0 ? void 0 : _d.parentElement) === null || _f === void 0 ? void 0 : _f.tagName) != "B")
+                        (_g = window.getSelection()) === null || _g === void 0 ? void 0 : _g.getRangeAt(0).cloneRange().surroundContents(DOM.create("b"));
+                    else
+                        (_l = (_k = (_j = (_h = window.getSelection()) === null || _h === void 0 ? void 0 : _h.focusNode) === null || _j === void 0 ? void 0 : _j.parentNode) === null || _k === void 0 ? void 0 : _k.parentNode) === null || _l === void 0 ? void 0 : _l.replaceChild((_m = window.getSelection()) === null || _m === void 0 ? void 0 : _m.focusNode, (_p = (_o = window.getSelection()) === null || _o === void 0 ? void 0 : _o.focusNode) === null || _p === void 0 ? void 0 : _p.parentElement);
+                },
+                contentEditable: false,
             })
         };
         this.ID = randstr();
