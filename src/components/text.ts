@@ -74,15 +74,13 @@ class Txt extends Component{
             0: new Button({
                 innerText: "P",
                 onclick: (_e:any) => { 
-                    this.setState({ variant: 0 });
-                    this.getDomElement().focus()
+                    this.toTextVariant(0);
                 },
             }),
             1: new Button({
                 innerText: "H1",
                 onclick: () => { 
-                    this.setState({ variant: 1 });
-                    this.getDomElement().focus()
+                    this.toTextVariant(1);
                 },
             }),
             2: new Button({
@@ -123,6 +121,13 @@ class Txt extends Component{
                     variant: this.state.variant,
                 }
         }, 1);
+    }
+
+    private toTextVariant(num: number){
+        let { anchorOffset } = document.getSelection() as Selection;
+        this.setState({ variant: num });
+        DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset); 
+        this.getDomElement().focus();
     }
 
     public getContent(): TxtContent {
