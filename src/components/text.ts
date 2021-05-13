@@ -1,5 +1,5 @@
 import Content from "../core/content.js";
-import DOM from "../base/dom.js";
+import DOM, { DOMWorker } from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
 import { NavbarConfig } from "../core/navbar.js";
@@ -88,11 +88,7 @@ class Txt extends Component{
             2: new Button({
                 innerText: "B",
                 onclick: () => {
-                    console.log(window.getSelection()?.focusNode?.parentElement)
-                    if(window.getSelection()?.focusNode?.parentElement?.tagName != "B") window.getSelection()?.getRangeAt(0).cloneRange().surroundContents(DOM.create("b"));
-                    else window.getSelection()?.focusNode?.parentNode?.parentNode?.replaceChild(window.getSelection()?.focusNode as Node, window.getSelection()?.focusNode?.parentElement as Node);
-                    
-                    
+                    DOMWorker.surroundSelection(DOM.create("b"));
                 },
                 contentEditable: false,
             })
