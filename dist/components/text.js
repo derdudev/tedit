@@ -35,7 +35,6 @@ class Txt extends Component {
                 placeHolder: "Just a normal text field",
                 contentEditable: true,
                 className: "p",
-                onkeydown: this.handleKeyDown.bind(this),
             }),
             1: new Variant({
                 style: {
@@ -46,7 +45,6 @@ class Txt extends Component {
                 placeHolder: "Header",
                 contentEditable: true,
                 className: "p",
-                onkeydown: this.handleKeyDown.bind(this),
             }),
         };
         this.actions = {

@@ -1,0 +1,16 @@
+{
+    "data": [{
+        "type": "text", 
+        "data": {
+            "text": "This is a headline",
+            "variant": 1
+        }
+    },
+    {
+        "type": "text", 
+        "data": {
+            "text": "And this one is a very nice paragraph",
+            "variant": 0
+        }
+    }]
+}

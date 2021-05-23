@@ -38,7 +38,8 @@ app.post("/save", (req: any, res: any)=>{
                throw err; 
             }
         });
-    })
+    });
+    
     res.json({error: false});
 });
 

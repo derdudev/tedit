@@ -6,5 +6,7 @@ class Variant {
         return this.domOptions;
     }
 }
-export { Variant };
+class VariantLoader {
+}
+export { Variant, VariantLoader };
 //# sourceMappingURL=variant.js.map

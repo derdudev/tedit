@@ -11,7 +11,7 @@ const tedit = new Tedit([
     {
         type: "text",
         data: {
-            text: "And this one is a very nice",
+            text: "And this one is a very nice paragraph",
             variant: 0,
         }
     },

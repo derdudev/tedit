@@ -18,4 +18,10 @@ class Variant{
     }
 }
 
-export {Variant, Variants}
+class VariantLoader {
+    /*static getVariantsOfType(type: string): Variants{
+        
+    }*/
+}
+
+export {Variant, Variants, VariantLoader}
