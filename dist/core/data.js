@@ -1,3 +1,2 @@
-export default class Data {
-}
+export {};
 //# sourceMappingURL=data.js.map

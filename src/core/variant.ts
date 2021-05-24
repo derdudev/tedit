@@ -19,6 +19,7 @@ class Variant{
 }
 
 class VariantLoader {
+    // should return a map of types and their corresponding variants
     /*static getVariantsOfType(type: string): Variants{
         
     }*/

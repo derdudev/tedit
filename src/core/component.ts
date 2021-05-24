@@ -10,11 +10,11 @@ import Tedit from "./tedit.js";
 import { Variant, Variants } from "./variant.js";
 
 abstract class Component {
-    protected abstract content:Content;
-    protected abstract domComponent:HTMLComponent;
-    protected abstract ID: string;
-    protected abstract name: string;
-    protected abstract navbarConfig: NavbarConfig;
+    protected content:Content;
+    protected domComponent:HTMLComponent;
+    protected ID: string;
+    protected name: string;
+    protected navbarConfig: NavbarConfig;
     protected variants: Variants;
     protected state: State;
     protected actions: Actions;

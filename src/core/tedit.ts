@@ -5,6 +5,7 @@ import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
 import Navbar from "./navbar.js";
 import blockMap from "./internals/blockMap.js";
 import Data from "./data.js";
+import Content from "./content.js";
 
 class Tedit {
     private activeElement: Component;
@@ -40,7 +41,7 @@ class Tedit {
         return this.domElement;
     }
 
-    public getContent(){
+    public getContent(): Content[]{
         let result = {};
         for(let i=0; i<this.elements.length; i++){
             setKeyValue(typeof (this.elements[i] as any) as never, this.elements[i].getContent())(result);

@@ -2,7 +2,6 @@ import Content from "../core/content.js";
 import DOM, { DOMWorker } from "../base/dom.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
-import { NavbarConfig } from "../core/navbar.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
@@ -12,13 +11,6 @@ class TxtContent implements Content{
     data: {text: string, variant: number};
 }
 class Txt extends Component{
-    protected ID: string;
-    protected navbarConfig: NavbarConfig;
-    protected name: string;
-    protected content: TxtContent;
-    protected domComponent: HTMLComponent;
-    protected domElement: HTMLElement;
-
     constructor(config?: {variant: number, content: TxtContent}){
         super();
         this.name = "text";
