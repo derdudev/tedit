@@ -5,7 +5,7 @@ import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 import Navbar from "./navbar.js";
 import blockMap from "./internals/blockMap.js";
 class Tedit {
-    constructor(data) {
+    constructor({ data, types }) {
         this.elements = [];
         this.domElement = DOM.create("div");
         this.navbar = new Navbar();
@@ -17,6 +17,10 @@ class Tedit {
                 this.append((new (getKeyValue(data[i].type)(blockMap))({ variant: data[i].data.variant, content: data[i] })));
             }
             this.elements[0].focus();
+        }
+        if (types) {
+            for (let i = 0; i < types.length; i++) {
+            }
         }
     }
     getActiveElement() {
@@ -52,17 +56,28 @@ class Tedit {
             console.log("successfull");
         });
     }
-    append(element) {
+    append(element, index) {
         if (isDuplicate(this.elements, element)) {
-            this.elements.push(element);
+            console.log(index);
+            if (index) {
+                this.elements.splice(index, 0, element);
+                element.setPosition(index);
+            }
+            else {
+                this.elements.push(element);
+                element.setPosition(this.elements.length - 1);
+            }
             this.render();
+            element.focus();
         }
     }
     render() {
         if (this.elements.length != 1) {
             this.domElement.childNodes[1].innerHTML = "";
         }
-        this.elements.map((element) => this.domElement.childNodes[1].appendChild(element.getDomElement()));
+        this.elements.map((element) => {
+            this.domElement.childNodes[1].appendChild(element.getDomElement());
+        });
     }
 }
 export default Tedit;

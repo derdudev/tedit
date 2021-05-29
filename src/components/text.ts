@@ -5,12 +5,14 @@ import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
+import Tedit from "src/core/tedit.js";
 
 class TxtContent implements Content{
     type: string;
     data: {text: string, variant: number};
 }
 class Txt extends Component{
+    private command: string = "";
     constructor(config?: {variant: number, content: TxtContent}){
         super();
         this.name = "text";
@@ -96,6 +98,8 @@ class Txt extends Component{
 
         if(config?.variant != null) {
             this.setState({variant: config.variant});
+        } else {
+            this.setState({variant: 0})
         }
 
         if(config?.content != null){
@@ -103,20 +107,45 @@ class Txt extends Component{
         }
     }
 
-    private handleKeyDown(e: Event): void {
+    private handleKeyDown(e: KeyboardEvent): void {
         setTimeout(()=>{
             this.content.data = { 
                     text: (e.target as HTMLElement).innerText,
                     variant: this.state.variant,
                 }
         }, 1);
+        if(e.key === "$"){
+            this.command += e.key;
+            return;
+        }
+        if(this.command){
+            this.command += e.key;
+        }
+        //end command with space
+        if(e.key === " "){
+            this.command = "";
+        }
+
+        if(this.command === "$text"){
+            setTimeout(()=>{
+                Txt.tedit.append(new Txt(), this.position+1);
+            }, 1)
+        }
+        if(e.key === "Backspace" && (e.target as HTMLElement).innerText === ""){
+
+        }
     }
 
     private toTextVariant(num: number){
-        let { anchorOffset } = document.getSelection() as Selection;
-        this.setState({ variant: num });
-        DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset); 
-        this.getDomElement().focus();
+        if(this.content.data.text) {
+            let { anchorOffset } = document.getSelection() as Selection;
+            this.setState({ variant: num });
+            DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset); 
+            this.getDomElement().focus();
+        } else {
+            this.setState({ variant: num });
+            this.focus();
+        }
     }
 
     public getContent(): TxtContent {

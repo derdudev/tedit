@@ -18,6 +18,7 @@ abstract class Component {
     protected variants: Variants;
     protected state: State;
     protected actions: Actions;
+    protected position: number;
 
     protected static tedit: Tedit;
 
@@ -33,6 +34,13 @@ abstract class Component {
         return this.domComponent.getDomElement();
     }
     public abstract getName(): string;
+
+    public getPosition(): number{
+        return this.position;
+    }
+    public setPosition(position: number): void{
+        this.position = position;
+    }
     
     public static setTedit(tedit: Tedit){
         Component.tedit = tedit;

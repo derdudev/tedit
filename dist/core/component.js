@@ -7,6 +7,12 @@ class Component {
     getDomElement() {
         return this.domComponent.getDomElement();
     }
+    getPosition() {
+        return this.position;
+    }
+    setPosition(position) {
+        this.position = position;
+    }
     static setTedit(tedit) {
         Component.tedit = tedit;
     }

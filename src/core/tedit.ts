@@ -4,7 +4,7 @@ import { isDuplicate } from "../utilities/listOperations.js";
 import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
 import Navbar from "./navbar.js";
 import blockMap from "./internals/blockMap.js";
-import Data from "./data.js";
+import { Init } from "./data.js";
 import Content from "./content.js";
 
 class Tedit {
@@ -13,7 +13,7 @@ class Tedit {
     private domElement: HTMLElement;
     public navbar: Navbar;
 
-    constructor(data?: Data[]){
+    constructor({data, types}: Init){
         this.elements = [];
         this.domElement = DOM.create("div");
         this.navbar = new Navbar();
@@ -28,6 +28,12 @@ class Tedit {
                 this.append((new (getKeyValue(data[i].type as never)(blockMap))({variant: data[i].data.variant, content: data[i]})));
             }
             this.elements[0].focus();
+        }
+
+        if(types){
+            for(let i=0; i<types.length; i++){
+
+            }
         }
     }
 
@@ -67,10 +73,20 @@ class Tedit {
         })
     }
 
-    public append(element: Component){
+    public append(element: Component, index?:number){
         if(isDuplicate(this.elements, element)) {
-            this.elements.push(element);
+            console.log(index);
+            if(index){ 
+                this.elements.splice(index, 0, element);
+                element.setPosition(index);
+            } else {
+                this.elements.push(element);
+                element.setPosition(this.elements.length-1);
+            }
+
             this.render();
+
+            element.focus();
         }
     }
 
@@ -79,7 +95,9 @@ class Tedit {
             (this.domElement.childNodes[1] as HTMLElement).innerHTML = "";
         }
 
-        this.elements.map((element) => this.domElement.childNodes[1].appendChild(element.getDomElement()))
+        this.elements.map((element) => {
+            this.domElement.childNodes[1].appendChild(element.getDomElement())
+        })
     }
 }
 

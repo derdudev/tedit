@@ -9,6 +9,7 @@ class TxtContent {
 class Txt extends Component {
     constructor(config) {
         super();
+        this.command = "";
         this.name = "text";
         this.content = {
             type: this.name,
@@ -85,6 +86,9 @@ class Txt extends Component {
         if ((config === null || config === void 0 ? void 0 : config.variant) != null) {
             this.setState({ variant: config.variant });
         }
+        else {
+            this.setState({ variant: 0 });
+        }
         if ((config === null || config === void 0 ? void 0 : config.content) != null) {
             this.setContent(config.content);
         }
@@ -96,12 +100,35 @@ class Txt extends Component {
                 variant: this.state.variant,
             };
         }, 1);
+        if (e.key === "$") {
+            this.command += e.key;
+            return;
+        }
+        if (this.command) {
+            this.command += e.key;
+        }
+        if (e.key === " ") {
+            this.command = "";
+        }
+        if (this.command === "$text") {
+            setTimeout(() => {
+                Txt.tedit.append(new Txt(), this.position + 1);
+            }, 1);
+        }
+        if (e.key === "Backspace" && e.target.innerText === "") {
+        }
     }
     toTextVariant(num) {
-        let { anchorOffset } = document.getSelection();
-        this.setState({ variant: num });
-        DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset);
-        this.getDomElement().focus();
+        if (this.content.data.text) {
+            let { anchorOffset } = document.getSelection();
+            this.setState({ variant: num });
+            DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset);
+            this.getDomElement().focus();
+        }
+        else {
+            this.setState({ variant: num });
+            this.focus();
+        }
     }
     getContent() {
         return this.content;

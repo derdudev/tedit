@@ -1,21 +1,7 @@
 import DOM from "./base/dom.js";
 import Tedit from "./core/tedit.js";
-const tedit = new Tedit([
-    {
-        type: "text",
-        data: {
-            text: "This is a headline",
-            variant: 1,
-        }
-    },
-    {
-        type: "text",
-        data: {
-            text: "And this one is a very nice paragraph",
-            variant: 0,
-        }
-    },
-]);
+import { init } from "./dummyData.js";
+const tedit = new Tedit(init);
 const button = DOM.create("button", {
     innerText: "Get Content",
     onclick: () => {
