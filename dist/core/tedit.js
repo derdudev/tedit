@@ -71,6 +71,11 @@ class Tedit {
             element.focus();
         }
     }
+    removeElementAt(index) {
+        this.domElement.childNodes[1].removeChild(this.elements[index].getDomElement());
+        this.elements.splice(index, 1);
+        this.elements[index - 1].focus();
+    }
     render() {
         if (this.elements.length != 1) {
             this.domElement.childNodes[1].innerHTML = "";

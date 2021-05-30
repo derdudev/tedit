@@ -132,7 +132,9 @@ class Txt extends Component{
             }, 1)
         }
         if(e.key === "Backspace" && (e.target as HTMLElement).innerText === ""){
-
+            setTimeout(()=>{
+                Txt.tedit.removeElementAt(this.position)
+            }, 1)
         }
     }
 
@@ -169,6 +171,21 @@ class Txt extends Component{
     }
     public getID(): string{
         return this.ID;
+    }
+
+    public focus(){
+        setTimeout(()=> {
+            let domElement = this.getDomElement();
+            domElement.click();
+            if(domElement.childNodes[0]){
+                let anchorOffset: number = (domElement.childNodes[0]).textContent?.length || 0;
+                console.log(domElement.childNodes);
+                DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset); 
+            } else {
+                domElement.focus();
+            }
+        }, 1);
+        //DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset); 
     }
 }
 

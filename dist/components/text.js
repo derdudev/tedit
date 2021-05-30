@@ -116,6 +116,9 @@ class Txt extends Component {
             }, 1);
         }
         if (e.key === "Backspace" && e.target.innerText === "") {
+            setTimeout(() => {
+                Txt.tedit.removeElementAt(this.position);
+            }, 1);
         }
     }
     toTextVariant(num) {
@@ -151,6 +154,21 @@ class Txt extends Component {
     }
     getID() {
         return this.ID;
+    }
+    focus() {
+        setTimeout(() => {
+            var _a;
+            let domElement = this.getDomElement();
+            domElement.click();
+            if (domElement.childNodes[0]) {
+                let anchorOffset = ((_a = (domElement.childNodes[0]).textContent) === null || _a === void 0 ? void 0 : _a.length) || 0;
+                console.log(domElement.childNodes);
+                DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset);
+            }
+            else {
+                domElement.focus();
+            }
+        }, 1);
     }
 }
 export default Txt;

@@ -90,6 +90,12 @@ class Tedit {
         }
     }
 
+    public removeElementAt(index: number){
+        this.domElement.childNodes[1].removeChild(this.elements[index].getDomElement());
+        this.elements.splice(index, 1);
+        this.elements[index-1].focus();
+    }
+
     public render(){
         if(this.elements.length != 1) {
             (this.domElement.childNodes[1] as HTMLElement).innerHTML = "";
