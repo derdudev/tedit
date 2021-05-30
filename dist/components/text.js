@@ -94,32 +94,49 @@ class Txt extends Component {
         }
     }
     handleKeyDown(e) {
-        setTimeout(() => {
-            this.content.data = {
-                text: e.target.innerText,
-                variant: this.state.variant,
-            };
-        }, 1);
+        this.updateContent(e);
         if (e.key === "$") {
             this.command += e.key;
             return;
         }
-        if (this.command) {
-            this.command += e.key;
-        }
         if (e.key === " ") {
             this.command = "";
+            return;
+        }
+        if (this.command) {
+            if (e.key !== "Enter")
+                this.command += e.key;
         }
         if (this.command === "$text") {
-            setTimeout(() => {
-                Txt.tedit.append(new Txt(), this.position + 1);
-            }, 1);
+            if (e.key === "Enter") {
+                e.preventDefault();
+                setTimeout(() => {
+                    let length = this.getDomElement().innerText.length;
+                    let position = length - this.command.length;
+                    this.getDomElement().innerText = this.getDomElement().innerText.slice(0, position);
+                    this.updateContent(e);
+                    Txt.tedit.append(new Txt(), this.position + 1);
+                }, 1);
+                return;
+            }
         }
         if (e.key === "Backspace" && e.target.innerText === "") {
             setTimeout(() => {
                 Txt.tedit.removeElementAt(this.position);
             }, 1);
         }
+        if (e.key === "Enter") {
+            e.preventDefault();
+            Txt.tedit.append(new Txt(), this.position + 1);
+        }
+    }
+    updateContent(e) {
+        setTimeout(() => {
+            this.content.data = {
+                text: e.target.innerText,
+                variant: this.state.variant,
+            };
+        }, 1);
     }
     toTextVariant(num) {
         if (this.content.data.text) {

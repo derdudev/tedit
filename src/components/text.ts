@@ -5,7 +5,6 @@ import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
-import Tedit from "src/core/tedit.js";
 
 class TxtContent implements Content{
     type: string;
@@ -108,34 +107,55 @@ class Txt extends Component{
     }
 
     private handleKeyDown(e: KeyboardEvent): void {
+        this.updateContent(e);
+        if(e.key === "$"){
+            this.command += e.key;
+            return;
+        }
+        //end command with space
+        if(e.key === " "){
+            this.command = "";
+            return;
+        }
+        if(this.command){
+            if(e.key !== "Enter") this.command += e.key;
+        }
+
+        // PLACEHOLDER: loop to check through all possible commands (user should be able to create own one in component)
+        if(this.command === "$text"){
+            if(e.key === "Enter"){
+                e.preventDefault();
+                setTimeout(()=>{
+                    let length = this.getDomElement().innerText.length;
+                    let position = length - this.command.length;
+                    this.getDomElement().innerText = this.getDomElement().innerText.slice(0, position);
+                    this.updateContent(e);
+                    Txt.tedit.append(new Txt(), this.position+1);
+                }, 1);
+                return;
+            }
+
+        }
+
+        if(e.key === "Backspace" && (e.target as HTMLElement).innerText === ""){
+            setTimeout(()=>{
+                Txt.tedit.removeElementAt(this.position)
+            }, 1)
+        }
+
+        if(e.key === "Enter") {
+            e.preventDefault();
+            Txt.tedit.append(new Txt(), this.position+1);
+        }
+    }
+
+    private updateContent(e: KeyboardEvent){
         setTimeout(()=>{
             this.content.data = { 
                     text: (e.target as HTMLElement).innerText,
                     variant: this.state.variant,
                 }
         }, 1);
-        if(e.key === "$"){
-            this.command += e.key;
-            return;
-        }
-        if(this.command){
-            this.command += e.key;
-        }
-        //end command with space
-        if(e.key === " "){
-            this.command = "";
-        }
-
-        if(this.command === "$text"){
-            setTimeout(()=>{
-                Txt.tedit.append(new Txt(), this.position+1);
-            }, 1)
-        }
-        if(e.key === "Backspace" && (e.target as HTMLElement).innerText === ""){
-            setTimeout(()=>{
-                Txt.tedit.removeElementAt(this.position)
-            }, 1)
-        }
     }
 
     private toTextVariant(num: number){
