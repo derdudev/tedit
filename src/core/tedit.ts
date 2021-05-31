@@ -94,6 +94,9 @@ class Tedit {
         this.domElement.childNodes[1].removeChild(this.elements[index].getDomElement());
         this.elements.splice(index, 1);
         this.elements[index-1].focus();
+        for(let i=index; i<this.elements.length; i++){
+            this.elements[i].setPosition(i);
+        }
     }
 
     public render(){
