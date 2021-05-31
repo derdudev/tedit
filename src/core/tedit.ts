@@ -1,4 +1,4 @@
-import DOM from "../base/dom.js";
+import DOM, { DOMWorker } from "../base/dom.js";
 import Component from "./component.js";
 import { isDuplicate } from "../utilities/listOperations.js";
 import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
@@ -19,6 +19,7 @@ class Tedit {
         this.navbar = new Navbar();
         this.domElement.appendChild(this.navbar.getDomElement());
         this.domElement.appendChild(DOM.create("div"));
+        this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
 
         Component.setTedit(this);
 
@@ -107,6 +108,23 @@ class Tedit {
         this.elements.map((element) => {
             this.domElement.childNodes[1].appendChild(element.getDomElement())
         })
+    }
+
+    private handleKeyDown(e: KeyboardEvent){
+        let position = this.activeElement.getPosition();
+        if(e.key === "ArrowUp"){
+            e.preventDefault();
+            if(position !== 0) this.elements[position-1].focus();
+
+            /* text component specific
+            let { anchorOffset } = document.getSelection() as Selection;
+            DOMWorker.setCursor( this.elements[position-1].getDomElement().childNodes[0], anchorOffset)
+            */
+        } else if (e.key === "ArrowDown"){
+            e.preventDefault();
+            if(position !== this.elements.length-1) this.elements[position+1].focus();
+        }
+        console.log(e.key);
     }
 }
 

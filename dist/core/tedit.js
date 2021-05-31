@@ -11,6 +11,7 @@ class Tedit {
         this.navbar = new Navbar();
         this.domElement.appendChild(this.navbar.getDomElement());
         this.domElement.appendChild(DOM.create("div"));
+        this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
         Component.setTedit(this);
         if (data) {
             for (let i = 0; i < data.length; i++) {
@@ -86,6 +87,20 @@ class Tedit {
         this.elements.map((element) => {
             this.domElement.childNodes[1].appendChild(element.getDomElement());
         });
+    }
+    handleKeyDown(e) {
+        let position = this.activeElement.getPosition();
+        if (e.key === "ArrowUp") {
+            e.preventDefault();
+            if (position !== 0)
+                this.elements[position - 1].focus();
+        }
+        else if (e.key === "ArrowDown") {
+            e.preventDefault();
+            if (position !== this.elements.length - 1)
+                this.elements[position + 1].focus();
+        }
+        console.log(e.key);
     }
 }
 export default Tedit;
