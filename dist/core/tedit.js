@@ -4,6 +4,7 @@ import { isDuplicate } from "../utilities/listOperations.js";
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 import Navbar from "./navbar.js";
 import blockMap from "./internals/blockMap.js";
+import ContextMenu from "./contextMenu.js";
 class Tedit {
     constructor({ data, types }) {
         this.elements = [];
@@ -12,6 +13,10 @@ class Tedit {
         this.domElement.appendChild(this.navbar.getDomElement());
         this.domElement.appendChild(DOM.create("div"));
         this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
+        this.domElement.addEventListener("contextmenu", this.handleContextMenu.bind(this));
+        this.contextMenu = new ContextMenu();
+        document.body.append(this.contextMenu.getDomElement());
+        this.isContextMenuActive = false;
         Component.setTedit(this);
         if (data) {
             for (let i = 0; i < data.length; i++) {
@@ -101,6 +106,17 @@ class Tedit {
                 this.elements[position + 1].focus();
         }
         console.log(e.key);
+    }
+    handleContextMenu(e) {
+        e.preventDefault();
+        if (this.isContextMenuActive) {
+            this.contextMenu.hide();
+            this.isContextMenuActive = false;
+        }
+        else {
+            this.contextMenu.show();
+            this.isContextMenuActive = true;
+        }
     }
 }
 export default Tedit;

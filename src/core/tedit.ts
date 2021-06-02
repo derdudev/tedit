@@ -1,4 +1,4 @@
-import DOM, { DOMWorker } from "../base/dom.js";
+import DOM from "../base/dom.js";
 import Component from "./component.js";
 import { isDuplicate } from "../utilities/listOperations.js";
 import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
@@ -6,11 +6,14 @@ import Navbar from "./navbar.js";
 import blockMap from "./internals/blockMap.js";
 import { Init } from "./data.js";
 import Content from "./content.js";
+import ContextMenu from "./contextMenu.js";
 
 class Tedit {
     private activeElement: Component;
     private elements: Component[];
     private domElement: HTMLElement;
+    private contextMenu: ContextMenu;
+    private isContextMenuActive: boolean;
     public navbar: Navbar;
 
     constructor({data, types}: Init){
@@ -20,6 +23,12 @@ class Tedit {
         this.domElement.appendChild(this.navbar.getDomElement());
         this.domElement.appendChild(DOM.create("div"));
         this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
+        this.domElement.addEventListener("contextmenu", this.handleContextMenu.bind(this));
+
+        this.contextMenu = new ContextMenu();
+        document.body.append(this.contextMenu.getDomElement());
+
+        this.isContextMenuActive = false;
 
         Component.setTedit(this);
 
@@ -125,6 +134,18 @@ class Tedit {
             if(position !== this.elements.length-1) this.elements[position+1].focus();
         }
         console.log(e.key);
+    }
+
+    private handleContextMenu(e: Event){
+        e.preventDefault();
+        if(this.isContextMenuActive){
+            this.contextMenu.hide();
+            this.isContextMenuActive = false;
+        }
+        else {
+            this.contextMenu.show();
+            this.isContextMenuActive = true;
+        }
     }
 }
 
