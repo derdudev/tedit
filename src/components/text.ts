@@ -5,6 +5,7 @@ import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
+import getTextCaretPosition from "../utilities/textCaretPosition.js";
 
 class TxtContent implements Content{
     type: string;
@@ -119,12 +120,15 @@ class Txt extends Component{
         }
         if(this.command){
             if(e.key !== "Enter") this.command += e.key;
+            //Component.tedit.getContextMenu().show()
         }
 
-        // PLACEHOLDER: loop to check through all possible commands (user should be able to create own one in component)
+        // PLACEHOLDER: loop to check through all possible commands (user should be able to create own one in component): text-caret-position (github: https://github.com/component/textarea-caret-position/blob/master/index.js)
         if(this.command === "$text"){
             if(e.key === "Enter"){
                 e.preventDefault();
+
+                console.log(getTextCaretPosition())
                 setTimeout(()=>{
                     let length = this.getDomElement().innerText.length;
                     let position = length - this.command.length;
@@ -199,7 +203,6 @@ class Txt extends Component{
             domElement.click();
             if(domElement.childNodes[0]){
                 let anchorOffset: number = (domElement.childNodes[0]).textContent?.length || 0;
-                console.log(domElement.childNodes);
                 DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset); 
             } else {
                 domElement.focus();

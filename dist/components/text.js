@@ -4,6 +4,7 @@ import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
+import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class TxtContent {
 }
 class Txt extends Component {
@@ -110,6 +111,7 @@ class Txt extends Component {
         if (this.command === "$text") {
             if (e.key === "Enter") {
                 e.preventDefault();
+                console.log(getTextCaretPosition());
                 setTimeout(() => {
                     let length = this.getDomElement().innerText.length;
                     let position = length - this.command.length;
@@ -179,7 +181,6 @@ class Txt extends Component {
             domElement.click();
             if (domElement.childNodes[0]) {
                 let anchorOffset = ((_a = (domElement.childNodes[0]).textContent) === null || _a === void 0 ? void 0 : _a.length) || 0;
-                console.log(domElement.childNodes);
                 DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset);
             }
             else {

@@ -67,6 +67,10 @@ class Tedit {
         });
     }
 
+    public getContextMenu(): ContextMenu{
+        return this.contextMenu;
+    }
+
     public save() {
         const content = this.getContent();
         fetch("/save", {
@@ -85,7 +89,6 @@ class Tedit {
 
     public append(element: Component, index?:number){
         if(isDuplicate(this.elements, element)) {
-            console.log(index);
             if(index){ 
                 this.elements.splice(index, 0, element);
                 element.setPosition(index);
@@ -133,17 +136,18 @@ class Tedit {
             e.preventDefault();
             if(position !== this.elements.length-1) this.elements[position+1].focus();
         }
-        console.log(e.key);
     }
 
-    private handleContextMenu(e: Event){
+    private handleContextMenu(e: MouseEvent){
         e.preventDefault();
+
+        // check whether event position is equal to previous one, then false, else true (new position)
         if(this.isContextMenuActive){
             this.contextMenu.hide();
             this.isContextMenuActive = false;
         }
         else {
-            this.contextMenu.show();
+            this.contextMenu.show(e.clientX, e.clientY);
             this.isContextMenuActive = true;
         }
     }

@@ -18,8 +18,10 @@ export default class ContextMenu extends Component {
         });
         this.domComponent = new HTMLComponent(domElement);
     }
-    show() {
+    show(x, y) {
         this.getDomElement().style.display = "block";
+        this.getDomElement().style.top = y + "px";
+        this.getDomElement().style.left = x + "px";
     }
     hide() {
         this.getDomElement().style.display = "none";
@@ -28,13 +30,13 @@ export default class ContextMenu extends Component {
         throw new Error("Method not implemented.");
     }
     setContent(content) {
-        throw new Error("Method not implemented.");
+        this.content = content;
     }
     getDomComponent() {
-        throw new Error("Method not implemented.");
+        return this.domComponent;
     }
     setDomComponent(domComponent) {
-        throw new Error("Method not implemented.");
+        this.domComponent = domComponent;
     }
     getName() {
         throw new Error("Method not implemented.");

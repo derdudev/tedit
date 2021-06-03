@@ -47,6 +47,9 @@ class Tedit {
             return element.getContent();
         });
     }
+    getContextMenu() {
+        return this.contextMenu;
+    }
     save() {
         const content = this.getContent();
         fetch("/save", {
@@ -64,7 +67,6 @@ class Tedit {
     }
     append(element, index) {
         if (isDuplicate(this.elements, element)) {
-            console.log(index);
             if (index) {
                 this.elements.splice(index, 0, element);
                 element.setPosition(index);
@@ -105,7 +107,6 @@ class Tedit {
             if (position !== this.elements.length - 1)
                 this.elements[position + 1].focus();
         }
-        console.log(e.key);
     }
     handleContextMenu(e) {
         e.preventDefault();
@@ -114,7 +115,7 @@ class Tedit {
             this.isContextMenuActive = false;
         }
         else {
-            this.contextMenu.show();
+            this.contextMenu.show(e.clientX, e.clientY);
             this.isContextMenuActive = true;
         }
     }
