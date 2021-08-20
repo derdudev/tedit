@@ -24,6 +24,7 @@ class Tedit {
         this.domElement.appendChild(DOM.create("div"));
         this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
         this.domElement.addEventListener("contextmenu", this.handleContextMenu.bind(this));
+        this.domElement.addEventListener("click", this.closeContextMenu.bind(this));
 
         this.contextMenu = new ContextMenu();
         document.body.append(this.contextMenu.getDomElement());
@@ -87,11 +88,16 @@ class Tedit {
         })
     }
 
+    // TODO: Set new position on 2nd if:true
     public append(element: Component, index?:number){
+        console.log(isDuplicate(this.elements, element))
         if(isDuplicate(this.elements, element)) {
             if(index){ 
                 this.elements.splice(index, 0, element);
                 element.setPosition(index);
+                for(let i=index; i<this.elements.length; i++){
+                    this.elements[i].setPosition(i);
+                }
             } else {
                 this.elements.push(element);
                 element.setPosition(this.elements.length-1);
@@ -143,13 +149,17 @@ class Tedit {
 
         // check whether event position is equal to previous one, then false, else true (new position)
         if(this.isContextMenuActive){
-            this.contextMenu.hide();
-            this.isContextMenuActive = false;
+            this.closeContextMenu();
         }
         else {
             this.contextMenu.show(e.clientX, e.clientY);
             this.isContextMenuActive = true;
         }
+    }
+
+    private closeContextMenu(){
+        this.contextMenu.hide();
+        this.isContextMenuActive = false;
     }
 }
 

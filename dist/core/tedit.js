@@ -14,6 +14,7 @@ class Tedit {
         this.domElement.appendChild(DOM.create("div"));
         this.domElement.addEventListener("keydown", this.handleKeyDown.bind(this));
         this.domElement.addEventListener("contextmenu", this.handleContextMenu.bind(this));
+        this.domElement.addEventListener("click", this.closeContextMenu.bind(this));
         this.contextMenu = new ContextMenu();
         document.body.append(this.contextMenu.getDomElement());
         this.isContextMenuActive = false;
@@ -66,10 +67,14 @@ class Tedit {
         });
     }
     append(element, index) {
+        console.log(isDuplicate(this.elements, element));
         if (isDuplicate(this.elements, element)) {
             if (index) {
                 this.elements.splice(index, 0, element);
                 element.setPosition(index);
+                for (let i = index; i < this.elements.length; i++) {
+                    this.elements[i].setPosition(i);
+                }
             }
             else {
                 this.elements.push(element);
@@ -111,13 +116,16 @@ class Tedit {
     handleContextMenu(e) {
         e.preventDefault();
         if (this.isContextMenuActive) {
-            this.contextMenu.hide();
-            this.isContextMenuActive = false;
+            this.closeContextMenu();
         }
         else {
             this.contextMenu.show(e.clientX, e.clientY);
             this.isContextMenuActive = true;
         }
+    }
+    closeContextMenu() {
+        this.contextMenu.hide();
+        this.isContextMenuActive = false;
     }
 }
 export default Tedit;

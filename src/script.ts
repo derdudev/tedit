@@ -1,6 +1,7 @@
 import DOM from "./base/dom.js";
 import Tedit from "./core/tedit.js";
 import { init } from "./dummyData.js";
+//import shortcut from "./utilities/shortcut.js";
 
 const tedit = new Tedit(init);
 
@@ -11,7 +12,7 @@ const button = DOM.create("button", {
         DOM.render(DOM.create("pre", {className: "out", innerText: JSON.stringify(tedit.getContent(), null, 3)}));
         tedit.save();
     }
-})
+});
 
 DOM.render(tedit.getDomElement());
 DOM.render(button);

@@ -29,6 +29,7 @@
     "body-parser": "^1.19.0",
     "csstype": "^3.0.7",
     "express": "^4.17.1",
+    "mousetrap": "^1.6.5",
     "path": "^0.12.7"
   }
 }

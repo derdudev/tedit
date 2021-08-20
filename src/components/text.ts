@@ -109,8 +109,15 @@ class Txt extends Component{
 
     private handleKeyDown(e: KeyboardEvent): void {
         this.updateContent(e);
+        console.log(this.command);
+        if(this.command === "" && this.content.data.text[-1] != "$"){
+            Txt.tedit.getContextMenu().hide();
+        }
+        
         if(e.key === "$"){
             this.command += e.key;
+            //const {left: x, top: y} = getTextCaretPosition();
+            //Txt.tedit.getContextMenu().show(x, y);
             return;
         }
         //end command with space
@@ -128,27 +135,30 @@ class Txt extends Component{
             if(e.key === "Enter"){
                 e.preventDefault();
 
-                console.log(getTextCaretPosition())
                 setTimeout(()=>{
                     let length = this.getDomElement().innerText.length;
                     let position = length - this.command.length;
                     this.getDomElement().innerText = this.getDomElement().innerText.slice(0, position);
                     this.updateContent(e);
+                    console.log(this.position, Txt.tedit.getContent().length+1)
                     Txt.tedit.append(new Txt(), this.position+1);
+                    this.command = "";
                 }, 1);
                 return;
             }
 
         }
 
-        if(e.key === "Backspace" && (e.target as HTMLElement).innerText === ""){
+        if((e.key === "Backspace" || e.key === "Delete") && (e.target as HTMLElement).innerText === ""){
             setTimeout(()=>{
                 Txt.tedit.removeElementAt(this.position)
             }, 1)
         }
+        
 
         if(e.key === "Enter") {
             e.preventDefault();
+            console.log(this.position, Txt.tedit.getContent().length+1, Txt.tedit.getActiveElement())
             Txt.tedit.append(new Txt(), this.position+1);
         }
     }
