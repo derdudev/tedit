@@ -5,7 +5,7 @@ import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
-import getTextCaretPosition from "../utilities/textCaretPosition.js";
+//mport getTextCaretPosition from "../utilities/textCaretPosition.js";
 
 class TxtContent implements Content{
     type: string;
