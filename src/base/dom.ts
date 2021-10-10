@@ -1,21 +1,5 @@
-import * as CSS from 'csstype';
 import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
-
-interface DomOptions {
-    style?: CSS.Properties;
-    pseudoStyle?: { [P in CSS.SimplePseudos]?: CSS.Properties },
-    contentEditable?: boolean;
-    spellcheck?: boolean;
-    innerText?: string;
-    className?: string;
-    placeHolder?: string;
-    id?: string;
-    tagName?: string;
-    onclick?: Function;
-    onkeydown?: Function;
-}
-
-
+import DomOptions from "./DomOptions.js";
 
 export default class DOM {
     static create(tagName: string, options?: DomOptions, children?: Object): HTMLElement {

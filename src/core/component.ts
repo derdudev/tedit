@@ -2,7 +2,7 @@
 import HTMLComponent from "../base/HTMLComponent.js";
 import { DomOptions } from "../base/dom.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
-import Actions from "./actions.js";
+// import Actions from "./actions.js";
 import Content from "./content.js";
 import { NavbarConfig } from "./navbar.js";
 import State from "./state.js";
@@ -17,7 +17,7 @@ abstract class Component {
     protected navbarConfig: NavbarConfig;
     protected variants: Variants;
     protected state: State;
-    protected actions: Actions;
+    protected actions: Object;
     protected position: number;
 
     protected static tedit: Tedit;
