@@ -3,15 +3,17 @@ const data = [
         type: "text",
         data: {
             text: "This is a headline",
-            variant: 1,
-        }
+            textF: "This is a headline",
+        },
+        template: 1,
     },
     {
         type: "text",
         data: {
             text: "And this one is a very nice paragraph",
-            variant: 0,
-        }
+            textF: "And this one is a very nice paragraph",
+        },
+        template: 0,
     },
 ];
 const types = [

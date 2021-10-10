@@ -15,8 +15,10 @@ class DomWorker {
                 Object.assign(element.style, getKeyValue(key)(options));
             }
         }
-        for (let child in children) {
-            element.appendChild(getKeyValue(child)(children));
+        if (children) {
+            for (let i = 0; i < children.length; i++) {
+                element.appendChild(children[i]);
+            }
         }
         return element;
     }

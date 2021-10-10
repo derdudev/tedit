@@ -13,7 +13,7 @@ class DomWorker {
      * 
      * @return {HTMLElement} returns a custom HTMLElement (any kind of HTMLElement)
      */
-    public static create(tagName: string, options?: DomOptions, children?: Object): HTMLElement{
+    public static create(tagName: string, options?: DomOptions, children?: any): HTMLElement{
         let element: HTMLElement = document.createElement(tagName);
 
         let valueOfKey;
@@ -30,8 +30,10 @@ class DomWorker {
             }
         }
 
-        for(let child in children){
-            element.appendChild(getKeyValue(child as never)(children));
+        if(children){
+            for(let i=0; i<children.length; i++){
+                element.appendChild(children[i]);
+            }
         }
 
         return element;

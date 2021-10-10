@@ -1,6 +1,5 @@
 interface Content{
-    type: string;
-    data: any | {variant?: number};
+    data: Object;
 }
 
 export default Content;

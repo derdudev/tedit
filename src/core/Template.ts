@@ -1,6 +1,8 @@
 import Content from "./content";
 
 class Template {
+    public html: HTMLElement;
+
     /**
      * 
      * @param domElement 
@@ -8,7 +10,7 @@ class Template {
      * @param templateLoader allows to switch to another template on button press defined in barConfig
      */
     constructor(domElement: HTMLElement, barConfig: Array<Object>, templateLoader: Function){
-
+        this.html = domElement;
     }
     
     /**
