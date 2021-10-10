@@ -16,6 +16,7 @@ export default class ContextMenu extends Component{
                 width: "200px",
                 top: "200px",
                 left: "200px",
+                boxShadow: "0px 0px 20px #00000020",
             }
         });
 
