@@ -4,6 +4,7 @@ import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
+import Template from "../core/Template.js";
 class TxtContent {
 }
 class Txt extends Component {
@@ -192,6 +193,42 @@ class Txt extends Component {
                 domElement.focus();
             }
         }, 1);
+    }
+}
+class Txt2 {
+    constructor(initContent) {
+        this.name = "text";
+        this.ID = randstr();
+        this.initTemps();
+    }
+    loadTemp(index) {
+        this.templates[index].loadData(this.content);
+        this.render(this.templates[index]);
+    }
+    render(template) {
+    }
+    initTemps() {
+        let domElement_temp1 = DOM.create("p", {
+            placeHolder: "This is a text element.",
+            contentEditable: true,
+            className: "p",
+            spellcheck: false,
+            id: this.ID,
+            style: {
+                backgroundColor: "#00000020",
+                padding: "5px 10px",
+            }
+        });
+        let barConfig_temp1 = [
+            DOM.create("button", {
+                innerText: "Button1",
+            }),
+            DOM.create("button", {
+                innerText: "Button2",
+            }),
+        ];
+        let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp);
+        this.templates.push(temp1);
     }
 }
 export default Txt;

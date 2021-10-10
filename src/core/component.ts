@@ -20,7 +20,8 @@ abstract class Component {
     protected actions: Object;
     protected position: number;
 
-    protected static tedit: Tedit;
+    // TODO: do not forget to bring back to protected!
+    public static tedit: Tedit;
 
     constructor(){
         this.state = {variant: 0};

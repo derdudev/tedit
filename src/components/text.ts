@@ -1,10 +1,12 @@
 import Content from "../core/content.js";
-import DOM, { DOMWorker } from "../base/dom.js";
+import DOM, {DOMWorker} from "../base/dom.js";
+//import DOMWorker from "../base/DomWorker.js";
 import Component from "../core/component.js";
 import { Variant } from "../core/variant.js";
 import Button from "../base/button.js";
 import { randstr } from "../utilities/random.js";
 import HTMLComponent from "../base/HTMLComponent.js";
+import Template from "../core/Template.js";
 //mport getTextCaretPosition from "../utilities/textCaretPosition.js";
 
 class TxtContent implements Content{
@@ -219,6 +221,67 @@ class Txt extends Component{
             }
         }, 1);
         //DOMWorker.setCursor(this.getDomElement().childNodes[0], anchorOffset); 
+    }
+}
+class Txt2 {
+    private templates: Array<Template>;
+
+    public name: string = "text";
+    public ID: string; 
+    private content: Object; 
+    private container: HTMLElement;
+
+    /**
+     * 
+     * @param initContent initial data to be loaded on initialisation
+     */
+    constructor(initContent: Object){
+        this.ID = randstr();
+        this.initTemps();
+        //this.container = DOMWorker.create("div", {}, this.templates[0].html);
+
+        // TODO<issue>: this class has to extend component but that class has to be rethought again 
+        // Component.tedit.append(this);
+    }    
+
+    /**
+     * 
+     * @param index the number of the template to be loaded (index in the template array)
+     */
+    public loadTemp(index: number){
+        this.templates[index].loadData(this.content);
+        this.render(this.templates[index]);
+    }
+
+    private render(template: Template){
+
+    }
+
+    private initTemps(){
+        let domElement_temp1 = DOM.create("p", {
+            placeHolder: "This is a text element.",
+            contentEditable: true,
+            className: "p",
+            spellcheck: false,
+            id: this.ID,
+            style: {
+                backgroundColor: "#00000020",
+                padding: "5px 10px",
+            }
+        });
+
+        let barConfig_temp1 = [
+            DOM.create("button", {
+                innerText: "Button1", 
+            }),
+            DOM.create("button", {
+                innerText: "Button2", 
+            }),
+        ];
+
+        let temp1 = new Template(domElement_temp1,barConfig_temp1, this.loadTemp);
+
+        this.templates.push(temp1);
     }
 }
 
