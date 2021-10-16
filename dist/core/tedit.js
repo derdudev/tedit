@@ -5,6 +5,7 @@ import DomWorker from "../base/DomWorker.js";
 class Tedit {
     constructor({ data, types }) {
         console.log(data, types);
+        this.elements = [];
         this.html = DomWorker.create("div");
         this.html.appendChild(DomWorker.create("div"));
         Component.setTedit(this);
@@ -16,6 +17,8 @@ class Tedit {
     }
     append(element) {
         console.log("# Appending <", element, ">");
+        this.elements.push(element);
+        console.log("> current elements: ", this.elements);
     }
     save() {
         console.log("# Saving...");

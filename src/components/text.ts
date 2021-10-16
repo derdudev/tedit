@@ -41,7 +41,7 @@ class Txt extends Component {
     }
 
     private render(template: Template){
-
+        Component.tedit.html.appendChild(template.html);
     }
 
     private initTemps(){
@@ -52,7 +52,7 @@ class Txt extends Component {
             spellcheck: false,
             id: this.ID,
             style: {
-                backgroundColor: "#00000020",
+                backgroundColor: "#fff",
                 padding: "5px 10px",
             }
         });

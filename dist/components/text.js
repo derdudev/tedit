@@ -19,6 +19,7 @@ class Txt extends Component {
         this.render(this.templates[index]);
     }
     render(template) {
+        Component.tedit.html.appendChild(template.html);
     }
     initTemps() {
         let domElement_temp1 = DOMWorker.create("p", {
@@ -28,7 +29,7 @@ class Txt extends Component {
             spellcheck: false,
             id: this.ID,
             style: {
-                backgroundColor: "#00000020",
+                backgroundColor: "#fff",
                 padding: "5px 10px",
             }
         });

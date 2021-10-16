@@ -9,12 +9,16 @@ import ContextMenu from "./contextMenu.js";
 import DomWorker from "../base/DomWorker.js";
 
 class Tedit {
-    private elements: Array<Component>;
+    private elements: Component[];
     public html: HTMLElement;
 
     constructor({data, types}: Init){
         console.log(data, types);
+        
+        this.elements = [];
+        
         this.html = DomWorker.create("div");
+        // TODO: inside the container for the board should be the "real" board which then can also be easily reloaded
         this.html.appendChild(DomWorker.create("div"));
 
         Component.setTedit(this);
@@ -29,6 +33,8 @@ class Tedit {
 
     public append(element: Component){
         console.log("# Appending <", element, ">");
+        this.elements.push(element);
+        console.log("> current elements: ", this.elements);
     }
 
     public save(){
