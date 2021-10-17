@@ -1,7 +1,7 @@
-import DOM from "../base/dom.js";
+import DomWorker from "src/base/DomWorker";
 const getTextCaretPosition = () => {
     var _a;
-    let tempSpan = DOM.create("span", { innerText: "." });
+    let tempSpan = DomWorker.create("span", { innerText: "." });
     (_a = window.getSelection()) === null || _a === void 0 ? void 0 : _a.getRangeAt(0).surroundContents(tempSpan);
     return {
         left: tempSpan.offsetLeft,

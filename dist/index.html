@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -8,89 +9,100 @@
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <title>Tedit</title>
 
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.css" integrity="sha384-knaESGLxlQRSHWSJ+ZbTX6/L1bJZWBsBYGb2O+g64XHFuO7CbIj9Pkf1aaVXzIZJ" crossorigin="anonymous">
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.js" integrity="sha384-7u+OeKP8De/qfWU/3s5KUDC2wvwPe+d5GwojxjiwFJJpHAp38wQFtz3tr2QNGidv" crossorigin="anonymous"></script>
-  
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js" integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.css"
+        integrity="sha384-knaESGLxlQRSHWSJ+ZbTX6/L1bJZWBsBYGb2O+g64XHFuO7CbIj9Pkf1aaVXzIZJ" crossorigin="anonymous">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/katex.js"
+        integrity="sha384-7u+OeKP8De/qfWU/3s5KUDC2wvwPe+d5GwojxjiwFJJpHAp38wQFtz3tr2QNGidv" crossorigin="anonymous">
+    </script>
+
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.13.11/dist/contrib/auto-render.min.js"
+        integrity="sha384-vZTG03m+2yp6N6BNi5iM4rW4oIwk5DfcNdFfxkk9ZWpDriOkXX8voJBFrAO7MpVl" crossorigin="anonymous"
         onload="renderMathInElement(document.body);"></script>
 </head>
+
 <body>
-    <script src="/public/utilities/shortcut.js"></script>
-    <script type="module" src="/public/script.js"></script>
     <style>
         * {
             font-family: "Inter";
             font-weight: 500;
         }
+
         b {
             font-weight: bold !important;
         }
-        .out{
+
+        .out {
             font-size: 14px;
             font-weight: 400;
             font-family: "Cascadia Code", monospace;
             padding: 20px;
             background-color: #d9d9d9;
         }
-        .p:hover{
+
+        .p:hover {
             cursor: text;
         }
-        .p:focus{
+
+        .p:focus {
             outline: none;
         }
-        .p[placeholder]:empty::before{
+
+        .p[placeholder]:empty::before {
             content: attr(placeholder);
             color: #d9d9d9;
         }
     </style>
     <style>
         ::-webkit-scrollbar-thumb {
-    background-color: rgba(0, 0, 0, 0.2);
-    background-clip: padding-box;
-    border-style: solid;
-    border-color: transparent;
-    border-image: initial;
-    border-width: 1px 1px 1px 6px;
-    min-height: 28px;
-    padding: 100px 0px 0px;
-    box-shadow: rgb(0 0 0 / 10%) 1px 1px 0px inset, rgb(0 0 0 / 7%) 0px -1px 0px inset;
-}
+            background-color: rgba(0, 0, 0, 0.2);
+            background-clip: padding-box;
+            border-style: solid;
+            border-color: transparent;
+            border-image: initial;
+            border-width: 1px 1px 1px 6px;
+            min-height: 28px;
+            padding: 100px 0px 0px;
+            box-shadow: rgb(0 0 0 / 10%) 1px 1px 0px inset, rgb(0 0 0 / 7%) 0px -1px 0px inset;
+        }
 
-::-webkit-scrollbar-track {
-    box-shadow: none;
-    margin: 0px 4px;
-}
+        ::-webkit-scrollbar-track {
+            box-shadow: none;
+            margin: 0px 4px;
+        }
 
-::-webkit-scrollbar-track:hover{
-    cursor: pointer;
-}
+        ::-webkit-scrollbar-track:hover {
+            cursor: pointer;
+        }
 
-::-webkit-scrollbar-track {
-    background-clip: padding-box;
-    border-style: solid;
-    border-color: transparent;
-    border-image: initial;
-    border-width: 0px 0px 0px 4px;
-}
+        ::-webkit-scrollbar-track {
+            background-clip: padding-box;
+            border-style: solid;
+            border-color: transparent;
+            border-image: initial;
+            border-width: 0px 0px 0px 4px;
+        }
 
-::-webkit-scrollbar {
-    height: 16px;
-    overflow: visible;
-    width: 16px;
-}
+        ::-webkit-scrollbar {
+            height: 16px;
+            overflow: visible;
+            width: 16px;
+        }
 
-::-webkit-scrollbar-thumb {
-    border-style: solid;
-    border-color: transparent;
-    border-width: 4px;
-    background-color: rgb(218, 220, 224);
-    border-radius: 8px;
-    box-shadow: none;
-}
+        ::-webkit-scrollbar-thumb {
+            border-style: solid;
+            border-color: transparent;
+            border-width: 4px;
+            background-color: rgb(218, 220, 224);
+            border-radius: 8px;
+            box-shadow: none;
+        }
 
-::-webkit-scrollbar-thumb:hover {
-    cursor: pointer;
-}
+        ::-webkit-scrollbar-thumb:hover {
+            cursor: pointer;
+        }
     </style>
+    <script src="/public/utilities/shortcut.js"></script>
+    <script type="module" src="/public/script.js"></script>
 </body>
+
 </html>

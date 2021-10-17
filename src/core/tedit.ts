@@ -7,15 +7,18 @@ import { Init } from "./data.js";
 import Content from "./content.js";
 import ContextMenu from "./contextMenu.js";
 import DomWorker from "../base/DomWorker.js";
+import TeditCollection from "./teditCollection.js";
+import Renderer from "../base/Renderer.js";
 
+// TODO: make tedit static and 
 class Tedit {
-    private elements: Component[];
+    private collection: TeditCollection;
     public html: HTMLElement;
 
-    constructor({data, types}: Init){
-        console.log(data, types);
+    constructor({data, types}: Init, ){
+        Renderer.setMain("", this);
         
-        this.elements = [];
+        this.collection = new TeditCollection();
         
         this.html = DomWorker.create("div");
         // TODO: inside the container for the board should be the "real" board which then can also be easily reloaded
@@ -26,15 +29,11 @@ class Tedit {
         if(data) {
             for(let i=0; i<data.length; i++){
                 //blockMap[data[i].type]
-                this.append((new (getKeyValue(data[i].type as never)(blockMap))()));
+                this.collection.append((new (getKeyValue(data[i].type as never)(blockMap))()));
             }
         }
-    }
 
-    public append(element: Component){
-        console.log("# Appending <", element, ">");
-        this.elements.push(element);
-        console.log("> current elements: ", this.elements);
+        Renderer.renderMain();
     }
 
     public save(){

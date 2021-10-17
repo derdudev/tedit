@@ -40,10 +40,6 @@ class Txt extends Component {
         this.render(this.templates[index]);
     }
 
-    private render(template: Template){
-        Component.tedit.html.appendChild(template.html);
-    }
-
     private initTemps(){
         let domElement_temp1 = DOMWorker.create("p", {
             placeHolder: "This is a text element.",

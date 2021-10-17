@@ -11,7 +11,6 @@ const button = DomWorker.create("button", {
         tedit.save();
     }
 });
-DOMRenderer.render(tedit);
 DOMRenderer.renderHTML(button);
 DOMRenderer.renderHTML(DomWorker.create("pre", { className: "out", innerText: JSON.stringify(tedit.getContent(), null, 3) }));
 //# sourceMappingURL=script.js.map

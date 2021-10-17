@@ -18,7 +18,7 @@ class Template {
      * @param data latest data, when it gets loaded, usually the template should be loaded too (by the parent)
      */
     public loadData(data: Object){
-
+        
     }
 }
 

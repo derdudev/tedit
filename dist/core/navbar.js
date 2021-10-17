@@ -1,12 +1,12 @@
-import DOM from "../base/dom.js";
 import Bar from "./bar.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
+import DomWorker from "src/base/DomWorker.js";
 class NavbarConfig {
 }
 class Navbar extends Bar {
     constructor() {
         super();
-        this.domElement = DOM.create("div", {
+        this.domElement = DomWorker.create("div", {
             style: {
                 height: "20px",
                 display: "flex",

@@ -2,23 +2,21 @@ import Component from "./component.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import blockMap from "./internals/blockMap.js";
 import DomWorker from "../base/DomWorker.js";
+import TeditCollection from "./teditCollection.js";
+import Renderer from "../base/Renderer.js";
 class Tedit {
     constructor({ data, types }) {
-        console.log(data, types);
-        this.elements = [];
+        Renderer.setMain("", this);
+        this.collection = new TeditCollection();
         this.html = DomWorker.create("div");
         this.html.appendChild(DomWorker.create("div"));
         Component.setTedit(this);
         if (data) {
             for (let i = 0; i < data.length; i++) {
-                this.append((new (getKeyValue(data[i].type)(blockMap))()));
+                this.collection.append((new (getKeyValue(data[i].type)(blockMap))()));
             }
         }
-    }
-    append(element) {
-        console.log("# Appending <", element, ">");
-        this.elements.push(element);
-        console.log("> current elements: ", this.elements);
+        Renderer.renderMain();
     }
     save() {
         console.log("# Saving...");

@@ -1,8 +1,8 @@
-import DOM from "../base/dom.js";
 import Button from "../base/button.js";
 import Bar, { BarConfig } from "./bar.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import HTMLComponent from "../base/HTMLComponent.js";
+import DomWorker from "src/base/DomWorker.js";
 
 class NavbarConfig implements BarConfig{
     [name: string]: Button;
@@ -14,7 +14,7 @@ class Navbar extends Bar{
 
     constructor(){
         super();
-        this.domElement = DOM.create("div", {
+        this.domElement = DomWorker.create("div", {
             style: {
                 height: "20px",
                 display: "flex",

@@ -6,7 +6,7 @@ import Content from "./content.js";
 import { NavbarConfig } from "./navbar.js";
 import State from "./state.js";
 import Tedit from "./tedit.js";
-import { Variant, Variants } from "./variant.js";
+import Template from "./Template.js";
 
 abstract class Component {
     protected content:Content;
@@ -19,6 +19,12 @@ abstract class Component {
     public static tedit: Tedit;
 
     constructor(){}
+
+    // ! pretty bad way of rendering - or not?
+    protected render(template: Template){
+        // TODO: not only appending, but replacing the previous version of the element
+        Component.tedit.html.appendChild(template.html);
+    }
 
     public static setTedit(tedit: Tedit){
         this.tedit = tedit;

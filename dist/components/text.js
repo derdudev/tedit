@@ -18,9 +18,6 @@ class Txt extends Component {
         this.templates[index].loadData(this.content);
         this.render(this.templates[index]);
     }
-    render(template) {
-        Component.tedit.html.appendChild(template.html);
-    }
     initTemps() {
         let domElement_temp1 = DOMWorker.create("p", {
             placeHolder: "This is a text element.",
