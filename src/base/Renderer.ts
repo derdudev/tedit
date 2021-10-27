@@ -1,4 +1,5 @@
 import Tedit from "src/core/tedit";
+import DomWorker from "./DomWorker.js";
 
 // ! Renderer and DomRenderer classes are colliding!
 class Renderer {
@@ -17,11 +18,22 @@ class Renderer {
         this.main = document.getElementById(elementID) || document.body;
     }
 
-    public static renderMain(){
+    public static renderMain(isFirstRender: boolean){
         console.log("# Rendering main")
         // TODO: the dom body mechanics are broken -> when the body gets cleared, all stylesheets get cleared as well!
         if(this.main != document.body) this.main.innerHTML = ""; // clear the main element before rendering the new content
-        this.main.appendChild(this.teditInstance.html);
+        
+        let container: HTMLElement;
+        if(isFirstRender){
+            container = DomWorker.create("div", {id:"teditContainer"});
+            container.append(this.teditInstance.html);
+            this.main.appendChild(container);
+        } else {
+            // if its not the first render, its a rerender, thus no new container element has to be added
+            container = DomWorker.getByID("teditContainer") || document.body; // document.body is only for syntactic reasons, this expression always results in returning a HTMLElement
+            DomWorker.clearElement(container);
+            container.appendChild(this.teditInstance.html); // append latest version of html (so the contents) of the tedit editor
+        }
     }
 }
 

@@ -38,6 +38,14 @@ class DomWorker {
 
         return element;
     }
+
+    public static getByID(id: string): HTMLElement|null{
+        return document.getElementById(id);
+    }
+
+    public static clearElement(element: HTMLElement){
+        element.innerHTML = "";
+    }
 }
 
 export default DomWorker;

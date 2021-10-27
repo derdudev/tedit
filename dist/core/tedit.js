@@ -8,15 +8,14 @@ class Tedit {
     constructor({ data, types }) {
         Renderer.setMain("", this);
         this.collection = new TeditCollection();
-        this.html = DomWorker.create("div");
-        this.html.appendChild(DomWorker.create("div"));
+        this.html = DomWorker.create("div", { id: "tedit" });
         Component.setTedit(this);
         if (data) {
             for (let i = 0; i < data.length; i++) {
                 this.collection.append((new (getKeyValue(data[i].type)(blockMap))()));
             }
         }
-        Renderer.renderMain();
+        Renderer.renderMain(true);
     }
     save() {
         console.log("# Saving...");

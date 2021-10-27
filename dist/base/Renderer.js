@@ -1,13 +1,24 @@
+import DomWorker from "./DomWorker.js";
 class Renderer {
     static setMain(elementID, teditInstance) {
         this.teditInstance = teditInstance;
         this.main = document.getElementById(elementID) || document.body;
     }
-    static renderMain() {
+    static renderMain(isFirstRender) {
         console.log("# Rendering main");
         if (this.main != document.body)
             this.main.innerHTML = "";
-        this.main.appendChild(this.teditInstance.html);
+        let container;
+        if (isFirstRender) {
+            container = DomWorker.create("div", { id: "teditContainer" });
+            container.append(this.teditInstance.html);
+            this.main.appendChild(container);
+        }
+        else {
+            container = DomWorker.getByID("teditContainer") || document.body;
+            DomWorker.clearElement(container);
+            container.appendChild(this.teditInstance.html);
+        }
     }
 }
 export default Renderer;

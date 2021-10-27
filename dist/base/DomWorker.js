@@ -22,6 +22,12 @@ class DomWorker {
         }
         return element;
     }
+    static getByID(id) {
+        return document.getElementById(id);
+    }
+    static clearElement(element) {
+        element.innerHTML = "";
+    }
 }
 export default DomWorker;
 //# sourceMappingURL=DomWorker.js.map

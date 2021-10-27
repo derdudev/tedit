@@ -20,9 +20,10 @@ class Tedit {
         
         this.collection = new TeditCollection();
         
-        this.html = DomWorker.create("div");
+        this.html = DomWorker.create("div", {id:"tedit"});
         // TODO: inside the container for the board should be the "real" board which then can also be easily reloaded
-        this.html.appendChild(DomWorker.create("div"));
+
+        //this.html = this.html.children[0] as HTMLElement;
 
         Component.setTedit(this);
 
@@ -33,7 +34,7 @@ class Tedit {
             }
         }
 
-        Renderer.renderMain();
+        Renderer.renderMain(true);
     }
 
     public save(){
