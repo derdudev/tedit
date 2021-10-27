@@ -1,5 +1,5 @@
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
-import DOM from "./dom.js";
+import DomWorker from "./DomWorker.js";
 class HTMLComponent {
     constructor(domElement) {
         if (domElement)
@@ -34,7 +34,7 @@ class HTMLComponent {
             domOption = getKeyValue(domOptionName)(options);
             element = htmlComponent.getDomElement();
             if (domOptionName === "tagName") {
-                htmlComponent.replace(DOM.create(domOption, options));
+                htmlComponent.replace(DomWorker.create(domOption, options));
             }
             else if (domOptionName !== "style") {
                 element.setAttribute(domOptionName, domOption);

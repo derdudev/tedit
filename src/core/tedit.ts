@@ -1,11 +1,7 @@
 import Component from "./component.js";
-import { isDuplicate } from "../utilities/listOperations.js";
-import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
-import Navbar from "./navbar.js";
+import {getKeyValue} from "../utilities/objectOperations.js";
 import blockMap from "./internals/blockMap.js";
 import { Init } from "./data.js";
-import Content from "./content.js";
-import ContextMenu from "./contextMenu.js";
 import DomWorker from "../base/DomWorker.js";
 import TeditCollection from "./teditCollection.js";
 import Renderer from "../base/Renderer.js";

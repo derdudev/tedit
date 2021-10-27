@@ -1,5 +1,3 @@
-import Content from "./content";
-
 class Template {
     public html: HTMLElement;
 

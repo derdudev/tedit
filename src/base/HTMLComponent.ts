@@ -1,5 +1,6 @@
 import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
-import DOM, { DomOptions } from "./dom.js";
+import DomOptions from "./DomOptions.js";
+import DomWorker from "./DomWorker.js";
 
 class HTMLComponent{
     protected domElement: HTMLElement;
@@ -42,7 +43,7 @@ class HTMLComponent{
             domOption = getKeyValue(domOptionName as never)(options);
             element = htmlComponent.getDomElement();
             if(domOptionName === "tagName"){
-                htmlComponent.replace(DOM.create(domOption, options));
+                htmlComponent.replace(DomWorker.create(domOption, options));
             } else if(domOptionName !== "style"){
                 element.setAttribute(domOptionName, domOption as string);
                 setKeyValue(domOptionName as never, domOption as string)(element);
