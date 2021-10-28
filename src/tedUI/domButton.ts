@@ -1,0 +1,3 @@
+class DomButton extends domComponent {
+    
+}

@@ -5,6 +5,8 @@ import { Init } from "./data.js";
 import DomWorker from "../base/DomWorker.js";
 import TeditCollection from "./teditCollection.js";
 import Renderer from "../base/Renderer.js";
+import Logger from "../log/logger.js";
+
 
 // TODO: make tedit static and 
 class Tedit {
@@ -34,11 +36,11 @@ class Tedit {
     }
 
     public save(){
-        console.log("# Saving...");
+        Logger.clog("# Saving...");
     }
 
     public getContent(){
-        console.log("# Fetching content...");
+        Logger.clog("# Fetching content...");
     }
 }
 

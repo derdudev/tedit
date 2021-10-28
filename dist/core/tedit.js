@@ -4,6 +4,7 @@ import blockMap from "./internals/blockMap.js";
 import DomWorker from "../base/DomWorker.js";
 import TeditCollection from "./teditCollection.js";
 import Renderer from "../base/Renderer.js";
+import Logger from "../log/logger.js";
 class Tedit {
     constructor({ data, types }) {
         Renderer.setMain("", this);
@@ -18,10 +19,10 @@ class Tedit {
         Renderer.renderMain(true);
     }
     save() {
-        console.log("# Saving...");
+        Logger.clog("# Saving...");
     }
     getContent() {
-        console.log("# Fetching content...");
+        Logger.clog("# Fetching content...");
     }
 }
 export default Tedit;

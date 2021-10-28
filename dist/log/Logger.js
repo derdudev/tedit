@@ -1,4 +1,4 @@
-import globalConfig from "src/base/config.js";
+import globalConfig from "../base/config.js";
 class Logger {
     static clog(message) {
         if (globalConfig.debug)
@@ -6,4 +6,4 @@ class Logger {
     }
 }
 export default Logger;
-//# sourceMappingURL=Logger.js.map
+//# sourceMappingURL=logger.js.map

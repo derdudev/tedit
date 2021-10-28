@@ -1,4 +1,4 @@
-import globalConfig from "src/base/config.js";
+import globalConfig from "../base/config.js";
 
 /**
  * should provide basic features listed on Trello
