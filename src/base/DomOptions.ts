@@ -1,4 +1,5 @@
 import * as CSS from 'csstype';
+import Event from './event.js';
 
 interface DomOptions {
     style?: CSS.Properties;
@@ -10,8 +11,7 @@ interface DomOptions {
     placeHolder?: string;
     id?: string;
     tagName?: string;
-    onclick?: Function;
-    onkeydown?: Function;
+    events?: Array<Event>;
 }
 
 export default DomOptions;

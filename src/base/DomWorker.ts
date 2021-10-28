@@ -13,6 +13,8 @@ class DomWorker {
      * 
      * @return {HTMLElement} returns a custom HTMLElement (any kind of HTMLElement)
      */
+
+    // TODO<refactor>: why dont specify tagName in options object?
     public static create(tagName: string, options?: DomOptions, children?: any): HTMLElement{
         let element: HTMLElement = document.createElement(tagName);
 
