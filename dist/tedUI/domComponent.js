@@ -1,5 +1,5 @@
 import DomWorker from "../base/DomWorker.js";
-class domComponent {
+class DomComponent {
     constructor(options) {
         this.html = DomWorker.create(options.tagName || "div", options);
     }
@@ -9,5 +9,5 @@ class domComponent {
         this.html = replacementElement;
     }
 }
-export default domComponent;
+export default DomComponent;
 //# sourceMappingURL=domComponent.js.map

@@ -1,3 +1,4 @@
+import Logger from "../log/logger.js";
 import DomWorker from "./DomWorker.js";
 class Renderer {
     static setMain(elementID, teditInstance) {
@@ -5,7 +6,7 @@ class Renderer {
         this.main = document.getElementById(elementID) || document.body;
     }
     static renderMain(isFirstRender) {
-        console.log("# Rendering main");
+        Logger.clog("# Rendering main");
         if (this.main != document.body)
             this.main.innerHTML = "";
         let container;

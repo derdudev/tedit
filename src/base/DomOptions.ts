@@ -11,7 +11,7 @@ interface DomOptions {
     placeHolder?: string;
     id?: string;
     tagName?: string;
-    events?: Array<Event>;
+    events?: Event[];
 }
 
 export default DomOptions;

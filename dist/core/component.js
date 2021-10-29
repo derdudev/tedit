@@ -1,5 +1,7 @@
 class Component {
-    constructor() { }
+    constructor() {
+        this.navbarModules = [];
+    }
     render(template) {
         Component.tedit.html.appendChild(template.html);
     }

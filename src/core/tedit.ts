@@ -6,12 +6,18 @@ import DomWorker from "../base/DomWorker.js";
 import TeditCollection from "./teditCollection.js";
 import Renderer from "../base/Renderer.js";
 import Logger from "../log/logger.js";
+import NavbarModule from "./navbarModule.js";
+import Navbar from "./navbar.js";
+import DomButton from "../tedUI/domButton.js";
 
 
 // TODO: make tedit static and 
 class Tedit {
     private collection: TeditCollection;
     public html: HTMLElement;
+    // TODO: add the navbar container
+    private navbarModule: NavbarModule; // the latest loaded navbar module
+    private navbar: Navbar;
 
     constructor({data, types}: Init, ){
         Renderer.setMain("", this);
@@ -33,6 +39,8 @@ class Tedit {
         }
 
         Renderer.renderMain(true);
+
+        this.navbar = new Navbar(new NavbarModule([new DomButton({innerText: "press me"})]));
     }
 
     public save(){

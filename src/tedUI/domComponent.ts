@@ -1,7 +1,7 @@
 import DomOptions from "../base/DomOptions.js";
 import DomWorker from "../base/DomWorker.js";
 
-class domComponent {
+class DomComponent {
     public tagName:string;
     public html:HTMLElement;
 
@@ -25,4 +25,4 @@ class domComponent {
     }
 }
 
-export default domComponent;
+export default DomComponent;

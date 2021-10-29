@@ -1,5 +1,6 @@
 import DomOptions from "./DomOptions";
 import {getKeyValue, setKeyValue} from "../utilities/objectOperations.js";
+import Logger from "../log/logger.js";
 
 /**
  * @description Works on any dom related element. Can create, change and delete any element in the DOM (visible or not)
@@ -17,6 +18,7 @@ class DomWorker {
     // TODO<refactor>: why dont specify tagName in options object?
     public static create(tagName: string, options?: DomOptions, children?: any): HTMLElement{
         let element: HTMLElement = document.createElement(tagName);
+        console.log(element, tagName, options?.innerText);
 
         let valueOfKey;
         for(let key in options){

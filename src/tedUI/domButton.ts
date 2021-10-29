@@ -1,8 +1,9 @@
 import DomOptions from "../base/DomOptions.js";
 import { eventName } from "../base/event.js";
-import domComponent from "./domComponent.js";
+import DomComponent from "./domComponent.js";
+import {setKeyValue} from "../utilities/objectOperations.js";
 
-class DomButton extends domComponent {
+class DomButton extends DomComponent {
     private static defaultOptions:DomOptions = {
         tagName: "button",
         style: {
@@ -12,7 +13,11 @@ class DomButton extends domComponent {
 
     constructor(buttonOptions?:DomOptions){
         // TODO<question>: Is it better to use defaultOptions as non-static variable for each object?
-        super(buttonOptions || DomButton.defaultOptions);
+        let buttonOptionsValid = buttonOptions;
+        if(!buttonOptions?.tagName){
+            setKeyValue("tagName" as never, "button")(buttonOptionsValid as object);
+        }
+        super(buttonOptionsValid || DomButton.defaultOptions);
     }
     
     // TODO<note>: Maybe even move up to Component bc adding events is not only practical for buttons

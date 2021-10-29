@@ -1,33 +1,16 @@
-import Bar from "./bar.js";
-import { getKeyValue } from "../utilities/objectOperations.js";
-import DomWorker from "src/base/DomWorker.js";
-class NavbarConfig {
-}
-class Navbar extends Bar {
-    constructor() {
-        super();
-        this.domElement = DomWorker.create("div", {
-            style: {
-                height: "20px",
-                display: "flex",
-                alignItems: "center",
-            }
-        });
+import DomWorker from "../base/DomWorker.js";
+class Navbar {
+    constructor(initModule) {
+        var _a;
+        this.html = DomWorker.create("nav");
+        this.load(initModule);
+        (_a = DomWorker.getByID("teditContainer")) === null || _a === void 0 ? void 0 : _a.insertAdjacentElement("afterbegin", this.html);
     }
-    getDomElement() {
-        return this.domElement;
-    }
-    load(config) {
-        this.config = config;
-        this.reset();
-        for (let name in config) {
-            this.domElement.appendChild(getKeyValue(name)(config).getDomElement());
+    load(navbarModule) {
+        for (let i = 0; i < navbarModule.size; i++) {
+            this.html.appendChild(navbarModule.get(i).html);
         }
-    }
-    reset() {
-        this.domElement.innerHTML = "";
     }
 }
 export default Navbar;
-export { NavbarConfig };
 //# sourceMappingURL=navbar.js.map

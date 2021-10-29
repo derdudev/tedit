@@ -1,5 +1,5 @@
-
 import Content from "./content.js";
+import NavbarModule from "./navbarModule.js";
 import Tedit from "./tedit.js";
 import Template from "./Template.js";
 
@@ -8,12 +8,15 @@ abstract class Component {
     protected ID: string;
     protected name: string;
     protected position: number;
+    protected navbarModules: NavbarModule[];
     public html: HTMLElement;
 
     // TODO: do not forget to bring back to protected!
     public static tedit: Tedit;
 
-    constructor(){}
+    constructor(){
+        this.navbarModules = [];
+    }
 
     // ! pretty bad way of rendering - or not?
     protected render(template: Template){

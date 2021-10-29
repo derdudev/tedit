@@ -1,44 +1,22 @@
-import Button from "../base/button.js";
-import Bar, { BarConfig } from "./bar.js";
-import { getKeyValue } from "../utilities/objectOperations.js";
-import HTMLComponent from "../base/HTMLComponent.js";
-import DomWorker from "src/base/DomWorker.js";
+import DomWorker from "../base/DomWorker.js";
+import NavbarModule from "./navbarModule.js";
 
-class NavbarConfig implements BarConfig{
-    [name: string]: Button;
-}
+class Navbar {
+    public html:HTMLElement;
 
-class Navbar extends Bar{
-    protected config: NavbarConfig;
-    private domElement: HTMLElement;
+    constructor(initModule: NavbarModule){
+        this.html = DomWorker.create("nav");
 
-    constructor(){
-        super();
-        this.domElement = DomWorker.create("div", {
-            style: {
-                height: "20px",
-                display: "flex",
-                alignItems: "center",
-            }
-        });
+        this.load(initModule);
+        DomWorker.getByID("teditContainer")?.insertAdjacentElement("afterbegin", this.html);
     }
 
-    public getDomElement(): HTMLElement{
-        return this.domElement;
-    }
-
-    public load(config: NavbarConfig): void {
-        this.config = config;
-        this.reset();
-        for(let name in config){
-            this.domElement.appendChild((getKeyValue(name as never)(config) as HTMLComponent).getDomElement());
+    // TODO: should be static?
+    public load(navbarModule:NavbarModule){
+        for(let i=0; i<navbarModule.size; i++){
+            this.html.appendChild(navbarModule.get(i).html);
         }
-    }
-
-    private reset(): void{
-        this.domElement.innerHTML = "";
     }
 }
 
 export default Navbar;
-export {NavbarConfig}

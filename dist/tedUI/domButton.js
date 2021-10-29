@@ -1,7 +1,12 @@
-import domComponent from "./domComponent.js";
-class DomButton extends domComponent {
+import DomComponent from "./domComponent.js";
+import { setKeyValue } from "../utilities/objectOperations.js";
+class DomButton extends DomComponent {
     constructor(buttonOptions) {
-        super(buttonOptions || DomButton.defaultOptions);
+        let buttonOptionsValid = buttonOptions;
+        if (!(buttonOptions === null || buttonOptions === void 0 ? void 0 : buttonOptions.tagName)) {
+            setKeyValue("tagName", "button")(buttonOptionsValid);
+        }
+        super(buttonOptionsValid || DomButton.defaultOptions);
     }
     addEvent(eventType, eventHandler) {
         this.html.addEventListener(eventType, eventHandler);

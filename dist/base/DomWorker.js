@@ -2,6 +2,7 @@ import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 class DomWorker {
     static create(tagName, options, children) {
         let element = document.createElement(tagName);
+        console.log(element, tagName, options === null || options === void 0 ? void 0 : options.innerText);
         let valueOfKey;
         for (let key in options) {
             valueOfKey = getKeyValue(key)(options);

@@ -1,4 +1,5 @@
 import Tedit from "src/core/tedit";
+import Logger from "../log/logger.js";
 import DomWorker from "./DomWorker.js";
 
 // ! Renderer and DomRenderer classes are colliding!
@@ -18,8 +19,9 @@ class Renderer {
         this.main = document.getElementById(elementID) || document.body;
     }
 
+    // ! this does not work because it is specific to a tedit object
     public static renderMain(isFirstRender: boolean){
-        console.log("# Rendering main")
+        Logger.clog("# Rendering main")
         // TODO: the dom body mechanics are broken -> when the body gets cleared, all stylesheets get cleared as well!
         if(this.main != document.body) this.main.innerHTML = ""; // clear the main element before rendering the new content
         
