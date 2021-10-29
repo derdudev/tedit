@@ -10,8 +10,9 @@ class DomComponent {
      * @param options dom options for the element: if no tagname is given, default is "div"
      */
     // TODO<idea>: set default values ("div") in separate object/file (also for DomButton class)
-    constructor(options: DomOptions){
+    constructor(options: DomOptions, element?: HTMLElement){
         this.html = DomWorker.create(options.tagName || "div", options);
+        if(element) this.html = element;
     }
 
     /**

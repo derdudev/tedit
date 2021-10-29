@@ -21,6 +21,7 @@ class Txt extends Component {
     loadTemp(index) {
         this.templates[index].loadData(this.content);
         this.render(this.templates[index]);
+        this.activeTemplate = this.templates[index];
     }
     initTemps() {
         let domElement_temp1 = DomWorker.create("p", {
@@ -34,14 +35,14 @@ class Txt extends Component {
                 padding: "5px 10px",
             }
         });
-        let barConfig_temp1 = [
-            DomWorker.create("button", {
+        let barConfig_temp1 = new NavbarModule([
+            new DomButton({}, DomWorker.create("button", {
                 innerText: "Button1",
-            }),
-            DomWorker.create("button", {
+            })),
+            new DomButton({}, DomWorker.create("button", {
                 innerText: "Button2",
-            }),
-        ];
+            })),
+        ]);
         let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp);
         this.templates = [];
         this.templates.push(temp1);

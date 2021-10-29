@@ -1,5 +1,8 @@
+import NavbarModule from "./navbarModule.js";
+
 class Template {
     public html: HTMLElement;
+    public barConfig: NavbarModule;
 
     /**
      * 
@@ -7,8 +10,9 @@ class Template {
      * @param barConfig 
      * @param templateLoader allows to switch to another template on button press defined in barConfig
      */
-    constructor(domElement: HTMLElement, barConfig: Array<Object>, templateLoader: Function){
+    constructor(domElement: HTMLElement, barConfig: NavbarModule, templateLoader: Function){
         this.html = domElement;
+        this.barConfig = barConfig;
     }
     
     /**

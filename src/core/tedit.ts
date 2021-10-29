@@ -17,7 +17,7 @@ class Tedit {
     public html: HTMLElement;
     // TODO: add the navbar container
     private navbarModule: NavbarModule; // the latest loaded navbar module
-    private navbar: Navbar;
+    public navbar: Navbar;
 
     constructor({data, types}: Init, ){
         Renderer.setMain("", this);

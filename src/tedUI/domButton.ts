@@ -11,13 +11,13 @@ class DomButton extends DomComponent {
         }
     }
 
-    constructor(buttonOptions?:DomOptions){
+    constructor(buttonOptions?:DomOptions, element?:HTMLElement){
         // TODO<question>: Is it better to use defaultOptions as non-static variable for each object?
         let buttonOptionsValid = buttonOptions;
         if(!buttonOptions?.tagName){
             setKeyValue("tagName" as never, "button")(buttonOptionsValid as object);
         }
-        super(buttonOptionsValid || DomButton.defaultOptions);
+        super(buttonOptionsValid || DomButton.defaultOptions, element);
     }
     
     // TODO<note>: Maybe even move up to Component bc adding events is not only practical for buttons

@@ -7,8 +7,6 @@ import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
-    private templates: any;
-
     public name: string = "text";
     public ID: string; 
     private container: HTMLElement;
@@ -44,6 +42,7 @@ class Txt extends Component {
     public loadTemp(index: number){
         this.templates[index].loadData(this.content);
         this.render(this.templates[index]);
+        this.activeTemplate = this.templates[index];
     }
 
     private initTemps(){
@@ -60,14 +59,14 @@ class Txt extends Component {
         });
 
         // TODO: get this together with the navbarModule object
-        let barConfig_temp1 = [
-            DomWorker.create("button", {
+        let barConfig_temp1 = new NavbarModule([
+            new DomButton({},DomWorker.create("button", {
                 innerText: "Button1", 
-            }),
-            DomWorker.create("button", {
+            })),
+            new DomButton({},DomWorker.create("button", {
                 innerText: "Button2", 
-            }),
-        ];
+            })),
+        ]);
 
         let temp1 = new Template(domElement_temp1,barConfig_temp1, this.loadTemp);
 

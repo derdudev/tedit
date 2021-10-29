@@ -13,6 +13,8 @@ class Navbar {
 
     // TODO: should be static?
     public load(navbarModule:NavbarModule){
+        console.log("# Loading navbar: ", navbarModule);
+        DomWorker.clearElement(this.html);
         for(let i=0; i<navbarModule.size; i++){
             this.html.appendChild(navbarModule.get(i).html);
         }

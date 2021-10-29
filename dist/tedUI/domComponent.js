@@ -1,7 +1,9 @@
 import DomWorker from "../base/DomWorker.js";
 class DomComponent {
-    constructor(options) {
+    constructor(options, element) {
         this.html = DomWorker.create(options.tagName || "div", options);
+        if (element)
+            this.html = element;
     }
     replaceWith(replacementElement) {
         var _a;

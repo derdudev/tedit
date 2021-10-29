@@ -7,6 +7,8 @@ class NavbarModule {
     constructor(initElements?:DomComponent[]){
         this.elements = initElements || [];
         this.size = this.elements.length;
+
+        console.log(this.elements)
     }
 
     public get(index:number): DomComponent{
