@@ -3,14 +3,13 @@ import Component from "../core/component.js";
 import NavbarModule from "../core/navbarModule.js";
 import Template from "../core/Template.js";
 import DomButton from "../tedUI/domButton.js";
+import { getKeyValue } from "../utilities/objectOperations.js";
 import { randstr } from "../utilities/random.js";
 class Code extends Component {
     constructor(initContent) {
         super();
         this.name = "code";
         this.ID = randstr();
-        this.initTemps();
-        this.container = DomWorker.create("div", {}, [this.templates[0].html]);
         if (initContent) {
             this.content = initContent;
         }
@@ -21,6 +20,8 @@ class Code extends Component {
                 }
             };
         }
+        this.initTemps();
+        this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         this.loadTemp(0);
     }
     initTemps() {
@@ -50,8 +51,11 @@ class Code extends Component {
                 innerText: "Theme",
             })),
         ]);
-        let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp);
+        let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp, this.loadData);
         this.templates.push(temp1);
+    }
+    loadData(content) {
+        this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent() {
         setTimeout(() => {

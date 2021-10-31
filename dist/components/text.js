@@ -4,13 +4,12 @@ import { randstr } from "../utilities/random.js";
 import Template from "../core/Template.js";
 import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
+import { getKeyValue } from "../utilities/objectOperations.js";
 class Txt extends Component {
     constructor(initContent) {
         super();
         this.name = "text";
         this.ID = randstr();
-        this.initTemps();
-        this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         if (initContent) {
             this.content = initContent;
         }
@@ -21,6 +20,8 @@ class Txt extends Component {
                 }
             };
         }
+        this.initTemps();
+        this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         this.loadTemp(0);
     }
     initTemps() {
@@ -49,9 +50,13 @@ class Txt extends Component {
                 innerText: "Button2",
             })),
         ]);
-        let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp);
+        let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp, this.loadData);
         this.templates = [];
         this.templates.push(temp1);
+    }
+    loadData(content) {
+        console.log(content);
+        this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent() {
         setTimeout(() => {

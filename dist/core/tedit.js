@@ -9,14 +9,18 @@ import NavbarModule from "./navbarModule.js";
 import Navbar from "./navbar.js";
 import DomButton from "../tedUI/domButton.js";
 class Tedit {
-    constructor({ data, types }) {
+    constructor({ data }) {
         Renderer.setMain("", this);
         this.collection = new TeditCollection();
         this.html = DomWorker.create("div", { id: "tedit" });
         Component.setTedit(this);
         if (data) {
+            let compRef, compData, comp;
             for (let i = 0; i < data.length; i++) {
-                this.collection.append((new (getKeyValue(data[i].type)(blockMap))()));
+                compRef = getKeyValue(data[i].type)(blockMap);
+                compData = data[i].data;
+                comp = new compRef(compData);
+                this.collection.append(comp);
             }
         }
         Renderer.renderMain(true);

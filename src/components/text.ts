@@ -5,6 +5,7 @@ import { randstr } from "../utilities/random.js";
 import Template from "../core/Template.js";
 import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
+import { getKeyValue } from "../utilities/objectOperations.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
     public name: string = "text";
@@ -16,8 +17,6 @@ class Txt extends Component {
     constructor(initContent?: Content){
         super();
         this.ID = randstr();
-        this.initTemps();
-        this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
@@ -31,6 +30,9 @@ class Txt extends Component {
                 }
             }
         }
+
+        this.initTemps();
+        this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
 
         this.loadTemp(0);
     }
@@ -63,10 +65,15 @@ class Txt extends Component {
             })),
         ]);
 
-        let temp1 = new Template(domElement_temp1,barConfig_temp1, this.loadTemp);
+        let temp1 = new Template(domElement_temp1,barConfig_temp1, this.loadTemp, this.loadData);
 
         this.templates = [];
         this.templates.push(temp1);
+    }
+
+    private loadData(content: Content){
+        console.log(content);
+        this.html.innerHTML = getKeyValue("text" as never)(content);
     }
 
     private saveContent(): void{

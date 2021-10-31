@@ -19,7 +19,7 @@ class Tedit {
     private navbarModule: NavbarModule; // the latest loaded navbar module
     public navbar: Navbar;
 
-    constructor({data, types}: Init){
+    constructor({data}: Init){
         Renderer.setMain("", this);
         
         this.collection = new TeditCollection();
@@ -32,9 +32,13 @@ class Tedit {
         Component.setTedit(this);
 
         if(data) {
+            let compRef, compData, comp;
             for(let i=0; i<data.length; i++){
                 //blockMap[data[i].type]
-                this.collection.append((new (getKeyValue(data[i].type as never)(blockMap))()));
+                compRef = getKeyValue(data[i].type as never)(blockMap);
+                compData = data[i].data
+                comp = new compRef(compData);
+                this.collection.append(comp);
             }
         }
 
