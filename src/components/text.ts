@@ -72,8 +72,7 @@ class Txt extends Component {
     }
 
     private loadData(content: Content){
-        console.log(content);
-        this.html.innerHTML = getKeyValue("text" as never)(content);
+        this.html.innerHTML = getKeyValue("text" as never)(content.data);
     }
 
     private saveContent(): void{

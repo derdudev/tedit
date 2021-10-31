@@ -55,7 +55,7 @@ class Code extends Component {
         this.templates.push(temp1);
     }
     loadData(content) {
-        this.html.innerHTML = getKeyValue("text")(content);
+        this.html.innerHTML = getKeyValue("text")(content.data);
     }
     saveContent() {
         setTimeout(() => {

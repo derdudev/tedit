@@ -19,7 +19,7 @@ const data = [
         type: "code",
         data: {
             language: "js",
-            text: "Lol"
+            text: "This is a piece of wellwritten code"
         },
         template: 0,
     }

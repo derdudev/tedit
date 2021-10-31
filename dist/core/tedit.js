@@ -15,11 +15,11 @@ class Tedit {
         this.html = DomWorker.create("div", { id: "tedit" });
         Component.setTedit(this);
         if (data) {
-            let compRef, compData, comp;
+            let compRef, compContent, comp;
             for (let i = 0; i < data.length; i++) {
                 compRef = getKeyValue(data[i].type)(blockMap);
-                compData = data[i].data;
-                comp = new compRef(compData);
+                compContent = data[i];
+                comp = new compRef(compContent);
                 this.collection.append(comp);
             }
         }
@@ -32,9 +32,12 @@ class Tedit {
     }
     getContent() {
         Logger.clog("# Fetching content...");
+        let teditContent = [];
         for (let i = 0; i < this.collection.length; i++) {
             console.log(this.collection.get(i).getContent());
+            teditContent.push(this.collection.get(i).getContent());
         }
+        return teditContent;
     }
 }
 export default Tedit;

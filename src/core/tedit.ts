@@ -9,6 +9,7 @@ import Logger from "../log/logger.js";
 import NavbarModule from "./navbarModule.js";
 import Navbar from "./navbar.js";
 import DomButton from "../tedUI/domButton.js";
+import Content from "./content.js";
 
 
 // TODO: make tedit static and 
@@ -32,12 +33,12 @@ class Tedit {
         Component.setTedit(this);
 
         if(data) {
-            let compRef, compData, comp;
+            let compRef, compContent, comp;
             for(let i=0; i<data.length; i++){
                 //blockMap[data[i].type]
                 compRef = getKeyValue(data[i].type as never)(blockMap);
-                compData = data[i].data
-                comp = new compRef(compData);
+                compContent = data[i];
+                comp = new compRef(compContent);
                 this.collection.append(comp);
             }
         }
@@ -54,9 +55,13 @@ class Tedit {
 
     public getContent(){
         Logger.clog("# Fetching content...");
+        let teditContent:Content[] = [];
         for(let i=0; i<this.collection.length; i++){
             console.log(this.collection.get(i).getContent());
+            teditContent.push(this.collection.get(i).getContent());
         }
+
+        return teditContent;
     }
 }
 
