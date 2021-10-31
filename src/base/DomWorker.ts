@@ -18,13 +18,19 @@ class DomWorker {
     // TODO<refactor>: why dont specify tagName in options object?
     public static create(tagName: string, options?: DomOptions, children?: any): HTMLElement{
         let element: HTMLElement = document.createElement(tagName);
-        console.log(element, tagName, options?.innerText);
+        //console.log(element, tagName, options?.innerText);
 
         let valueOfKey;
         for(let key in options){
             valueOfKey = getKeyValue(key as never)(options);
             if (key == "tagName"){
 
+            } else if (key == "events") {
+                // TODO: refactor into helper method
+                let events = getKeyValue(key as never)(options);
+                for(let i=0; i<events.length; i++){
+                    element.addEventListener(events[i].type, events[i].handler);
+                }
             } else if(key !== "style"){
                 element.setAttribute(key, valueOfKey as string);
                 setKeyValue(key as never, valueOfKey as string)(element);

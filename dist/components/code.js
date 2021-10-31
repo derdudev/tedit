@@ -14,6 +14,13 @@ class Code extends Component {
         if (initContent) {
             this.content = initContent;
         }
+        else {
+            this.content = {
+                data: {
+                    text: "",
+                }
+            };
+        }
         this.loadTemp(0);
     }
     initTemps() {
@@ -27,7 +34,13 @@ class Code extends Component {
                 backgroundColor: "#c9c9c9",
                 padding: "5px 10px",
                 fontFamily: "Roboto Mono",
-            }
+            },
+            events: [
+                {
+                    type: "keydown",
+                    handler: this.saveContent.bind(this),
+                }
+            ]
         });
         let barConfig_temp1 = new NavbarModule([
             new DomButton({}, DomWorker.create("button", {
@@ -39,6 +52,19 @@ class Code extends Component {
         ]);
         let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp);
         this.templates.push(temp1);
+    }
+    saveContent() {
+        setTimeout(() => {
+            let text = this.html.innerText;
+            this.content = {
+                data: {
+                    text: text,
+                }
+            };
+        }, 1);
+    }
+    getContent() {
+        return this.content;
     }
 }
 export default Code;

@@ -20,8 +20,15 @@ class Code extends Component{
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
 
+        // TODO: maybe move to super?!
         if(initContent){
             this.content = initContent;
+        } else {
+            this.content = {
+                data: {
+                    text: "",
+                }
+            }
         }
 
         this.loadTemp(0);
@@ -38,7 +45,13 @@ class Code extends Component{
                 backgroundColor: "#c9c9c9",
                 padding: "5px 10px",
                 fontFamily: "Roboto Mono",
-            }
+            },
+            events: [
+                {
+                    type: "keydown",
+                    handler: this.saveContent.bind(this),
+                }
+            ]
         });
 
         let barConfig_temp1 = new NavbarModule([
@@ -53,6 +66,22 @@ class Code extends Component{
         let temp1 = new Template(domElement_temp1,barConfig_temp1, this.loadTemp);
 
         this.templates.push(temp1);
+    }
+
+    private saveContent(): void{
+        setTimeout(()=>{
+            let text = this.html.innerText;
+
+            this.content = {
+                data: {
+                    text: text,
+                }
+            }
+        },1);
+    }
+
+    public getContent(): Content{
+        return this.content;
     }
 }
 

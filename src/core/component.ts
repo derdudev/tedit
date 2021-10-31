@@ -23,6 +23,7 @@ abstract class Component {
 
     // ! pretty bad way of rendering - or not?
     protected render(template: Template){
+        this.html = template.html;
         // TODO: not only appending, but replacing the previous version of the element
         template.html.addEventListener("click", this.onclick.bind(this));
         Component.tedit.html.appendChild(template.html);
@@ -40,6 +41,10 @@ abstract class Component {
     }
 
     abstract initTemps(): void;
+
+    abstract getContent(): Content;
+
+    // # general component methods
 
     public static setTedit(tedit: Tedit){
         this.tedit = tedit;

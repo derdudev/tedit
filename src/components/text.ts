@@ -8,8 +8,6 @@ import DomButton from "../tedUI/domButton.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
     public name: string = "text";
-    public ID: string; 
-    private container: HTMLElement;
 
     /**
      * 
@@ -19,13 +17,19 @@ class Txt extends Component {
         super();
         this.ID = randstr();
         this.initTemps();
-        this.container = DomWorker.create("div", {}, [this.templates[0].html]);
+        this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
 
         if(initContent){
             this.content = initContent;
+        } else {
+            this.content = {
+                data: {
+                    text: "",
+                }
+            }
         }
 
         this.loadTemp(0);
@@ -41,7 +45,13 @@ class Txt extends Component {
             style: {
                 backgroundColor: "#fff",
                 padding: "5px 10px",
-            }
+            },
+            events: [
+                {
+                    type: "keydown",
+                    handler: this.saveContent.bind(this),
+                }
+            ]
         });
 
         let barConfig_temp1 = new NavbarModule([
@@ -57,6 +67,22 @@ class Txt extends Component {
 
         this.templates = [];
         this.templates.push(temp1);
+    }
+
+    private saveContent(): void{
+        setTimeout(()=>{
+            let text = this.html.innerText;
+
+            this.content = {
+                data: {
+                    text: text,
+                }
+            }
+        }, 1);
+    }
+
+    public getContent(): Content{
+        return this.content;
     }
 }
 

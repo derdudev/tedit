@@ -17,6 +17,11 @@ const data = [
     },
     {
         type: "code",
+        data: {
+            language: "js",
+            text: "Lol"
+        },
+        template: 0,
     }
 ];
 const types = [

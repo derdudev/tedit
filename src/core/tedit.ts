@@ -19,7 +19,7 @@ class Tedit {
     private navbarModule: NavbarModule; // the latest loaded navbar module
     public navbar: Navbar;
 
-    constructor({data, types}: Init, ){
+    constructor({data, types}: Init){
         Renderer.setMain("", this);
         
         this.collection = new TeditCollection();
@@ -40,7 +40,8 @@ class Tedit {
 
         Renderer.renderMain(true);
 
-        this.navbar = new Navbar(new NavbarModule([new DomButton({innerText: "press me"})]));
+        this.navbarModule = new NavbarModule([new DomButton({innerText: "press me"})]);
+        this.navbar = new Navbar(this.navbarModule);
     }
 
     public save(){
@@ -49,6 +50,9 @@ class Tedit {
 
     public getContent(){
         Logger.clog("# Fetching content...");
+        for(let i=0; i<this.collection.length; i++){
+            console.log(this.collection.get(i).getContent());
+        }
     }
 }
 

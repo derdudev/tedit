@@ -1,6 +1,7 @@
 interface Data {
     type: string;
     data: any;
+    template: number;
 }
 
 interface Type {

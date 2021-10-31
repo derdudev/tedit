@@ -10,9 +10,16 @@ class Txt extends Component {
         this.name = "text";
         this.ID = randstr();
         this.initTemps();
-        this.container = DomWorker.create("div", {}, [this.templates[0].html]);
+        this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         if (initContent) {
             this.content = initContent;
+        }
+        else {
+            this.content = {
+                data: {
+                    text: "",
+                }
+            };
         }
         this.loadTemp(0);
     }
@@ -26,7 +33,13 @@ class Txt extends Component {
             style: {
                 backgroundColor: "#fff",
                 padding: "5px 10px",
-            }
+            },
+            events: [
+                {
+                    type: "keydown",
+                    handler: this.saveContent.bind(this),
+                }
+            ]
         });
         let barConfig_temp1 = new NavbarModule([
             new DomButton({}, DomWorker.create("button", {
@@ -39,6 +52,19 @@ class Txt extends Component {
         let temp1 = new Template(domElement_temp1, barConfig_temp1, this.loadTemp);
         this.templates = [];
         this.templates.push(temp1);
+    }
+    saveContent() {
+        setTimeout(() => {
+            let text = this.html.innerText;
+            this.content = {
+                data: {
+                    text: text,
+                }
+            };
+        }, 1);
+    }
+    getContent() {
+        return this.content;
     }
 }
 export default Txt;

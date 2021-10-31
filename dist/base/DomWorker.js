@@ -2,11 +2,16 @@ import { getKeyValue, setKeyValue } from "../utilities/objectOperations.js";
 class DomWorker {
     static create(tagName, options, children) {
         let element = document.createElement(tagName);
-        console.log(element, tagName, options === null || options === void 0 ? void 0 : options.innerText);
         let valueOfKey;
         for (let key in options) {
             valueOfKey = getKeyValue(key)(options);
             if (key == "tagName") {
+            }
+            else if (key == "events") {
+                let events = getKeyValue(key)(options);
+                for (let i = 0; i < events.length; i++) {
+                    element.addEventListener(events[i].type, events[i].handler);
+                }
             }
             else if (key !== "style") {
                 element.setAttribute(key, valueOfKey);

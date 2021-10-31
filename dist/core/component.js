@@ -4,6 +4,7 @@ class Component {
         this.templates = [];
     }
     render(template) {
+        this.html = template.html;
         template.html.addEventListener("click", this.onclick.bind(this));
         Component.tedit.html.appendChild(template.html);
     }

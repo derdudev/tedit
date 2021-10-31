@@ -1,4 +1,4 @@
-type eventName = "click" | "hover";
+type eventName = "click" | "hover" | "keydown";
 
 interface Event {
     type: eventName,
