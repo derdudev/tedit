@@ -1,20 +1,16 @@
-import Content from "../core/content.js";
 import DomWorker from "../base/DomWorker.js";
 import Component from "../core/component.js";
-import { randstr } from "../utilities/random.js";
-import Template from "../core/Template.js";
+import Content from "../core/content.js";
 import NavbarModule from "../core/navbarModule.js";
+import Template from "../core/Template.js";
 import DomButton from "../tedUI/domButton.js";
-//import getTextCaretPosition from "../utilities/textCaretPosition.js";
-class Txt extends Component {
-    public name: string = "text";
-    public ID: string; 
+import { randstr } from "../utilities/random.js";
+
+class Code extends Component{
+    public name: string = "code";
+    public ID: string;
     private container: HTMLElement;
 
-    /**
-     * 
-     * @param initContent initial data to be loaded on initialisation
-     */
     constructor(initContent?: Content){
         super();
         this.ID = randstr();
@@ -31,33 +27,33 @@ class Txt extends Component {
         this.loadTemp(0);
     }
 
-    public initTemps(){
+    public initTemps(): void {
         let domElement_temp1 = DomWorker.create("p", {
-            placeHolder: "This is a text element.",
+            placeHolder: "This is a code element.",
             contentEditable: true,
-            className: "p",
+            className: "code p",
             spellcheck: false,
             id: this.ID,
             style: {
-                backgroundColor: "#fff",
+                backgroundColor: "#c9c9c9",
                 padding: "5px 10px",
+                fontFamily: "Roboto Mono",
             }
         });
 
         let barConfig_temp1 = new NavbarModule([
             new DomButton({},DomWorker.create("button", {
-                innerText: "Button1", 
+                innerText: "Language", 
             })),
             new DomButton({},DomWorker.create("button", {
-                innerText: "Button2", 
+                innerText: "Theme", 
             })),
         ]);
 
         let temp1 = new Template(domElement_temp1,barConfig_temp1, this.loadTemp);
 
-        this.templates = [];
         this.templates.push(temp1);
     }
 }
 
-export default Txt;
+export default Code;

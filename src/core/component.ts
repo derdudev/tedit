@@ -18,6 +18,7 @@ abstract class Component {
 
     constructor(){
         this.navbarModules = [];
+        this.templates = [];
     }
 
     // ! pretty bad way of rendering - or not?
@@ -26,6 +27,19 @@ abstract class Component {
         template.html.addEventListener("click", this.onclick.bind(this));
         Component.tedit.html.appendChild(template.html);
     }
+
+    /**
+     * 
+     * @param index the number of the template to be loaded (index in the template array)
+     */
+    // TODO: move to Component class
+    public loadTemp(index: number){
+        this.templates[index].loadData(this.content);
+        this.render(this.templates[index]);
+        this.activeTemplate = this.templates[index];
+    }
+
+    abstract initTemps(): void;
 
     public static setTedit(tedit: Tedit){
         this.tedit = tedit;

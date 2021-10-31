@@ -15,6 +15,9 @@ const data = [
         },
         template: 0,
     },
+    {
+        type: "code",
+    }
 ]
 
 const types = [

@@ -1,1 +1,1 @@
-{"version":3,"file":"blockMap.js","sourceRoot":"","sources":["../../../src/core/internals/blockMap.ts"],"names":[],"mappings":"AAAA,OAAO,GAAG,MAAM,0BAA0B,CAAC;AAE3C,MAAM,QAAQ,GAAG;IACb,MAAM,EAAE,GAAG;CACd,CAAC;AAEF,eAAe,QAAQ,CAAC"}
+{"version":3,"file":"blockMap.js","sourceRoot":"","sources":["../../../src/core/internals/blockMap.ts"],"names":[],"mappings":"AAAA,OAAO,IAAI,MAAM,0BAA0B,CAAC;AAC5C,OAAO,GAAG,MAAM,0BAA0B,CAAC;AAE3C,MAAM,QAAQ,GAAG;IACb,MAAM,EAAE,GAAG;IACX,MAAM,EAAE,IAAI;CACf,CAAC;AAEF,eAAe,QAAQ,CAAC"}
