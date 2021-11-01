@@ -1,4 +1,5 @@
 import DomWorker from "../base/DomWorker.js";
+import TextWorker from "../base/textWorker.js";
 import Component from "../core/component.js";
 import Content, { ComponentData } from "../core/content.js";
 import NavbarModule from "../core/navbarModule.js";
@@ -78,13 +79,9 @@ class Code extends Component{
             let text = this.html.innerText;
 
             this.content = {
-                    text: text,
+                    text: TextWorker.trim(text),
             }
         },1);
-    }
-
-    public getContent(): Content{
-        return this.content;
     }
 }
 

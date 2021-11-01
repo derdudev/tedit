@@ -8,10 +8,14 @@ class DomTextSelector {
         let range = document.createRange();
 
         range.setStart(textNode, pos);
-        range.collapse(true);
+        range.collapse(true); 
 
-        document.getSelection()?.removeAllRanges();
-        document.getSelection()?.addRange(range);
+        let selection = document.getSelection();
+
+        selection?.removeAllRanges();
+        selection?.addRange(range);
+
+        console.log(selection);
     }
 
     public static getSelection(){}

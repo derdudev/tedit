@@ -42,7 +42,10 @@ abstract class Component {
 
     abstract initTemps(): void;
 
-    abstract getContent(): Content;
+    // abstract getContent(): Content;
+    public getContent(): Content{
+        return this.content;
+    }
 
     // abstract getCompData(): ComponentData;
     // can and should be overritten if necessary 

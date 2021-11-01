@@ -1,4 +1,5 @@
 import DomWorker from "../base/DomWorker.js";
+import TextWorker from "../base/textWorker.js";
 import Component from "../core/component.js";
 import NavbarModule from "../core/navbarModule.js";
 import Template from "../core/Template.js";
@@ -61,12 +62,9 @@ class Code extends Component {
         setTimeout(() => {
             let text = this.html.innerText;
             this.content = {
-                text: text,
+                text: TextWorker.trim(text),
             };
         }, 1);
-    }
-    getContent() {
-        return this.content;
     }
 }
 export default Code;

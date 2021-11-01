@@ -5,6 +5,7 @@ import Template from "../core/Template.js";
 import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
+import DomTextSelector from "../base/DomTextSelector.js";
 class Txt extends Component {
     constructor(initContent) {
         super();
@@ -55,16 +56,29 @@ class Txt extends Component {
     loadData(content) {
         this.html.innerHTML = getKeyValue("text")(content);
     }
-    saveContent() {
+    saveContent(e) {
+        var _a, _b, _c, _d;
+        console.log(e.key, (_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.anchorOffset);
+        if (e.key == " ") {
+            e.preventDefault();
+            let pos = (_b = document.getSelection()) === null || _b === void 0 ? void 0 : _b.anchorOffset;
+            this.html.innerHTML += "&nbsp;";
+            let selectionNode = this.html.childNodes[0];
+            console.log(selectionNode, pos, (_c = this.html.textContent) === null || _c === void 0 ? void 0 : _c.length, this.html.innerHTML.length);
+            DomTextSelector.setCursor(selectionNode, ++pos);
+            console.log((_d = document.getSelection()) === null || _d === void 0 ? void 0 : _d.anchorOffset);
+        }
+        else if (e.key == "Backspace") {
+            setTimeout(() => {
+            }, 1);
+        }
         setTimeout(() => {
-            let text = this.html.innerText;
+            let text = this.html.childNodes[0].textContent;
             this.content = {
                 text: text,
+                textF: text,
             };
         }, 1);
-    }
-    getContent() {
-        return this.content;
     }
 }
 export default Txt;

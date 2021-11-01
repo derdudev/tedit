@@ -13,6 +13,9 @@ class Component {
         this.render(this.templates[index]);
         this.activeTemplate = this.templates[index];
     }
+    getContent() {
+        return this.content;
+    }
     getCompData() {
         return {
             type: this.name,

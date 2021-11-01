@@ -6,6 +6,8 @@ import Template from "../core/Template.js";
 import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
+import TextWorker from "../base/textWorker.js";
+import DomTextSelector from "../base/DomTextSelector.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
     public name: string = "text";
@@ -73,18 +75,32 @@ class Txt extends Component {
         this.html.innerHTML = getKeyValue("text" as never)(content);
     }
 
-    private saveContent(): void{
+    private saveContent(e:KeyboardEvent): void{
+        console.log(e.key, document.getSelection()?.anchorOffset);
+        if(e.key == " "){
+            e.preventDefault();
+            let pos = document.getSelection()?.anchorOffset;
+            //this.html.childNodes[0].textContent += " "; // this.html.innerText += " " doesnt work
+            
+            this.html.innerHTML += "&nbsp;";
+            let selectionNode = this.html.childNodes[0];
+            // ! innerText does not get updated properly -> textContent is more reliable
+            console.log(selectionNode, pos, this.html.textContent?.length, this.html.innerHTML.length)
+            DomTextSelector.setCursor(selectionNode as Node, ++(pos as number));
+            console.log(document.getSelection()?.anchorOffset)
+        } else if (e.key == "Backspace") {
+            setTimeout(()=>{
+
+            },1);
+        }
         setTimeout(()=>{
-            let text = this.html.innerText;
+            let text = this.html.childNodes[0].textContent as string;
 
             this.content = {
-                    text: text,
+                    text: text, //TextWorker.trim(text),
+                    textF: text,
             }
         }, 1);
-    }
-
-    public getContent(): Content{
-        return this.content;
     }
 }
 
