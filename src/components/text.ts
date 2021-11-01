@@ -25,9 +25,7 @@ class Txt extends Component {
             this.content = initContent;
         } else {
             this.content = {
-                data: {
                     text: "",
-                }
             }
         }
 
@@ -72,7 +70,7 @@ class Txt extends Component {
     }
 
     private loadData(content: Content){
-        this.html.innerHTML = getKeyValue("text" as never)(content.data);
+        this.html.innerHTML = getKeyValue("text" as never)(content);
     }
 
     private saveContent(): void{
@@ -80,9 +78,7 @@ class Txt extends Component {
             let text = this.html.innerText;
 
             this.content = {
-                data: {
                     text: text,
-                }
             }
         }, 1);
     }

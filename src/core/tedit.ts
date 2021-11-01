@@ -9,7 +9,7 @@ import Logger from "../log/logger.js";
 import NavbarModule from "./navbarModule.js";
 import Navbar from "./navbar.js";
 import DomButton from "../tedUI/domButton.js";
-import Content from "./content.js";
+import Content, { ComponentData } from "./content.js";
 
 
 // TODO: make tedit static and 
@@ -37,8 +37,9 @@ class Tedit {
             for(let i=0; i<data.length; i++){
                 //blockMap[data[i].type]
                 compRef = getKeyValue(data[i].type as never)(blockMap);
+                // TODO: not content but compData
                 compContent = data[i];
-                comp = new compRef(compContent);
+                comp = new compRef(compContent.data);
                 this.collection.append(comp);
             }
         }
@@ -57,11 +58,21 @@ class Tedit {
         Logger.clog("# Fetching content...");
         let teditContent:Content[] = [];
         for(let i=0; i<this.collection.length; i++){
-            console.log(this.collection.get(i).getContent());
+            //console.log(this.collection.get(i).getContent());
             teditContent.push(this.collection.get(i).getContent());
         }
 
         return teditContent;
+    }
+
+    public getCompData(){
+        Logger.clog("# Fetching component data...");
+        let teditCompData: ComponentData[] = [];
+        for(let i=0; i<this.collection.length; i++){
+            teditCompData.push(this.collection.get(i).getCompData());
+        }
+
+        return teditCompData;
     }
 }
 

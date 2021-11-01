@@ -1,4 +1,4 @@
-import Content from "./content.js";
+import Content, { ComponentData } from "./content.js";
 import NavbarModule from "./navbarModule.js";
 import Tedit from "./tedit.js";
 import Template from "./Template.js";
@@ -43,6 +43,16 @@ abstract class Component {
     abstract initTemps(): void;
 
     abstract getContent(): Content;
+
+    // abstract getCompData(): ComponentData;
+    // can and should be overritten if necessary 
+    public getCompData(): ComponentData {
+        return {
+            type: this.name,
+            content: this.content,
+            template: this.templates.indexOf(this.activeTemplate),
+        }
+    }
 
     // # general component methods
 

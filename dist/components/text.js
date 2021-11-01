@@ -15,9 +15,7 @@ class Txt extends Component {
         }
         else {
             this.content = {
-                data: {
-                    text: "",
-                }
+                text: "",
             };
         }
         this.initTemps();
@@ -55,15 +53,13 @@ class Txt extends Component {
         this.templates.push(temp1);
     }
     loadData(content) {
-        this.html.innerHTML = getKeyValue("text")(content.data);
+        this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent() {
         setTimeout(() => {
             let text = this.html.innerText;
             this.content = {
-                data: {
-                    text: text,
-                }
+                text: text,
             };
         }, 1);
     }

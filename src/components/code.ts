@@ -1,6 +1,6 @@
 import DomWorker from "../base/DomWorker.js";
 import Component from "../core/component.js";
-import Content from "../core/content.js";
+import Content, { ComponentData } from "../core/content.js";
 import NavbarModule from "../core/navbarModule.js";
 import Template from "../core/Template.js";
 import DomButton from "../tedUI/domButton.js";
@@ -70,7 +70,7 @@ class Code extends Component{
     }
 
     private loadData(content: Content){
-        this.html.innerHTML = getKeyValue("text" as never)(content.data);
+        this.html.innerHTML = getKeyValue("text" as never)(content);
     }
 
     private saveContent(): void{
@@ -78,9 +78,7 @@ class Code extends Component{
             let text = this.html.innerText;
 
             this.content = {
-                data: {
                     text: text,
-                }
             }
         },1);
     }

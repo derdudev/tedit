@@ -19,7 +19,7 @@ class Tedit {
             for (let i = 0; i < data.length; i++) {
                 compRef = getKeyValue(data[i].type)(blockMap);
                 compContent = data[i];
-                comp = new compRef(compContent);
+                comp = new compRef(compContent.data);
                 this.collection.append(comp);
             }
         }
@@ -34,10 +34,17 @@ class Tedit {
         Logger.clog("# Fetching content...");
         let teditContent = [];
         for (let i = 0; i < this.collection.length; i++) {
-            console.log(this.collection.get(i).getContent());
             teditContent.push(this.collection.get(i).getContent());
         }
         return teditContent;
+    }
+    getCompData() {
+        Logger.clog("# Fetching component data...");
+        let teditCompData = [];
+        for (let i = 0; i < this.collection.length; i++) {
+            teditCompData.push(this.collection.get(i).getCompData());
+        }
+        return teditCompData;
     }
 }
 export default Tedit;

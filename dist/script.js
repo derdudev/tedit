@@ -15,6 +15,19 @@ const button = DomWorker.create("button", {
         }
     ]
 });
+const button2 = DomWorker.create("button", {
+    innerText: "Get Component Data",
+    events: [
+        {
+            type: "click",
+            handler: () => {
+                document.body.removeChild(document.body.childNodes[document.body.childNodes.length - 1]);
+                DOMRenderer.renderHTML(DomWorker.create("pre", { className: "out", innerText: JSON.stringify(tedit.getCompData(), null, 3) }));
+            }
+        }
+    ]
+});
 DOMRenderer.renderHTML(button);
-DOMRenderer.renderHTML(DomWorker.create("pre", { className: "out", innerText: JSON.stringify(tedit.getContent(), null, 3) }));
+DOMRenderer.renderHTML(button2);
+DOMRenderer.renderHTML(DomWorker.create("pre", { className: "out", innerText: JSON.stringify(tedit.getCompData(), null, 3) }));
 //# sourceMappingURL=script.js.map

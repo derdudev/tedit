@@ -13,6 +13,13 @@ class Component {
         this.render(this.templates[index]);
         this.activeTemplate = this.templates[index];
     }
+    getCompData() {
+        return {
+            type: this.name,
+            content: this.content,
+            template: this.templates.indexOf(this.activeTemplate),
+        };
+    }
     static setTedit(tedit) {
         this.tedit = tedit;
     }
