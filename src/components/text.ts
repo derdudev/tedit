@@ -90,11 +90,13 @@ class Txt extends Component {
             console.log(document.getSelection()?.anchorOffset)
         } else if (e.key == "Backspace") {
             setTimeout(()=>{
-
+                if(!this.html.textContent){
+                    this.html.innerHTML = "";
+                }
             },1);
         }
         setTimeout(()=>{
-            let text = this.html.childNodes[0].textContent as string;
+            let text = this.html.textContent;
 
             this.content = {
                     text: text, //TextWorker.trim(text),

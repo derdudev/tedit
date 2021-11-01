@@ -70,10 +70,13 @@ class Txt extends Component {
         }
         else if (e.key == "Backspace") {
             setTimeout(() => {
+                if (!this.html.textContent) {
+                    this.html.innerHTML = "";
+                }
             }, 1);
         }
         setTimeout(() => {
-            let text = this.html.childNodes[0].textContent;
+            let text = this.html.textContent;
             this.content = {
                 text: text,
                 textF: text,
