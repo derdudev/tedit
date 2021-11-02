@@ -57,7 +57,7 @@ class Txt extends Component {
         this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent(e) {
-        var _a, _b, _c, _d;
+        var _a, _b, _c, _d, _e, _f, _g;
         console.log(e.key, (_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.anchorOffset);
         if (e.key == " ") {
             e.preventDefault();
@@ -69,11 +69,13 @@ class Txt extends Component {
             console.log((_d = document.getSelection()) === null || _d === void 0 ? void 0 : _d.anchorOffset);
         }
         else if (e.key == "Backspace") {
-            setTimeout(() => {
-                if (!this.html.textContent) {
-                    this.html.innerHTML = "";
-                }
-            }, 1);
+            e.preventDefault();
+            let pos = (_e = document.getSelection()) === null || _e === void 0 ? void 0 : _e.anchorOffset;
+            let firstHalf = ((_f = this.html.textContent) === null || _f === void 0 ? void 0 : _f.slice(0, --pos)) || "";
+            let secondHalf = ((_g = this.html.textContent) === null || _g === void 0 ? void 0 : _g.slice(++pos, this.html.innerHTML.length)) || "";
+            this.html.innerHTML = firstHalf + secondHalf;
+            let selectionNode = this.html.childNodes[0];
+            DomTextSelector.setCursor(selectionNode, --pos);
         }
         setTimeout(() => {
             let text = this.html.textContent;

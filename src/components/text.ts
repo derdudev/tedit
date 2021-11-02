@@ -82,18 +82,31 @@ class Txt extends Component {
             let pos = document.getSelection()?.anchorOffset;
             //this.html.childNodes[0].textContent += " "; // this.html.innerText += " " doesnt work
             
-            this.html.innerHTML += "&nbsp;";
+            this.html.innerHTML += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
             let selectionNode = this.html.childNodes[0];
             // ! innerText does not get updated properly -> textContent is more reliable
             console.log(selectionNode, pos, this.html.textContent?.length, this.html.innerHTML.length)
             DomTextSelector.setCursor(selectionNode as Node, ++(pos as number));
             console.log(document.getSelection()?.anchorOffset)
         } else if (e.key == "Backspace") {
+            e.preventDefault();
+            let pos = document.getSelection()?.anchorOffset;
+
+            let firstHalf = this.html.textContent?.slice(0,--(pos as number)) || "";
+            let secondHalf = this.html.textContent?.slice(++(pos as number), this.html.innerHTML.length) || "";
+
+            this.html.innerHTML = firstHalf + secondHalf;
+            let selectionNode = this.html.childNodes[0];
+
+            DomTextSelector.setCursor(selectionNode as Node, --(pos as number));
+
+            /* check still necessary but not in this way
             setTimeout(()=>{
                 if(!this.html.textContent){
                     this.html.innerHTML = "";
                 }
             },1);
+            */
         }
         setTimeout(()=>{
             let text = this.html.textContent;
