@@ -61,18 +61,19 @@ class Txt extends Component {
         console.log(e.key, (_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.anchorOffset);
         if (e.key == " ") {
             e.preventDefault();
-            let pos = (_b = document.getSelection()) === null || _b === void 0 ? void 0 : _b.anchorOffset;
-            this.html.innerHTML += "&nbsp;";
+            let pos = ((_b = document.getSelection()) === null || _b === void 0 ? void 0 : _b.anchorOffset) || 0;
+            let firstHalf = ((_c = this.html.textContent) === null || _c === void 0 ? void 0 : _c.slice(0, pos)) || "";
+            let secondHalf = ((_d = this.html.textContent) === null || _d === void 0 ? void 0 : _d.slice(pos, this.html.textContent.length)) || "";
+            console.log(firstHalf, secondHalf);
+            this.html.innerHTML = firstHalf + "&nbsp;" + secondHalf;
             let selectionNode = this.html.childNodes[0];
-            console.log(selectionNode, pos, (_c = this.html.textContent) === null || _c === void 0 ? void 0 : _c.length, this.html.innerHTML.length);
             DomTextSelector.setCursor(selectionNode, ++pos);
-            console.log((_d = document.getSelection()) === null || _d === void 0 ? void 0 : _d.anchorOffset);
         }
         else if (e.key == "Backspace") {
             e.preventDefault();
             let pos = (_e = document.getSelection()) === null || _e === void 0 ? void 0 : _e.anchorOffset;
             let firstHalf = ((_f = this.html.textContent) === null || _f === void 0 ? void 0 : _f.slice(0, --pos)) || "";
-            let secondHalf = ((_g = this.html.textContent) === null || _g === void 0 ? void 0 : _g.slice(++pos, this.html.innerHTML.length)) || "";
+            let secondHalf = ((_g = this.html.textContent) === null || _g === void 0 ? void 0 : _g.slice(++pos, this.html.textContent.length)) || "";
             this.html.innerHTML = firstHalf + secondHalf;
             let selectionNode = this.html.childNodes[0];
             DomTextSelector.setCursor(selectionNode, --pos);

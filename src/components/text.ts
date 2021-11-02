@@ -79,21 +79,27 @@ class Txt extends Component {
         console.log(e.key, document.getSelection()?.anchorOffset);
         if(e.key == " "){
             e.preventDefault();
-            let pos = document.getSelection()?.anchorOffset;
+            let pos = document.getSelection()?.anchorOffset || 0;
             //this.html.childNodes[0].textContent += " "; // this.html.innerText += " " doesnt work
+
+            let firstHalf = this.html.textContent?.slice(0,pos) || "";
+            let secondHalf = this.html.textContent?.slice(pos, this.html.textContent.length) || "";
+
+            console.log(firstHalf, secondHalf)
+            this.html.innerHTML = firstHalf + "&nbsp;" + secondHalf;
             
-            this.html.innerHTML += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
+            // this.html.innerHTML += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
             let selectionNode = this.html.childNodes[0];
             // ! innerText does not get updated properly -> textContent is more reliable
-            console.log(selectionNode, pos, this.html.textContent?.length, this.html.innerHTML.length)
-            DomTextSelector.setCursor(selectionNode as Node, ++(pos as number));
-            console.log(document.getSelection()?.anchorOffset)
+            // console.log(selectionNode, pos, this.html.textContent?.length, this.html.innerHTML.length)
+            DomTextSelector.setCursor(selectionNode as Node, ++pos);
+            // console.log(document.getSelection()?.anchorOffset)
         } else if (e.key == "Backspace") {
             e.preventDefault();
             let pos = document.getSelection()?.anchorOffset;
 
             let firstHalf = this.html.textContent?.slice(0,--(pos as number)) || "";
-            let secondHalf = this.html.textContent?.slice(++(pos as number), this.html.innerHTML.length) || "";
+            let secondHalf = this.html.textContent?.slice(++(pos as number), this.html.textContent.length) || "";
 
             this.html.innerHTML = firstHalf + secondHalf;
             let selectionNode = this.html.childNodes[0];
