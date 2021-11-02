@@ -77,6 +77,24 @@ class Txt extends Component {
 
     private saveContent(e:KeyboardEvent): void{
         console.log(e.key, document.getSelection()?.anchorOffset);
+
+        // needed for firefox in case of Ctrl + A
+        if(e.key == "a" || e.key == "A"){
+            setTimeout(()=>{
+                let selection = document.getSelection();
+                let selectionNode = this.html.childNodes[0];
+
+                // if selection is not collapsed, anchorOffset != focusOffset
+                if(!selection?.isCollapsed){
+                    selection?.removeAllRanges();
+                    let range = new Range();
+                    range.setStart(selectionNode as Node, 0);
+                    range.setEnd(selectionNode as Node, selectionNode.textContent?.length as number);
+                    selection?.addRange(range);
+                }
+            },1)
+        }
+
         if(e.key == " "){
             e.preventDefault();
             let pos = document.getSelection()?.anchorOffset || 0;
@@ -98,7 +116,9 @@ class Txt extends Component {
             e.preventDefault();
 
             let selection = document.getSelection();
+
             let pos = selection?.anchorOffset || 0;
+
             if(pos != 0){
                 let firstHalf, secondHalf;
                 if(selection?.isCollapsed){
@@ -107,7 +127,6 @@ class Txt extends Component {
                     firstHalf = this.html.textContent?.slice(0,--(pos as number)) || "";
                     secondHalf = this.html.textContent?.slice(++(pos as number), this.html.textContent.length) || "";
 
-                        
                     this.html.innerHTML = firstHalf + secondHalf;
                     let selectionNode = this.html.childNodes[0];
 
@@ -141,6 +160,7 @@ class Txt extends Component {
                 }
             } else {
                 if(!selection?.isCollapsed){
+                    // ! only in firefox there is a problem with Ctrl+A and Selection (0:1) in Chrome Selection works
                     // selection spans from start (0) to some position (n)
                     let range = selection?.getRangeAt(0);
 
