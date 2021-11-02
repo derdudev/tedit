@@ -57,7 +57,7 @@ class Txt extends Component {
         this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent(e) {
-        var _a, _b, _c, _d, _e, _f, _g;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
         console.log(e.key, (_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.anchorOffset);
         if (e.key == " ") {
             e.preventDefault();
@@ -71,12 +71,51 @@ class Txt extends Component {
         }
         else if (e.key == "Backspace") {
             e.preventDefault();
-            let pos = (_e = document.getSelection()) === null || _e === void 0 ? void 0 : _e.anchorOffset;
-            let firstHalf = ((_f = this.html.textContent) === null || _f === void 0 ? void 0 : _f.slice(0, --pos)) || "";
-            let secondHalf = ((_g = this.html.textContent) === null || _g === void 0 ? void 0 : _g.slice(++pos, this.html.textContent.length)) || "";
-            this.html.innerHTML = firstHalf + secondHalf;
-            let selectionNode = this.html.childNodes[0];
-            DomTextSelector.setCursor(selectionNode, --pos);
+            let selection = document.getSelection();
+            let pos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
+            if (pos != 0) {
+                let firstHalf, secondHalf;
+                if (selection === null || selection === void 0 ? void 0 : selection.isCollapsed) {
+                    firstHalf = ((_e = this.html.textContent) === null || _e === void 0 ? void 0 : _e.slice(0, --pos)) || "";
+                    secondHalf = ((_f = this.html.textContent) === null || _f === void 0 ? void 0 : _f.slice(++pos, this.html.textContent.length)) || "";
+                    this.html.innerHTML = firstHalf + secondHalf;
+                    let selectionNode = this.html.childNodes[0];
+                    DomTextSelector.setCursor(selectionNode, --pos);
+                }
+                else {
+                    let range = selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0);
+                    let startPos = (range === null || range === void 0 ? void 0 : range.startOffset) || 0;
+                    let endPos = (range === null || range === void 0 ? void 0 : range.endOffset) || 0;
+                    console.log(startPos, endPos);
+                    firstHalf = ((_g = this.html.textContent) === null || _g === void 0 ? void 0 : _g.slice(0, startPos)) || "";
+                    secondHalf = (_h = this.html.textContent) === null || _h === void 0 ? void 0 : _h.slice(endPos, this.html.textContent.length);
+                    console.log(secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/\s*\w/), ((secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/\s*/)) || [])[0].length);
+                    if (secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/^\s*\w/)) {
+                        secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
+                    }
+                    console.log(firstHalf, firstHalf.length, secondHalf);
+                    this.html.innerHTML = firstHalf + secondHalf;
+                    let selectionNode = this.html.childNodes[0];
+                    if (this.html.innerHTML.length < pos)
+                        DomTextSelector.setCursor(selectionNode, this.html.innerHTML.length);
+                    else if (startPos == 0)
+                        DomTextSelector.setCursor(selectionNode, 0);
+                    else
+                        DomTextSelector.setCursor(selectionNode, pos);
+                }
+            }
+            else {
+                if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
+                    let range = selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0);
+                    console.log(range, selection);
+                    let startPos = (range === null || range === void 0 ? void 0 : range.startOffset) || 0;
+                    let endPos = (range === null || range === void 0 ? void 0 : range.endOffset) || 0;
+                    console.log(endPos, startPos);
+                    this.html.innerHTML = ((_j = this.html.textContent) === null || _j === void 0 ? void 0 : _j.slice(endPos, this.html.textContent.length)) || "";
+                    let selectionNode = this.html.childNodes[0];
+                    DomTextSelector.setCursor(selectionNode, pos);
+                }
+            }
         }
         setTimeout(() => {
             let text = this.html.textContent;

@@ -96,15 +96,66 @@ class Txt extends Component {
             // console.log(document.getSelection()?.anchorOffset)
         } else if (e.key == "Backspace") {
             e.preventDefault();
-            let pos = document.getSelection()?.anchorOffset;
 
-            let firstHalf = this.html.textContent?.slice(0,--(pos as number)) || "";
-            let secondHalf = this.html.textContent?.slice(++(pos as number), this.html.textContent.length) || "";
+            let selection = document.getSelection();
+            let pos = selection?.anchorOffset || 0;
+            if(pos != 0){
+                let firstHalf, secondHalf;
+                if(selection?.isCollapsed){
+                    // returns true only if selection is cursor
 
-            this.html.innerHTML = firstHalf + secondHalf;
-            let selectionNode = this.html.childNodes[0];
+                    firstHalf = this.html.textContent?.slice(0,--(pos as number)) || "";
+                    secondHalf = this.html.textContent?.slice(++(pos as number), this.html.textContent.length) || "";
 
-            DomTextSelector.setCursor(selectionNode as Node, --(pos as number));
+                        
+                    this.html.innerHTML = firstHalf + secondHalf;
+                    let selectionNode = this.html.childNodes[0];
+
+                    DomTextSelector.setCursor(selectionNode as Node, --(pos as number));
+                } else {
+                    let range = selection?.getRangeAt(0);
+
+                    let startPos = range?.startOffset || 0;
+                    let endPos = range?.endOffset || 0;
+                    console.log(startPos, endPos)
+
+                    firstHalf = this.html.textContent?.slice(0, startPos) || "";
+                    secondHalf = this.html.textContent?.slice(endPos, this.html.textContent.length);
+
+                    console.log(secondHalf?.match(/\s*\w/),(secondHalf?.match(/\s*/) || [])[0].length);
+
+                    if(secondHalf?.match(/^\s*\w/)){
+                        // if starts with a space
+                        secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
+                    }
+
+                    console.log(firstHalf, firstHalf.length, secondHalf)
+                        
+                    this.html.innerHTML = firstHalf + secondHalf;
+                    let selectionNode = this.html.childNodes[0];
+
+                    if(this.html.innerHTML.length < pos) DomTextSelector.setCursor(selectionNode as Node, this.html.innerHTML.length);
+                    else if (startPos == 0) DomTextSelector.setCursor(selectionNode as Node, 0);
+                    else DomTextSelector.setCursor(selectionNode as Node, pos);
+                    
+                }
+            } else {
+                if(!selection?.isCollapsed){
+                    // selection spans from start (0) to some position (n)
+                    let range = selection?.getRangeAt(0);
+
+                    console.log(range, selection);
+
+                    let startPos = range?.startOffset || 0;
+                    let endPos = range?.endOffset || 0;
+                    console.log(endPos, startPos);
+
+                    this.html.innerHTML = this.html.textContent?.slice(endPos, this.html.textContent.length) || "";
+                    let selectionNode = this.html.childNodes[0];
+
+                    DomTextSelector.setCursor(selectionNode as Node, pos);
+                }
+            }
 
             /* check still necessary but not in this way
             setTimeout(()=>{
@@ -114,6 +165,8 @@ class Txt extends Component {
             },1);
             */
         }
+
+        // TODO: remove setTimout !
         setTimeout(()=>{
             let text = this.html.textContent;
 
