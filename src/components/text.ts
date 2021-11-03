@@ -112,7 +112,7 @@ class Txt extends Component {
             // console.log(selectionNode, pos, this.html.textContent?.length, this.html.innerHTML.length)
             DomTextSelector.setCursor(selectionNode as Node, ++pos);
             // console.log(document.getSelection()?.anchorOffset)
-        } else if (e.key == "Backspace") {
+        } else if (e.key == "Backspace" || e.key == "Delete") {
             e.preventDefault();
 
             let selection = document.getSelection();
@@ -137,8 +137,6 @@ class Txt extends Component {
                     let startPos = range?.startOffset || 0;
                     let endPos = range?.endOffset || 0;
                     console.log(startPos, endPos)
-
-                    let originalLength = this.html.textContent?.length;
 
                     firstHalf = this.html.textContent?.slice(0, startPos) || "";
                     secondHalf = this.html.textContent?.slice(endPos, this.html.textContent.length);
@@ -173,9 +171,8 @@ class Txt extends Component {
                     console.log(endPos, startPos);
 
                     this.html.innerHTML = this.html.textContent?.slice(endPos, this.html.textContent.length) || "";
-                    let selectionNode = this.html.childNodes[0];
 
-                    DomTextSelector.setCursor(selectionNode as Node, pos);
+                    DomTextSelector.setCursor(this.html, pos);
                 }
             }
 
