@@ -6,8 +6,6 @@ import Template from "../core/Template.js";
 import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
-import TextWorker from "../base/textWorker.js";
-import DomTextSelector from "../base/DomTextSelector.js";
 import EditableHandler from "../base/editableHandler.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
@@ -83,7 +81,7 @@ class Txt extends Component {
 
         this.editableHandler.handleKeys(e);
 
-        // TODO: remove setTimout !
+        // to also register all other key presses
         setTimeout(()=>{
             let text = this.html.textContent;
 

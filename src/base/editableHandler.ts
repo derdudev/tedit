@@ -23,13 +23,15 @@ class EditableHandler {
      * handler for Ctrl + A selection. Ensures compatabilty between chromium and firefox
      */
     public handleSelectAll(e:KeyboardEvent){
+        const refCompHtml = this.refComponent.html;
+
         // needed for firefox in case of Ctrl + A
         if(e.key == "a" || e.key == "A"){
             // timeout is necessary for the selection to occur
             // if the key combination Ctrl + A is checked specifically 
             setTimeout(()=>{
                 let selection = document.getSelection();
-                let selectionNode = this.refComponent.html.childNodes[0];
+                let selectionNode = refCompHtml.childNodes[0];
 
                 // if selection is not collapsed, anchorOffset != focusOffset
                 if(!selection?.isCollapsed){
@@ -44,21 +46,24 @@ class EditableHandler {
     }
 
     public handleSpace(e:KeyboardEvent){
+        const refCompHtml = this.refComponent.html;
+        const textContent = refCompHtml.textContent || "";
+
         if(e.key == " "){
             e.preventDefault();
             let pos = document.getSelection()?.anchorOffset || 0;
-            //this.refComponent.html.childNodes[0].textContent += " "; // this.refComponent.html.innerText += " " doesnt work
+            //refCompHtml.childNodes[0].textContent += " "; // refCompHtml.innerText += " " doesnt work
 
-            let firstHalf = this.refComponent.html.textContent?.slice(0,pos) || "";
-            let secondHalf = this.refComponent.html.textContent?.slice(pos, this.refComponent.html.textContent.length) || "";
+            let firstHalf = textContent.slice(0,pos) || "";
+            let secondHalf = textContent.slice(pos, textContent.length) || "";
 
             console.log(firstHalf, secondHalf)
-            this.refComponent.html.innerHTML = firstHalf + "&nbsp;" + secondHalf;
+            refCompHtml.innerHTML = firstHalf + "&nbsp;" + secondHalf;
             
-            // this.refComponent.html.innerHTML += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
-            let selectionNode = this.refComponent.html.childNodes[0];
+            // refCompHtml.innerHTML += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
+            let selectionNode = refCompHtml.childNodes[0];
             // ! innerText does not get updated properly -> textContent is more reliable
-            // console.log(selectionNode, pos, this.refComponent.html.textContent?.length, this.refComponent.html.innerHTML.length)
+            // console.log(selectionNode, pos, textContent.length, refCompHtml.innerHTML.length)
             DomTextSelector.setCursor(selectionNode as Node, ++pos);
             // console.log(document.getSelection()?.anchorOffset)
         }
@@ -83,67 +88,58 @@ class EditableHandler {
     private handleDeleting(isDelete:boolean, e:KeyboardEvent){
         e.preventDefault();
 
-        let selection = document.getSelection();
+        const selection = document.getSelection();
 
         let pos = selection?.anchorOffset || 0;
+        const refCompHtml = this.refComponent.html;
+        const textContent = refCompHtml.textContent || "";
+
+        let firstHalf, secondHalf, selectionNode;
+        firstHalf = secondHalf = "";
 
         if(pos != 0){
-            let firstHalf, secondHalf;
-            if(selection?.isCollapsed){
-                // returns true only if selection is cursor
-
-                if(isDelete) firstHalf = this.refComponent.html.textContent?.slice(0,(pos as number)) || "";
-                else firstHalf = this.refComponent.html.textContent?.slice(0,--(pos as number)) || "";
-                secondHalf = this.refComponent.html.textContent?.slice(++(pos as number), this.refComponent.html.textContent.length) || "";
-
-                this.refComponent.html.innerHTML = firstHalf + secondHalf;
-                let selectionNode = this.refComponent.html.childNodes[0];
-
-                DomTextSelector.setCursor(selectionNode as Node, --(pos as number));
+            if(selection?.isCollapsed){ // returns true only if selection is cursor
+                if(isDelete) firstHalf = textContent?.slice(0,(pos as number)) || "";
+                else firstHalf = textContent.slice(0,--(pos as number)) || "";
+                secondHalf = textContent.slice(++(pos as number), textContent.length) || "";
             } else {
-                let range = selection?.getRangeAt(0);
-
-                let startPos = range?.startOffset || 0;
-                let endPos = range?.endOffset || 0;
+                let startPos = selection?.anchorOffset || 0;
+                let endPos = selection?.focusOffset || 0;
                 console.log(startPos, endPos)
 
-                firstHalf = this.refComponent.html.textContent?.slice(0, startPos) || "";
-                secondHalf = this.refComponent.html.textContent?.slice(endPos, this.refComponent.html.textContent.length);
+                // depending on how the mouse was dragged, startPos can be bigger than endPos
+                if(startPos > endPos) {
+                    let temp = startPos;
+                    startPos = endPos;
+                    endPos = temp;
+                }
+
+                firstHalf = textContent.slice(0, startPos) || "";
+                secondHalf = textContent.slice(endPos, textContent.length);
 
                 console.log(secondHalf?.match(/\s*\w/),(secondHalf?.match(/\s*/) || [])[0].length);
 
-                if(secondHalf?.match(/^\s+\w/)){
-                    // if starts with a space
+                if(secondHalf?.match(/^\s+\w/)){ // if secondHalf starts with a space
                     secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
                 }
-
-                console.log(firstHalf, firstHalf.length, secondHalf)
-                    
-                this.refComponent.html.innerHTML = firstHalf + secondHalf;
-                let selectionNode = this.refComponent.html.childNodes[0];
-
-                if(this.refComponent.html.innerHTML.length < pos) DomTextSelector.setCursor(selectionNode as Node, this.refComponent.html.innerHTML.length - (pos - this.refComponent.html.innerHTML.length));
-                else if (startPos == 0) DomTextSelector.setCursor(selectionNode as Node, 0);
-                else DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
-                
             }
+            refCompHtml.innerHTML = firstHalf + secondHalf;
+            selectionNode = refCompHtml.childNodes[0];
         } else {
             if(!selection?.isCollapsed){
-                // ! only in firefox there is a problem with Ctrl+A and Selection (0:1) in Chrome Selection works
+                // * NOTE only in firefox there is a problem with Ctrl+A and Selection (0:1) in Chrome Selection works
                 // selection spans from start (0) to some position (n)
-                let range = selection?.getRangeAt(0);
 
-                console.log(range, selection);
+                let endPos = selection?.focusOffset || 0;
+                
+                firstHalf = "";
 
-                let startPos = range?.startOffset || 0;
-                let endPos = range?.endOffset || 0;
-                console.log(endPos, startPos);
+                refCompHtml.innerHTML = textContent.slice(endPos, textContent.length) || "";
 
-                this.refComponent.html.innerHTML = this.refComponent.html.textContent?.slice(endPos, this.refComponent.html.textContent.length) || "";
-
-                DomTextSelector.setCursor(this.refComponent.html, pos);
+                selectionNode = refCompHtml;
             }
         }
+        DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
     }
 }
 
