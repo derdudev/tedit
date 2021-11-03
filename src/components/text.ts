@@ -138,6 +138,8 @@ class Txt extends Component {
                     let endPos = range?.endOffset || 0;
                     console.log(startPos, endPos)
 
+                    let originalLength = this.html.textContent?.length;
+
                     firstHalf = this.html.textContent?.slice(0, startPos) || "";
                     secondHalf = this.html.textContent?.slice(endPos, this.html.textContent.length);
 
@@ -155,7 +157,7 @@ class Txt extends Component {
 
                     if(this.html.innerHTML.length < pos) DomTextSelector.setCursor(selectionNode as Node, this.html.innerHTML.length);
                     else if (startPos == 0) DomTextSelector.setCursor(selectionNode as Node, 0);
-                    else DomTextSelector.setCursor(selectionNode as Node, pos);
+                    else DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
                     
                 }
             } else {

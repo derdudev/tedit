@@ -57,7 +57,7 @@ class Txt extends Component {
         this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent(e) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k;
         console.log(e.key, (_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.anchorOffset);
         if (e.key == "a" || e.key == "A") {
             setTimeout(() => {
@@ -101,8 +101,9 @@ class Txt extends Component {
                     let startPos = (range === null || range === void 0 ? void 0 : range.startOffset) || 0;
                     let endPos = (range === null || range === void 0 ? void 0 : range.endOffset) || 0;
                     console.log(startPos, endPos);
-                    firstHalf = ((_g = this.html.textContent) === null || _g === void 0 ? void 0 : _g.slice(0, startPos)) || "";
-                    secondHalf = (_h = this.html.textContent) === null || _h === void 0 ? void 0 : _h.slice(endPos, this.html.textContent.length);
+                    let originalLength = (_g = this.html.textContent) === null || _g === void 0 ? void 0 : _g.length;
+                    firstHalf = ((_h = this.html.textContent) === null || _h === void 0 ? void 0 : _h.slice(0, startPos)) || "";
+                    secondHalf = (_j = this.html.textContent) === null || _j === void 0 ? void 0 : _j.slice(endPos, this.html.textContent.length);
                     console.log(secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/\s*\w/), ((secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/\s*/)) || [])[0].length);
                     if (secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/^\s*\w/)) {
                         secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
@@ -115,7 +116,7 @@ class Txt extends Component {
                     else if (startPos == 0)
                         DomTextSelector.setCursor(selectionNode, 0);
                     else
-                        DomTextSelector.setCursor(selectionNode, pos);
+                        DomTextSelector.setCursor(selectionNode, firstHalf.length);
                 }
             }
             else {
@@ -125,7 +126,7 @@ class Txt extends Component {
                     let startPos = (range === null || range === void 0 ? void 0 : range.startOffset) || 0;
                     let endPos = (range === null || range === void 0 ? void 0 : range.endOffset) || 0;
                     console.log(endPos, startPos);
-                    this.html.innerHTML = ((_j = this.html.textContent) === null || _j === void 0 ? void 0 : _j.slice(endPos, this.html.textContent.length)) || "";
+                    this.html.innerHTML = ((_k = this.html.textContent) === null || _k === void 0 ? void 0 : _k.slice(endPos, this.html.textContent.length)) || "";
                     let selectionNode = this.html.childNodes[0];
                     DomTextSelector.setCursor(selectionNode, pos);
                 }
