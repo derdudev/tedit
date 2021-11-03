@@ -11,6 +11,7 @@ class Txt extends Component {
         super();
         this.name = "text";
         this.ID = randstr();
+        this.editableHandler = new EditableHandler(this);
         if (initContent) {
             this.content = initContent;
         }
@@ -21,7 +22,6 @@ class Txt extends Component {
         }
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]);
-        this.editableHandler = new EditableHandler(this);
         this.loadTemp(0);
     }
     initTemps() {
@@ -58,8 +58,6 @@ class Txt extends Component {
         this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent(e) {
-        var _a;
-        console.log(e.key, (_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.anchorOffset);
         this.editableHandler.handleKeys(e);
         setTimeout(() => {
             let text = this.html.textContent;

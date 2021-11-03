@@ -1,7 +1,8 @@
 import DomWorker from "../base/DomWorker.js";
+import EditableHandler from "../base/editableHandler.js";
 import TextWorker from "../base/textWorker.js";
 import Component from "../core/component.js";
-import Content, { ComponentData } from "../core/content.js";
+import Content from "../core/content.js";
 import NavbarModule from "../core/navbarModule.js";
 import Template from "../core/Template.js";
 import DomButton from "../tedUI/domButton.js";
@@ -11,10 +12,12 @@ import { randstr } from "../utilities/random.js";
 class Code extends Component{
     public name: string = "code";
     public ID: string;
+    private editableHandler:EditableHandler;
 
     constructor(initContent?: Content){
         super();
         this.ID = randstr();
+        this.editableHandler = new EditableHandler(this);
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
@@ -31,7 +34,7 @@ class Code extends Component{
         }
 
         this.initTemps();
-        this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
+        this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         
         this.loadTemp(0);
     }
@@ -74,7 +77,9 @@ class Code extends Component{
         this.html.innerHTML = getKeyValue("text" as never)(content);
     }
 
-    private saveContent(): void{
+    private saveContent(e:KeyboardEvent): void{
+        this.editableHandler.handleKeys(e);
+
         setTimeout(()=>{
             let text = this.html.innerText;
 

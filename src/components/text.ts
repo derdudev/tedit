@@ -19,6 +19,7 @@ class Txt extends Component {
     constructor(initContent?: Content){
         super();
         this.ID = randstr();
+        this.editableHandler = new EditableHandler(this);
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
@@ -33,7 +34,6 @@ class Txt extends Component {
 
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
-        this.editableHandler = new EditableHandler(this);
 
         this.loadTemp(0);
     }
@@ -77,7 +77,7 @@ class Txt extends Component {
     }
 
     private saveContent(e:KeyboardEvent): void{
-        console.log(e.key, document.getSelection()?.anchorOffset);
+        // console.log(e.key, document.getSelection()?.anchorOffset);
 
         this.editableHandler.handleKeys(e);
 

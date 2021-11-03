@@ -1,4 +1,5 @@
 import DomWorker from "../base/DomWorker.js";
+import EditableHandler from "../base/editableHandler.js";
 import TextWorker from "../base/textWorker.js";
 import Component from "../core/component.js";
 import NavbarModule from "../core/navbarModule.js";
@@ -11,6 +12,7 @@ class Code extends Component {
         super();
         this.name = "code";
         this.ID = randstr();
+        this.editableHandler = new EditableHandler(this);
         if (initContent) {
             this.content = initContent;
         }
@@ -58,7 +60,8 @@ class Code extends Component {
     loadData(content) {
         this.html.innerHTML = getKeyValue("text")(content);
     }
-    saveContent() {
+    saveContent(e) {
+        this.editableHandler.handleKeys(e);
         setTimeout(() => {
             let text = this.html.innerText;
             this.content = {
