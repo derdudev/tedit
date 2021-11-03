@@ -141,9 +141,11 @@ class Txt extends Component {
                     firstHalf = this.html.textContent?.slice(0, startPos) || "";
                     secondHalf = this.html.textContent?.slice(endPos, this.html.textContent.length);
 
-                    console.log(secondHalf?.match(/\s*\w/),(secondHalf?.match(/\s*/) || [])[0].length);
+                    console.log(secondHalf?.match(/\s+\w/),(secondHalf?.match(/\s+/) || [])[0]?.length);
 
-                    if(secondHalf?.match(/^\s*\w/)){
+                    // /s* - 0 or more spaces
+                    // /s+ - 1 or more spaces
+                    if(secondHalf?.match(/^\s+\w/)){
                         // if starts with a space
                         secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
                     }
@@ -153,7 +155,7 @@ class Txt extends Component {
                     this.html.innerHTML = firstHalf + secondHalf;
                     let selectionNode = this.html.childNodes[0];
 
-                    if(this.html.innerHTML.length < pos) DomTextSelector.setCursor(selectionNode as Node, this.html.innerHTML.length);
+                    if(this.html.innerHTML.length < pos) DomTextSelector.setCursor(selectionNode as Node, this.html.innerHTML.length - (pos - this.html.innerHTML.length));
                     else if (startPos == 0) DomTextSelector.setCursor(selectionNode as Node, 0);
                     else DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
                     
@@ -214,7 +216,7 @@ class Txt extends Component {
 
                     console.log(secondHalf?.match(/\s*\w/),(secondHalf?.match(/\s*/) || [])[0].length);
 
-                    if(secondHalf?.match(/^\s*\w/)){
+                    if(secondHalf?.match(/^\s+\w/)){
                         // if starts with a space
                         secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
                     }
@@ -224,7 +226,7 @@ class Txt extends Component {
                     this.html.innerHTML = firstHalf + secondHalf;
                     let selectionNode = this.html.childNodes[0];
 
-                    if(this.html.innerHTML.length < pos) DomTextSelector.setCursor(selectionNode as Node, this.html.innerHTML.length);
+                    if(this.html.innerHTML.length < pos) DomTextSelector.setCursor(selectionNode as Node, this.html.innerHTML.length - (pos - this.html.innerHTML.length));
                     else if (startPos == 0) DomTextSelector.setCursor(selectionNode as Node, 0);
                     else DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
                     
