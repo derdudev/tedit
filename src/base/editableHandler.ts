@@ -35,11 +35,7 @@ class EditableHandler {
 
                 // if selection is not collapsed, anchorOffset != focusOffset
                 if(!selection?.isCollapsed){
-                    selection?.removeAllRanges();
-                    let range = new Range();
-                    range.setStart(selectionNode as Node, 0);
-                    range.setEnd(selectionNode as Node, selectionNode.textContent?.length as number);
-                    selection?.addRange(range);
+                    DomTextSelector.setSelection(selectionNode as Node, 0, selectionNode.textContent?.length as number);
                 }
             },1)
         }

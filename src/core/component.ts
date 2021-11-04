@@ -23,11 +23,21 @@ abstract class Component {
     }
 
     // ! pretty bad way of rendering - or not?
-    protected render(template: Template){
-        this.html = template.html;
-        // TODO: not only appending, but replacing the previous version of the element
+    protected render(isFirstRender:boolean, template: Template){
+        const selection = document.getSelection();
+        let startPos = selection?.anchorOffset;
+        let endPos = selection?.focusOffset;
+
         template.html.addEventListener("click", this.onclick.bind(this));
-        Component.tedit.html.appendChild(template.html);
+        if(isFirstRender) Component.tedit.html.appendChild(template.html);
+        else {
+            Component.tedit.html.replaceChild(template.html, this.html);
+        }
+
+        this.html = template.html;
+
+        // TODO: keep the cursor position and selection when rerendering
+        DomTextSelector.setSelection(template.html.childNodes[0] || template.html, startPos as number, endPos as number);
     }
 
     /**
@@ -35,9 +45,9 @@ abstract class Component {
      * @param index the number of the template to be loaded (index in the template array)
      */
     // TODO: move to Component class
-    public loadTemp(index: number){
+    public loadTemp(isFirstLoad:boolean, index: number){
         this.templates[index].loadData(this.content);
-        this.render(this.templates[index]);
+        this.render(isFirstLoad, this.templates[index]);
         this.activeTemplate = this.templates[index];
     }
 

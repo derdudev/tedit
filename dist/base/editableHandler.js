@@ -17,11 +17,7 @@ class EditableHandler {
                 let selection = document.getSelection();
                 let selectionNode = refCompHtml.childNodes[0];
                 if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
-                    selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
-                    let range = new Range();
-                    range.setStart(selectionNode, 0);
-                    range.setEnd(selectionNode, (_a = selectionNode.textContent) === null || _a === void 0 ? void 0 : _a.length);
-                    selection === null || selection === void 0 ? void 0 : selection.addRange(range);
+                    DomTextSelector.setSelection(selectionNode, 0, (_a = selectionNode.textContent) === null || _a === void 0 ? void 0 : _a.length);
                 }
             }, 1);
         }

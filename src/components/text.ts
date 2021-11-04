@@ -38,7 +38,7 @@ class Txt extends Component {
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
 
-        this.loadTemp(0);
+        this.loadTemp(true, 0);
     }
 
     public initTemps(){
@@ -60,19 +60,55 @@ class Txt extends Component {
             ]
         });
 
+        let domElement_temp2 = DomWorker.create("p", {
+            placeHolder: "This is a headline.",
+            contentEditable: true,
+            className: "p",
+            spellcheck: false,
+            id: this.ID,
+            style: {
+                backgroundColor: "#fff",
+                padding: "5px 10px",
+                fontSize: "20px",
+            },
+            events: [
+                {
+                    type: "keydown",
+                    handler: this.saveContent.bind(this),
+                }
+            ]
+        });
+
+        const headline = () => this.loadTemp(false, 1);
+        const paragraph = () => this.loadTemp(false, 0);
+
         let barConfig_temp1 = new NavbarModule([
             new DomButton({},DomWorker.create("button", {
-                innerText: "Button1", 
+                innerText: "Headline", 
+                events: [
+                    {
+                        type: "click",
+                        handler: headline.bind(this),
+                    }
+                ]
             })),
             new DomButton({},DomWorker.create("button", {
-                innerText: "Button2", 
+                innerText: "Paragraph", 
+                events: [
+                    {
+                        type: "click",
+                        handler: paragraph.bind(this),
+                    }
+                ]
             })),
         ]);
 
         let temp1 = new Template(domElement_temp1,barConfig_temp1, this.loadTemp, this.loadData);
+        let temp2 = new Template(domElement_temp2, barConfig_temp1, this.loadTemp, this.loadData);
 
         this.templates = [];
         this.templates.push(temp1);
+        this.templates.push(temp2);
     }
 
     private loadData(content: Content){

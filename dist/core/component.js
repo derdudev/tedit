@@ -4,14 +4,22 @@ class Component {
         this.navbarModules = [];
         this.templates = [];
     }
-    render(template) {
-        this.html = template.html;
+    render(isFirstRender, template) {
+        const selection = document.getSelection();
+        let startPos = selection === null || selection === void 0 ? void 0 : selection.anchorOffset;
+        let endPos = selection === null || selection === void 0 ? void 0 : selection.focusOffset;
         template.html.addEventListener("click", this.onclick.bind(this));
-        Component.tedit.html.appendChild(template.html);
+        if (isFirstRender)
+            Component.tedit.html.appendChild(template.html);
+        else {
+            Component.tedit.html.replaceChild(template.html, this.html);
+        }
+        this.html = template.html;
+        DomTextSelector.setSelection(template.html.childNodes[0] || template.html, startPos, endPos);
     }
-    loadTemp(index) {
+    loadTemp(isFirstLoad, index) {
         this.templates[index].loadData(this.content);
-        this.render(this.templates[index]);
+        this.render(isFirstLoad, this.templates[index]);
         this.activeTemplate = this.templates[index];
     }
     getContent() {

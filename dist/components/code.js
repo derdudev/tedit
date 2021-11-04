@@ -27,7 +27,7 @@ class Code extends Component {
         }
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]);
-        this.loadTemp(0);
+        this.loadTemp(true, 0);
     }
     initTemps() {
         let domElement_temp1 = DomWorker.create("p", {
