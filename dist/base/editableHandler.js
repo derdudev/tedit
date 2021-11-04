@@ -93,9 +93,10 @@ class EditableHandler {
             }
         }
         if (((_a = refCompHtml.textContent) === null || _a === void 0 ? void 0 : _a.length) == 0 && refCompHtml.textContent == textContent) {
+            let prev = Component.tedit.collection.prev(this.refComponent);
             refCompHtml.remove();
             Component.tedit.collection.remove(this.refComponent);
-            let prev = Component.tedit.collection.prev(this.refComponent);
+            prev === null || prev === void 0 ? void 0 : prev.focus();
         }
         else {
             DomTextSelector.setCursor(selectionNode, firstHalf.length);

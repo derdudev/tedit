@@ -137,10 +137,13 @@ class EditableHandler {
             }
         }
         if(refCompHtml.textContent?.length == 0 && refCompHtml.textContent == textContent){
+            let prev = Component.tedit.collection.prev(this.refComponent);
+
             refCompHtml.remove();
             Component.tedit.collection.remove(this.refComponent);
             
-            let prev = Component.tedit.collection.prev(this.refComponent);
+            prev?.focus();
+
         } else {
             DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
         }
