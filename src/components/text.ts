@@ -54,6 +54,7 @@ class Txt extends Component {
             style: {
                 backgroundColor: "#fff",
                 padding: "5px 10px",
+                fontSize: "16px"
             },
             events: [
                 {

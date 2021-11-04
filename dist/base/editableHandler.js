@@ -1,3 +1,4 @@
+import Component from "../core/component.js";
 import DomTextSelector from "./DomTextSelector.js";
 class EditableHandler {
     constructor(refComponent) {
@@ -48,6 +49,7 @@ class EditableHandler {
         }
     }
     handleDeleting(isDelete, e) {
+        var _a;
         e.preventDefault();
         const selection = document.getSelection();
         let pos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
@@ -80,7 +82,7 @@ class EditableHandler {
                 }
             }
             refCompHtml.innerHTML = firstHalf + secondHalf;
-            selectionNode = refCompHtml.childNodes[0];
+            selectionNode = refCompHtml.childNodes[0] || refCompHtml;
         }
         else {
             if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
@@ -90,7 +92,14 @@ class EditableHandler {
                 selectionNode = refCompHtml;
             }
         }
-        DomTextSelector.setCursor(selectionNode, firstHalf.length);
+        if (((_a = refCompHtml.textContent) === null || _a === void 0 ? void 0 : _a.length) == 0 && refCompHtml.textContent == textContent) {
+            refCompHtml.remove();
+            Component.tedit.collection.remove(this.refComponent);
+            let prev = Component.tedit.collection.prev(this.refComponent);
+        }
+        else {
+            DomTextSelector.setCursor(selectionNode, firstHalf.length);
+        }
     }
 }
 export default EditableHandler;

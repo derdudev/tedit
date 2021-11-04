@@ -19,6 +19,18 @@ class TeditCollection {
         return this.collection[index];
     }
 
+    public remove(component: Component){
+        let compIndex = this.collection.indexOf(component);
+        if(!(compIndex == -1)) { // only if the element is present
+            let tempList = this.collection.slice(0, compIndex);
+            for(let i=compIndex+1; i<this.collection.length; i++){
+                tempList.push(this.collection[i]);
+            }
+            this.collection = tempList;
+        } 
+        this.length--; 
+    }
+
     /**
      * 
      * @param refComp 

@@ -87,6 +87,7 @@ class EditableHandler {
         const selection = document.getSelection();
 
         let pos = selection?.anchorOffset || 0;
+        // if(pos > (selection?.focusOffset as number)) pos = selection?.focusOffset || 0;
         const refCompHtml = this.refComponent.html;
         const textContent = refCompHtml.textContent || "";
 
@@ -120,7 +121,7 @@ class EditableHandler {
                 }
             }
             refCompHtml.innerHTML = firstHalf + secondHalf;
-            selectionNode = refCompHtml.childNodes[0];
+            selectionNode = refCompHtml.childNodes[0] || refCompHtml;
         } else {
             if(!selection?.isCollapsed){
                 // * NOTE only in firefox there is a problem with Ctrl+A and Selection (0:1) in Chrome Selection works
@@ -135,7 +136,14 @@ class EditableHandler {
                 selectionNode = refCompHtml;
             }
         }
-        DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
+        if(refCompHtml.textContent?.length == 0 && refCompHtml.textContent == textContent){
+            refCompHtml.remove();
+            Component.tedit.collection.remove(this.refComponent);
+            
+            let prev = Component.tedit.collection.prev(this.refComponent);
+        } else {
+            DomTextSelector.setCursor(selectionNode as Node, firstHalf.length);
+        }
     }
 }
 

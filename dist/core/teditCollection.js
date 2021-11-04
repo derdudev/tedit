@@ -10,6 +10,17 @@ class TeditCollection {
     get(index) {
         return this.collection[index];
     }
+    remove(component) {
+        let compIndex = this.collection.indexOf(component);
+        if (!(compIndex == -1)) {
+            let tempList = this.collection.slice(0, compIndex);
+            for (let i = compIndex + 1; i < this.collection.length; i++) {
+                tempList.push(this.collection[i]);
+            }
+            this.collection = tempList;
+        }
+        this.length--;
+    }
     prev(refComp) {
         let compIndex = this.collection.indexOf(refComp);
         if (!(compIndex == -1)) {
