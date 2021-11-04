@@ -1,3 +1,4 @@
+import DomTextSelector from "../base/DomTextSelector.js";
 class Component {
     constructor() {
         this.navbarModules = [];
@@ -22,6 +23,22 @@ class Component {
             content: this.content,
             template: this.templates.indexOf(this.activeTemplate),
         };
+    }
+    focus(cursorPos) {
+        let domElement = this.html;
+        domElement.click();
+        let textNode = domElement.childNodes[0];
+        let textContent = textNode.textContent;
+        if (domElement.childNodes[0]) {
+            let anchorOffset = (textContent === null || textContent === void 0 ? void 0 : textContent.length) || 0;
+            if (cursorPos != undefined && cursorPos <= (textContent === null || textContent === void 0 ? void 0 : textContent.length))
+                DomTextSelector.setCursor(textNode, cursorPos);
+            else
+                DomTextSelector.setCursor(textNode, anchorOffset);
+        }
+        else {
+            domElement.focus();
+        }
     }
     static setTedit(tedit) {
         this.tedit = tedit;

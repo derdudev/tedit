@@ -6,12 +6,14 @@ import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import EditableHandler from "../base/editableHandler.js";
+import KeyHandler from "../base/keyHandler.js";
 class Txt extends Component {
     constructor(initContent) {
         super();
         this.name = "text";
         this.ID = randstr();
         this.editableHandler = new EditableHandler(this);
+        this.keyHandler = new KeyHandler(this);
         if (initContent) {
             this.content = initContent;
         }
@@ -58,9 +60,8 @@ class Txt extends Component {
         this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent(e) {
-        console.log(Component.tedit.collection.prev(this));
-        console.log(Component.tedit.collection.next(this));
         this.editableHandler.handleKeys(e);
+        this.keyHandler.handleArrows(e);
         setTimeout(() => {
             let text = this.html.textContent;
             this.content = {

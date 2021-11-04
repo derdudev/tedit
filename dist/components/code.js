@@ -1,5 +1,6 @@
 import DomWorker from "../base/DomWorker.js";
 import EditableHandler from "../base/editableHandler.js";
+import KeyHandler from "../base/keyHandler.js";
 import TextWorker from "../base/textWorker.js";
 import Component from "../core/component.js";
 import NavbarModule from "../core/navbarModule.js";
@@ -13,6 +14,7 @@ class Code extends Component {
         this.name = "code";
         this.ID = randstr();
         this.editableHandler = new EditableHandler(this);
+        this.keyHandler = new KeyHandler(this);
         if (initContent) {
             this.content = initContent;
         }
@@ -62,6 +64,7 @@ class Code extends Component {
     }
     saveContent(e) {
         this.editableHandler.handleKeys(e);
+        this.keyHandler.handleArrows(e);
         setTimeout(() => {
             let text = this.html.innerText;
             this.content = {

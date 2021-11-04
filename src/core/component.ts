@@ -1,3 +1,4 @@
+import DomTextSelector from "../base/DomTextSelector.js";
 import Content, { ComponentData } from "./content.js";
 import NavbarModule from "./navbarModule.js";
 import Tedit from "./tedit.js";
@@ -54,6 +55,22 @@ abstract class Component {
             type: this.name,
             content: this.content,
             template: this.templates.indexOf(this.activeTemplate),
+        }
+    }
+
+    // default method - should be overritten for custom handling
+    public focus(cursorPos?:number) {
+        let domElement = this.html;
+        domElement.click();
+
+        let textNode = domElement.childNodes[0];
+        let textContent = textNode.textContent;
+        if(domElement.childNodes[0]){
+            let anchorOffset: number = textContent?.length || 0;
+            if(cursorPos != undefined && cursorPos as number <= (textContent?.length as number)) DomTextSelector.setCursor(textNode, cursorPos); 
+            else DomTextSelector.setCursor(textNode, anchorOffset); 
+        } else {
+            domElement.focus();
         }
     }
 

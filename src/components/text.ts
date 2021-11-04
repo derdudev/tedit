@@ -7,10 +7,12 @@ import NavbarModule from "../core/navbarModule.js";
 import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import EditableHandler from "../base/editableHandler.js";
+import KeyHandler from "../base/keyHandler.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
     public name: string = "text";
     private editableHandler:EditableHandler;
+    private keyHandler: KeyHandler;
 
     /**
      * 
@@ -20,6 +22,7 @@ class Txt extends Component {
         super();
         this.ID = randstr();
         this.editableHandler = new EditableHandler(this);
+        this.keyHandler = new KeyHandler(this);
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
@@ -79,10 +82,8 @@ class Txt extends Component {
     private saveContent(e:KeyboardEvent): void{
         // console.log(e.key, document.getSelection()?.anchorOffset);
 
-        console.log(Component.tedit.collection.prev(this));
-        console.log(Component.tedit.collection.next(this));
-
         this.editableHandler.handleKeys(e);
+        this.keyHandler.handleArrows(e);
 
         // to also register all other key presses
         setTimeout(()=>{

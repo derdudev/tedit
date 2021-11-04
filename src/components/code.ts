@@ -1,5 +1,6 @@
 import DomWorker from "../base/DomWorker.js";
 import EditableHandler from "../base/editableHandler.js";
+import KeyHandler from "../base/keyHandler.js";
 import TextWorker from "../base/textWorker.js";
 import Component from "../core/component.js";
 import Content from "../core/content.js";
@@ -11,13 +12,14 @@ import { randstr } from "../utilities/random.js";
 
 class Code extends Component{
     public name: string = "code";
-    public ID: string;
     private editableHandler:EditableHandler;
+    private keyHandler: KeyHandler;
 
     constructor(initContent?: Content){
         super();
         this.ID = randstr();
         this.editableHandler = new EditableHandler(this);
+        this.keyHandler = new KeyHandler(this);
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
@@ -79,6 +81,7 @@ class Code extends Component{
 
     private saveContent(e:KeyboardEvent): void{
         this.editableHandler.handleKeys(e);
+        this.keyHandler.handleArrows(e);
 
         setTimeout(()=>{
             let text = this.html.innerText;
