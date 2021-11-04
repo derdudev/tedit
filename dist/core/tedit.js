@@ -15,11 +15,11 @@ class Tedit {
         this.html = DomWorker.create("div", { id: "tedit" });
         Component.setTedit(this);
         if (data) {
-            let compRef, compContent, comp;
+            let compRef, compData, comp;
             for (let i = 0; i < data.length; i++) {
                 compRef = getKeyValue(data[i].type)(blockMap);
-                compContent = data[i];
-                comp = new compRef(compContent.data);
+                compData = data[i];
+                comp = new compRef(compData.data);
                 this.collection.append(comp);
             }
         }

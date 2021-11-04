@@ -58,6 +58,8 @@ class Txt extends Component {
         this.html.innerHTML = getKeyValue("text")(content);
     }
     saveContent(e) {
+        console.log(Component.tedit.collection.prev(this));
+        console.log(Component.tedit.collection.next(this));
         this.editableHandler.handleKeys(e);
         setTimeout(() => {
             let text = this.html.textContent;

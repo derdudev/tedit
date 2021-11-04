@@ -8,7 +8,6 @@ class DomTextSelector {
         let selection = document.getSelection();
         selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
         selection === null || selection === void 0 ? void 0 : selection.addRange(range);
-        console.log(selection);
     }
     static getSelection() { }
 }

@@ -79,6 +79,9 @@ class Txt extends Component {
     private saveContent(e:KeyboardEvent): void{
         // console.log(e.key, document.getSelection()?.anchorOffset);
 
+        console.log(Component.tedit.collection.prev(this));
+        console.log(Component.tedit.collection.next(this));
+
         this.editableHandler.handleKeys(e);
 
         // to also register all other key presses

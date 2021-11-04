@@ -14,8 +14,6 @@ class DomTextSelector {
 
         selection?.removeAllRanges();
         selection?.addRange(range);
-
-        console.log(selection);
     }
 
     public static getSelection(){}

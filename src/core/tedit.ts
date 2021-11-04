@@ -14,7 +14,7 @@ import Content, { ComponentData } from "./content.js";
 
 // TODO: make tedit static and 
 class Tedit {
-    private collection: TeditCollection;
+    public collection: TeditCollection;
     public html: HTMLElement;
     // TODO: add the navbar container
     private navbarModule: NavbarModule; // the latest loaded navbar module
@@ -33,13 +33,12 @@ class Tedit {
         Component.setTedit(this);
 
         if(data) {
-            let compRef, compContent, comp;
+            let compRef, compData, comp;
             for(let i=0; i<data.length; i++){
                 //blockMap[data[i].type]
                 compRef = getKeyValue(data[i].type as never)(blockMap);
-                // TODO: not content but compData
-                compContent = data[i];
-                comp = new compRef(compContent.data);
+                compData = data[i];
+                comp = new compRef(compData.data);
                 this.collection.append(comp);
             }
         }
