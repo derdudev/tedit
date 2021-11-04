@@ -38,7 +38,7 @@ class Tedit {
                 //blockMap[data[i].type]
                 compRef = getKeyValue(data[i].type as never)(blockMap);
                 compData = data[i];
-                comp = new compRef(compData.data);
+                comp = new compRef(compData);
                 this.collection.append(comp);
             }
         }

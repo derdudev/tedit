@@ -8,6 +8,7 @@ import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import EditableHandler from "../base/editableHandler.js";
 import KeyHandler from "../base/keyHandler.js";
+import { Data } from "../core/data.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
     public name: string = "text";
@@ -18,11 +19,13 @@ class Txt extends Component {
      * 
      * @param initContent initial data to be loaded on initialisation
      */
-    constructor(initContent?: Content){
+    constructor({data: initContent, template: initTemp}:Data){
         super();
         this.ID = randstr();
         this.editableHandler = new EditableHandler(this);
         this.keyHandler = new KeyHandler(this);
+
+        console.log(initContent, initTemp);
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);
@@ -38,7 +41,7 @@ class Txt extends Component {
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
 
-        this.loadTemp(true, 0);
+        this.loadTemp(true, initTemp);
     }
 
     public initTemps(){
@@ -70,6 +73,7 @@ class Txt extends Component {
                 backgroundColor: "#fff",
                 padding: "5px 10px",
                 fontSize: "20px",
+                fontWeight: "bold",
             },
             events: [
                 {

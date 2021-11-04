@@ -14,4 +14,4 @@ interface Init {
     types: Type[];
 }
 
-export { Init }
+export { Init, Data }

@@ -8,17 +8,26 @@ class Component {
         const selection = document.getSelection();
         let startPos = selection === null || selection === void 0 ? void 0 : selection.anchorOffset;
         let endPos = selection === null || selection === void 0 ? void 0 : selection.focusOffset;
-        template.html.addEventListener("click", this.onclick.bind(this));
-        if (isFirstRender)
-            Component.tedit.html.appendChild(template.html);
-        else {
-            Component.tedit.html.replaceChild(template.html, this.html);
+        let selectionNode;
+        if (template != this.activeTemplate) {
+            template.html.addEventListener("click", this.onclick.bind(this));
+            if (isFirstRender)
+                Component.tedit.html.appendChild(template.html);
+            else {
+                Component.tedit.html.replaceChild(template.html, this.html);
+            }
+            this.html = template.html;
+            selectionNode = this.html.childNodes[0] || this.html;
         }
-        this.html = template.html;
-        DomTextSelector.setSelection(template.html.childNodes[0] || template.html, startPos, endPos);
+        else {
+            selectionNode = this.html.childNodes[0] || this.html;
+        }
+        DomTextSelector.setSelection(selectionNode, startPos, endPos);
+        setTimeout(() => console.log(document.getSelection()), 1);
     }
     loadTemp(isFirstLoad, index) {
-        this.templates[index].loadData(this.content);
+        if (this.templates[index] != this.activeTemplate)
+            this.templates[index].loadData(this.content);
         this.render(isFirstLoad, this.templates[index]);
         this.activeTemplate = this.templates[index];
     }

@@ -19,7 +19,7 @@ class Tedit {
             for (let i = 0; i < data.length; i++) {
                 compRef = getKeyValue(data[i].type)(blockMap);
                 compData = data[i];
-                comp = new compRef(compData.data);
+                comp = new compRef(compData);
                 this.collection.append(comp);
             }
         }

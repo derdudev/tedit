@@ -8,12 +8,13 @@ import { getKeyValue } from "../utilities/objectOperations.js";
 import EditableHandler from "../base/editableHandler.js";
 import KeyHandler from "../base/keyHandler.js";
 class Txt extends Component {
-    constructor(initContent) {
+    constructor({ data: initContent, template: initTemp }) {
         super();
         this.name = "text";
         this.ID = randstr();
         this.editableHandler = new EditableHandler(this);
         this.keyHandler = new KeyHandler(this);
+        console.log(initContent, initTemp);
         if (initContent) {
             this.content = initContent;
         }
@@ -24,7 +25,7 @@ class Txt extends Component {
         }
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]);
-        this.loadTemp(true, 0);
+        this.loadTemp(true, initTemp);
     }
     initTemps() {
         let domElement_temp1 = DomWorker.create("p", {
@@ -54,6 +55,7 @@ class Txt extends Component {
                 backgroundColor: "#fff",
                 padding: "5px 10px",
                 fontSize: "20px",
+                fontWeight: "bold",
             },
             events: [
                 {

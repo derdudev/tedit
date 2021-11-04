@@ -27,17 +27,22 @@ abstract class Component {
         const selection = document.getSelection();
         let startPos = selection?.anchorOffset;
         let endPos = selection?.focusOffset;
+        let selectionNode;
 
-        template.html.addEventListener("click", this.onclick.bind(this));
-        if(isFirstRender) Component.tedit.html.appendChild(template.html);
-        else {
-            Component.tedit.html.replaceChild(template.html, this.html);
+        if(template != this.activeTemplate){
+            template.html.addEventListener("click", this.onclick.bind(this));
+            if(isFirstRender) Component.tedit.html.appendChild(template.html);
+            else {
+                Component.tedit.html.replaceChild(template.html, this.html);
+            }
+
+            this.html = template.html;
+            selectionNode = this.html.childNodes[0] || this.html;
+        } else {
+            selectionNode = this.html.childNodes[0] || this.html;
         }
-
-        this.html = template.html;
-
-        // TODO: keep the cursor position and selection when rerendering
-        DomTextSelector.setSelection(template.html.childNodes[0] || template.html, startPos as number, endPos as number);
+        DomTextSelector.setSelection(selectionNode, startPos as number, endPos as number);
+        setTimeout(()=>console.log(document.getSelection()), 1);
     }
 
     /**
@@ -46,7 +51,7 @@ abstract class Component {
      */
     // TODO: move to Component class
     public loadTemp(isFirstLoad:boolean, index: number){
-        this.templates[index].loadData(this.content);
+        if(this.templates[index] != this.activeTemplate) this.templates[index].loadData(this.content);
         this.render(isFirstLoad, this.templates[index]);
         this.activeTemplate = this.templates[index];
     }

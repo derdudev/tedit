@@ -9,7 +9,7 @@ import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import { randstr } from "../utilities/random.js";
 class Code extends Component {
-    constructor(initContent) {
+    constructor({ data: initContent, template: initTemp }) {
         super();
         this.name = "code";
         this.ID = randstr();
@@ -27,7 +27,7 @@ class Code extends Component {
         }
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]);
-        this.loadTemp(true, 0);
+        this.loadTemp(true, initTemp);
     }
     initTemps() {
         let domElement_temp1 = DomWorker.create("p", {

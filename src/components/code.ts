@@ -4,6 +4,7 @@ import KeyHandler from "../base/keyHandler.js";
 import TextWorker from "../base/textWorker.js";
 import Component from "../core/component.js";
 import Content from "../core/content.js";
+import { Data } from "../core/data.js";
 import NavbarModule from "../core/navbarModule.js";
 import Template from "../core/Template.js";
 import DomButton from "../tedUI/domButton.js";
@@ -15,7 +16,7 @@ class Code extends Component{
     private editableHandler:EditableHandler;
     private keyHandler: KeyHandler;
 
-    constructor(initContent?: Content){
+    constructor({data: initContent, template: initTemp}:Data){
         super();
         this.ID = randstr();
         this.editableHandler = new EditableHandler(this);
@@ -38,7 +39,7 @@ class Code extends Component{
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         
-        this.loadTemp(true, 0);
+        this.loadTemp(true, initTemp);
     }
 
     public initTemps(): void {
