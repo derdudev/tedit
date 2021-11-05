@@ -38,7 +38,7 @@ class EditableHandler {
             let firstHalf = textContent.slice(0, pos) || "";
             let secondHalf = textContent.slice(pos, textContent.length) || "";
             console.log(firstHalf, secondHalf);
-            refCompHtml.innerHTML = firstHalf + "&nbsp;" + secondHalf;
+            refCompHtml.textContent = firstHalf + "&nbsp;" + secondHalf;
             let selectionNode = refCompHtml.childNodes[0];
             DomTextSelector.setCursor(selectionNode, ++pos);
         }
@@ -54,12 +54,11 @@ class EditableHandler {
         }
     }
     handleDeleting(isDelete, e) {
-        var _a;
+        var _a, _b;
         e.preventDefault();
         const selection = document.getSelection();
-        console.log(selection);
         let pos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
-        const refCompHtml = this.refComponent.html;
+        const refCompHtml = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
         const textContent = refCompHtml.textContent || "";
         let firstHalf, secondHalf, selectionNode;
         firstHalf = secondHalf = "";
@@ -87,20 +86,20 @@ class EditableHandler {
                     secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
                 }
             }
-            refCompHtml.innerHTML = firstHalf + secondHalf;
+            refCompHtml.textContent = firstHalf + secondHalf;
             selectionNode = refCompHtml.childNodes[0] || refCompHtml;
         }
         else {
             if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
                 let endPos = (selection === null || selection === void 0 ? void 0 : selection.focusOffset) || 0;
                 firstHalf = "";
-                refCompHtml.innerHTML = textContent.slice(endPos, textContent.length) || "";
+                refCompHtml.textContent = textContent.slice(endPos, textContent.length) || "";
                 selectionNode = refCompHtml;
             }
         }
         if (((_a = refCompHtml.textContent) === null || _a === void 0 ? void 0 : _a.length) == 0 && refCompHtml.textContent == textContent) {
             let prev = Component.tedit.collection.prev(this.refComponent);
-            refCompHtml.remove();
+            (_b = refCompHtml.parentElement) === null || _b === void 0 ? void 0 : _b.remove();
             Component.tedit.collection.remove(this.refComponent);
             prev === null || prev === void 0 ? void 0 : prev.focus();
         }

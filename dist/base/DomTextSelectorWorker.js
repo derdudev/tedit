@@ -13,14 +13,6 @@ class DomTextSelectorWorker {
             let textNodeParent = DomWorker.create("p", { innerText: (selectedNode === null || selectedNode === void 0 ? void 0 : selectedNode.textContent) || "" });
             let textNode = textNodeParent.childNodes[0];
             parent.replaceWith(textNode);
-            let textNodeKey = 0;
-            mainElement === null || mainElement === void 0 ? void 0 : mainElement.childNodes.forEach((node, key) => {
-                if (node == textNode) {
-                    textNodeKey = key;
-                    return;
-                }
-            });
-            console.log(mainElement === null || mainElement === void 0 ? void 0 : mainElement.childNodes);
             selectionNode = textNode;
         }
         else {

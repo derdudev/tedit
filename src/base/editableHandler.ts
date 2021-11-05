@@ -32,6 +32,7 @@ class EditableHandler {
             // if the key combination Ctrl + A is checked specifically 
             setTimeout(()=>{
                 let selection = document.getSelection();
+                // ! in the case of multiple childNodes, only the first one would be selected completely
                 let selectionNode = refCompHtml.childNodes[0];
 
                 // if selection is not collapsed, anchorOffset != focusOffset
@@ -47,6 +48,8 @@ class EditableHandler {
     }
 
     public handleSpace(e:KeyboardEvent){
+        // const selection = document.getSelection();
+
         const refCompHtml = this.refComponent.html;
         const textContent = refCompHtml.textContent || "";
 
@@ -59,12 +62,12 @@ class EditableHandler {
             let secondHalf = textContent.slice(pos, textContent.length) || "";
 
             console.log(firstHalf, secondHalf)
-            refCompHtml.innerHTML = firstHalf + "&nbsp;" + secondHalf;
+            refCompHtml.textContent = firstHalf + "&nbsp;" + secondHalf;
             
-            // refCompHtml.innerHTML += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
+            // refCompHtml.textContent += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
             let selectionNode = refCompHtml.childNodes[0];
             // ! innerText does not get updated properly -> textContent is more reliable
-            // console.log(selectionNode, pos, textContent.length, refCompHtml.innerHTML.length)
+            // console.log(selectionNode, pos, textContent.length, refCompHtml.textContent.length)
             DomTextSelector.setCursor(selectionNode as Node, ++pos);
             // console.log(document.getSelection()?.anchorOffset)
         }
@@ -90,17 +93,18 @@ class EditableHandler {
         e.preventDefault();
 
         const selection = document.getSelection();
-        console.log(selection);
 
         let pos = selection?.anchorOffset || 0;
         // if(pos > (selection?.focusOffset as number)) pos = selection?.focusOffset || 0;
-        const refCompHtml = this.refComponent.html;
+        const refCompHtml = selection?.anchorNode as Node;
         const textContent = refCompHtml.textContent || "";
 
         let firstHalf, secondHalf, selectionNode;
         firstHalf = secondHalf = "";
 
         if(pos != 0){
+            // * NOTE : these two cases seem to work pretty nicely, if the selection is only in one textNode
+            // ! BUT the selection can also span over multiple nodes - this case has to be addressed (thoughts: https://trello.com/c/Nxbimnhc)
             if(selection?.isCollapsed){ // returns true only if selection is cursor
                 if(isDelete) firstHalf = textContent?.slice(0,(pos as number)) || "";
                 else firstHalf = textContent.slice(0,--(pos as number)) || "";
@@ -122,11 +126,12 @@ class EditableHandler {
 
                 console.log(secondHalf?.match(/\s*\w/),(secondHalf?.match(/\s*/) || [])[0].length);
 
+                // ! adding more spaces via &nbsp; necessary with Node.textContent? (hopefully not)
                 if(secondHalf?.match(/^\s+\w/)){ // if secondHalf starts with a space
                     secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
                 }
             }
-            refCompHtml.innerHTML = firstHalf + secondHalf;
+            refCompHtml.textContent = firstHalf + secondHalf;
             selectionNode = refCompHtml.childNodes[0] || refCompHtml;
         } else {
             if(!selection?.isCollapsed){
@@ -137,7 +142,7 @@ class EditableHandler {
                 
                 firstHalf = "";
 
-                refCompHtml.innerHTML = textContent.slice(endPos, textContent.length) || "";
+                refCompHtml.textContent = textContent.slice(endPos, textContent.length) || "";
 
                 selectionNode = refCompHtml;
             }
@@ -145,7 +150,8 @@ class EditableHandler {
         if(refCompHtml.textContent?.length == 0 && refCompHtml.textContent == textContent){
             let prev = Component.tedit.collection.prev(this.refComponent);
 
-            refCompHtml.remove();
+            // ! not clear if it works
+            refCompHtml.parentElement?.remove();
             Component.tedit.collection.remove(this.refComponent);
             
             prev?.focus();

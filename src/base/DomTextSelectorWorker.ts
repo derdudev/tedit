@@ -24,25 +24,6 @@ class DomTextSelectorWorker {
             let textNode = textNodeParent.childNodes[0];
             parent.replaceWith(textNode);
 
-            // set selection in newly inserted textnode!
-            
-            let textNodeKey = 0;
-            mainElement?.childNodes.forEach((node, key)=>{
-                if(node == textNode) {
-                    textNodeKey = key;
-                    return;
-                }
-            });
-
-            console.log(mainElement?.childNodes)
-
-            // let counter = 0;
-            // for(let i=0; i<textNodeKey; i++) {
-            //     counter += mainElement?.childNodes[i]. || 0;
-            // }
-
-            // console.log(counter);
-
             selectionNode = textNode;
         }
         else {
