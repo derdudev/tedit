@@ -9,6 +9,7 @@ class EditableHandler {
         this.handleSpace(e);
         this.handleBackspace(e);
         this.handleDelete(e);
+        this.handleEnter(e);
     }
     handleSelectAll(e) {
         const refCompHtml = this.refComponent.html;
@@ -22,6 +23,10 @@ class EditableHandler {
                 }
             }, 1);
         }
+    }
+    handleEnter(e) {
+        if (e.key == "Enter")
+            e.preventDefault();
     }
     handleSpace(e) {
         var _a;
@@ -52,6 +57,7 @@ class EditableHandler {
         var _a;
         e.preventDefault();
         const selection = document.getSelection();
+        console.log(selection);
         let pos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
         const refCompHtml = this.refComponent.html;
         const textContent = refCompHtml.textContent || "";

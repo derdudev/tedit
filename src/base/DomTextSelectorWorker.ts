@@ -1,3 +1,6 @@
+import DomTextSelector from "./DomTextSelector.js";
+import DomWorker from "./DomWorker.js";
+
 /**
  * @description Changes text selection related elements in the DOM (does the visible work)
  */
@@ -7,21 +10,49 @@ class DomTextSelectorWorker {
      * @param element 
      */
     public static surroundSelection(element: HTMLElement){
-        let selection = Object.freeze(window.getSelection());
+        let selection = document.getSelection();
         let selectedNode = selection?.focusNode as Node;
         let parent = selectedNode?.parentElement;
+        let mainElement = parent?.parentElement;
 
         console.log(selection);
 
-        if(parent?.tagName != "B") selection?.getRangeAt(0).cloneRange().surroundContents(element);
-        else selectedNode?.parentNode?.parentNode?.replaceChild(selectedNode, parent);
+        let selectionNode;
 
-        let range = new Range();
-        range.setStart(element.childNodes[0], 0);
-        range.setEnd(element.childNodes[0], element.innerText.length-1);
-        document.getSelection()?.addRange(range as Range);
+        if(parent?.className == element.className) {
+            let textNodeParent = DomWorker.create("p", {innerText: selectedNode?.textContent || ""});
+            let textNode = textNodeParent.childNodes[0];
+            parent.replaceWith(textNode);
 
-        console.log(document.getSelection())
+            // set selection in newly inserted textnode!
+            
+            let textNodeKey = 0;
+            mainElement?.childNodes.forEach((node, key)=>{
+                if(node == textNode) {
+                    textNodeKey = key;
+                    return;
+                }
+            });
+
+            console.log(mainElement?.childNodes)
+
+            // let counter = 0;
+            // for(let i=0; i<textNodeKey; i++) {
+            //     counter += mainElement?.childNodes[i]. || 0;
+            // }
+
+            // console.log(counter);
+
+            selectionNode = textNode;
+        }
+        else {
+            selection?.getRangeAt(0).cloneRange().surroundContents(element);
+            selectionNode = element.childNodes[0];
+        }
+
+        DomTextSelector.setSelection(selectionNode as Node, 0, selectionNode.textContent?.length as number);
+
+        mainElement?.normalize(); // selection does not get lost
     }
 }
 

@@ -1,5 +1,3 @@
-import Component from "../core/component.js";
-
 type Shortcut = {
     keys: shortcutKeys,
     handler: Function

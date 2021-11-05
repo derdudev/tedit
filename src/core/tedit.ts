@@ -11,6 +11,7 @@ import Navbar from "./navbar.js";
 import DomButton from "../tedUI/domButton.js";
 import Content, { ComponentData } from "./content.js";
 import ShortcutHandler from "../base/shortcutHandler.js";
+import DomTextSelectorWorker from "../base/DomTextSelectorWorker.js";
 
 
 // TODO: make tedit static and 
@@ -33,6 +34,13 @@ class Tedit {
 
             console.log(reloadButton)
         })
+        this.shortcutHandler.registerShortcut(["Control", "B"], ()=>{
+            DomTextSelectorWorker.surroundSelection(DomWorker.create("b", {className:"ted-text-bold"}));
+        })
+
+        // document.body.addEventListener("click", ()=>{
+        //     console.log(document.getSelection())
+        // })
         
         this.collection = new TeditCollection();
         

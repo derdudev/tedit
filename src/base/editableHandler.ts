@@ -17,6 +17,7 @@ class EditableHandler {
         this.handleSpace(e);
         this.handleBackspace(e);
         this.handleDelete(e);
+        this.handleEnter(e);
     }
 
     /**
@@ -39,6 +40,10 @@ class EditableHandler {
                 }
             },1)
         }
+    }
+
+    public handleEnter(e:KeyboardEvent){
+        if(e.key == "Enter") e.preventDefault();
     }
 
     public handleSpace(e:KeyboardEvent){
@@ -85,6 +90,7 @@ class EditableHandler {
         e.preventDefault();
 
         const selection = document.getSelection();
+        console.log(selection);
 
         let pos = selection?.anchorOffset || 0;
         // if(pos > (selection?.focusOffset as number)) pos = selection?.focusOffset || 0;
