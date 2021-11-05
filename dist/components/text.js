@@ -36,7 +36,7 @@ class Txt extends Component {
             id: this.ID,
             style: {
                 backgroundColor: "#fff",
-                padding: "5px 10px",
+                padding: "2px 10px",
                 fontSize: "16px"
             },
             events: [
@@ -54,7 +54,7 @@ class Txt extends Component {
             id: this.ID,
             style: {
                 backgroundColor: "#fff",
-                padding: "5px 10px",
+                padding: "2px 10px",
                 fontSize: "20px",
                 fontWeight: "bold",
             },

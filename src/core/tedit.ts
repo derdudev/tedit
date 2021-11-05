@@ -10,6 +10,7 @@ import NavbarModule from "./navbarModule.js";
 import Navbar from "./navbar.js";
 import DomButton from "../tedUI/domButton.js";
 import Content, { ComponentData } from "./content.js";
+import ShortcutHandler from "../base/shortcutHandler.js";
 
 
 // TODO: make tedit static and 
@@ -20,8 +21,18 @@ class Tedit {
     private navbarModule: NavbarModule; // the latest loaded navbar module
     public navbar: Navbar;
 
+    private shortcutHandler: ShortcutHandler;
+
     constructor({data}: Init){
         Renderer.setMain("", this);
+
+        this.shortcutHandler = new ShortcutHandler();
+        this.shortcutHandler.registerShortcut(["Control", "D"], ()=>{
+            let reloadButton = document.getElementById("reloadBtn");
+            reloadButton?.click();
+
+            console.log(reloadButton)
+        })
         
         this.collection = new TeditCollection();
         

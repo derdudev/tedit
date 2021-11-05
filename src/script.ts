@@ -23,6 +23,7 @@ const button = DomWorker.create("button", {
 
 const button2 = DomWorker.create("button", {
     innerText: "Get Component Data",
+    id: "reloadBtn",
     events: [
         {
             type: "click", 

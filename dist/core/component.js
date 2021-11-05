@@ -1,7 +1,6 @@
 import DomTextSelector from "../base/DomTextSelector.js";
 class Component {
     constructor() {
-        this.navbarModules = [];
         this.templates = [];
     }
     render(isFirstRender, template) {

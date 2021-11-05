@@ -8,9 +8,16 @@ import Logger from "../log/logger.js";
 import NavbarModule from "./navbarModule.js";
 import Navbar from "./navbar.js";
 import DomButton from "../tedUI/domButton.js";
+import ShortcutHandler from "../base/shortcutHandler.js";
 class Tedit {
     constructor({ data }) {
         Renderer.setMain("", this);
+        this.shortcutHandler = new ShortcutHandler();
+        this.shortcutHandler.registerShortcut(["Control", "D"], () => {
+            let reloadButton = document.getElementById("reloadBtn");
+            reloadButton === null || reloadButton === void 0 ? void 0 : reloadButton.click();
+            console.log(reloadButton);
+        });
         this.collection = new TeditCollection();
         this.html = DomWorker.create("div", { id: "tedit" });
         Component.setTedit(this);

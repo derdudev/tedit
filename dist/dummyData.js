@@ -22,7 +22,15 @@ const data = [
             text: "This is a piece of wellwritten code"
         },
         template: 0,
-    }
+    },
+    {
+        type: "text",
+        data: {
+            text: "-> Wow, how nicely everything works",
+            textF: "And this one is a very nice paragraph",
+        },
+        template: 0,
+    },
 ];
 const types = [
     {

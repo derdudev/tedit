@@ -1,6 +1,5 @@
 import DomTextSelector from "../base/DomTextSelector.js";
 import Content, { ComponentData } from "./content.js";
-import NavbarModule from "./navbarModule.js";
 import Tedit from "./tedit.js";
 import Template from "./Template.js";
 
@@ -9,7 +8,6 @@ abstract class Component {
     protected ID: string;
     protected name: string;
     protected position: number;
-    protected navbarModules: NavbarModule[];
     public html: HTMLElement;
     protected templates: Template[];
     protected activeTemplate: Template; // the currently loaded template
@@ -18,7 +16,6 @@ abstract class Component {
     public static tedit: Tedit;
 
     constructor(){
-        this.navbarModules = [];
         this.templates = [];
     }
 
