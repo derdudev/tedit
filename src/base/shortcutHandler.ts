@@ -20,11 +20,12 @@ class ShortcutHandler {
         "Shift": this.getShiftPressed.bind(this),
     }
 
+    // if body is not set, then handler is specific for one input element
     private static isBodySet: boolean;
 
     private shortcutList: Shortcut[];
 
-    constructor(){
+    constructor(refElement?: HTMLElement){
         this.shortcutList = [];
         this.isControlPressed = false;
         this.isAltPressed = false;
@@ -32,19 +33,19 @@ class ShortcutHandler {
 
         if(!ShortcutHandler.isBodySet) {
             ShortcutHandler.isBodySet = true;
-
-            
         }
 
+        let referenceElement = refElement || document.body;
+
         // TODO: make booleans static 
-        document.body.addEventListener("keydown", ((e: KeyboardEvent)=>{
+        referenceElement.addEventListener("keydown", ((e: KeyboardEvent)=>{
             if(e.key == "Control") this.isControlPressed = true;
             else if(e.key == "Alt") this.isAltPressed = true;
             else if(e.key == "Shift") this.isShiftPressed = true;
 
             this.check(e);
         }).bind(this));
-        document.body.addEventListener("keyup", ((e:KeyboardEvent)=>{
+        referenceElement.addEventListener("keyup", ((e:KeyboardEvent)=>{
             if(e.key == "Control") this.isControlPressed = false;
             else if(e.key == "Alt") this.isAltPressed = false;
             else if(e.key == "Shift") this.isShiftPressed = false;
@@ -79,6 +80,7 @@ class ShortcutHandler {
 
                 if(this.controlKeyMap[shortcutKeys[0]]() && e.key.toUpperCase() == shortcutKeys[1] && !(this.controlKeyMap[blockKeys[0]]()) && !(this.controlKeyMap[blockKeys[1]]())) {
                     e.preventDefault();
+                    console.log("hello")
                     shortcut.handler();
                 }
             } else {

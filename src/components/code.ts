@@ -19,7 +19,6 @@ class Code extends Component{
     constructor({data: initContent, template: initTemp}:Data){
         super();
         this.ID = randstr();
-        this.editableHandler = new EditableHandler(this);
         this.keyHandler = new KeyHandler(this);
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
@@ -40,6 +39,8 @@ class Code extends Component{
         this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         
         this.loadTemp(true, initTemp);
+
+        this.editableHandler = new EditableHandler(this);
     }
 
     public initTemps(): void {

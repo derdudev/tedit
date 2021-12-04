@@ -60,7 +60,6 @@ class Component {
         this.tedit = tedit;
     }
     onclick() {
-        console.log(this);
         Component.tedit.navbar.load(this.activeTemplate.barConfig);
     }
 }

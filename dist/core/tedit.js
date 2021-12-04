@@ -20,7 +20,9 @@ class Tedit {
             console.log(reloadButton);
         });
         this.shortcutHandler.registerShortcut(["Control", "B"], () => {
-            DomTextSelectorWorker.surroundSelection(DomWorker.create("b", { className: "ted-text-bold" }));
+            var _a;
+            if (!((_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.isCollapsed))
+                DomTextSelectorWorker.surroundSelection(DomWorker.create("b", { className: "ted-text-bold" }));
         });
         this.collection = new TeditCollection();
         this.html = DomWorker.create("div", { id: "tedit" });

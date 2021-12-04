@@ -1,28 +1,23 @@
 import Component from "../core/component.js";
 import DomTextSelector from "./DomTextSelector.js";
+import ShortcutHandler from "./shortcutHandler.js";
 class EditableHandler {
     constructor(refComponent) {
         this.refComponent = refComponent;
+        this.shortcutHandler = new ShortcutHandler(refComponent.html);
+        this.shortcutHandler.registerShortcut(["Control", "A"], this.handleSelectAll.bind(this));
     }
     handleKeys(e) {
-        this.handleSelectAll(e);
         this.handleSpace(e);
         this.handleBackspace(e);
         this.handleDelete(e);
         this.handleEnter(e);
     }
     handleSelectAll(e) {
+        var _a;
         const refCompHtml = this.refComponent.html;
-        if (e.key == "a" || e.key == "A") {
-            setTimeout(() => {
-                var _a;
-                let selection = document.getSelection();
-                let selectionNode = refCompHtml.childNodes[0];
-                if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
-                    DomTextSelector.setSelection(selectionNode, 0, (_a = selectionNode.textContent) === null || _a === void 0 ? void 0 : _a.length);
-                }
-            }, 1);
-        }
+        let selectionNode = refCompHtml;
+        DomTextSelector.setSelection(selectionNode, 0, (_a = refCompHtml.textContent) === null || _a === void 0 ? void 0 : _a.length);
     }
     handleEnter(e) {
         if (e.key == "Enter")
@@ -54,57 +49,46 @@ class EditableHandler {
         }
     }
     handleDeleting(isDelete, e) {
-        var _a, _b;
+        var _a, _b, _c, _d, _e, _f;
         e.preventDefault();
         const selection = document.getSelection();
         let pos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
         const refCompHtml = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
-        const textContent = refCompHtml.textContent || "";
-        let firstHalf, secondHalf, selectionNode;
+        let firstHalf, secondHalf, selectionNode, textContent, affectedNode;
         firstHalf = secondHalf = "";
-        if (pos != 0) {
-            if (selection === null || selection === void 0 ? void 0 : selection.isCollapsed) {
-                if (isDelete)
-                    firstHalf = (textContent === null || textContent === void 0 ? void 0 : textContent.slice(0, pos)) || "";
-                else
-                    firstHalf = textContent.slice(0, --pos) || "";
-                secondHalf = textContent.slice(++pos, textContent.length) || "";
-            }
-            else {
-                let startPos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
-                let endPos = (selection === null || selection === void 0 ? void 0 : selection.focusOffset) || 0;
-                console.log(startPos, endPos);
-                if (startPos > endPos) {
-                    let temp = startPos;
-                    startPos = endPos;
-                    endPos = temp;
-                }
-                firstHalf = textContent.slice(0, startPos) || "";
-                secondHalf = textContent.slice(endPos, textContent.length);
-                console.log(secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/\s*\w/), ((secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/\s*/)) || [])[0].length);
-                if (secondHalf === null || secondHalf === void 0 ? void 0 : secondHalf.match(/^\s+\w/)) {
-                    secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
-                }
-            }
-            refCompHtml.textContent = firstHalf + secondHalf;
-            selectionNode = refCompHtml.childNodes[0] || refCompHtml;
+        if (isDelete) {
         }
         else {
-            if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
-                let endPos = (selection === null || selection === void 0 ? void 0 : selection.focusOffset) || 0;
-                firstHalf = "";
-                refCompHtml.textContent = textContent.slice(endPos, textContent.length) || "";
-                selectionNode = refCompHtml;
+            if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed))
+                selection === null || selection === void 0 ? void 0 : selection.deleteFromDocument();
+            else {
+                selectionNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
+                if (pos == 0 && ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling) || ((_a = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _a === void 0 ? void 0 : _a.previousSibling))) {
+                    affectedNode = (((_b = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling) === null || _b === void 0 ? void 0 : _b.childNodes[0]) || ((_c = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _c === void 0 ? void 0 : _c.previousSibling));
+                    pos = (((_d = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.textContent) === null || _d === void 0 ? void 0 : _d.length) || 0);
+                }
+                else if (pos == 0) {
+                    affectedNode = selectionNode;
+                    pos++;
+                }
+                else {
+                    affectedNode = selectionNode;
+                }
+                textContent = (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.textContent) || "";
+                firstHalf = textContent.slice(0, pos - 1) || "";
+                secondHalf = textContent.slice(pos, textContent.length) || "";
+                affectedNode.textContent = firstHalf + secondHalf;
             }
         }
-        if (((_a = refCompHtml.textContent) === null || _a === void 0 ? void 0 : _a.length) == 0 && refCompHtml.textContent == textContent) {
+        if (((_e = refCompHtml.textContent) === null || _e === void 0 ? void 0 : _e.length) == 0 && refCompHtml.textContent == textContent) {
             let prev = Component.tedit.collection.prev(this.refComponent);
-            (_b = refCompHtml.parentElement) === null || _b === void 0 ? void 0 : _b.remove();
+            (_f = refCompHtml.parentElement) === null || _f === void 0 ? void 0 : _f.remove();
             Component.tedit.collection.remove(this.refComponent);
             prev === null || prev === void 0 ? void 0 : prev.focus();
         }
         else {
-            DomTextSelector.setCursor(selectionNode, firstHalf.length);
+            console.log(affectedNode, affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nodeType);
+            DomTextSelector.setCursor(affectedNode, pos - 1);
         }
     }
 }

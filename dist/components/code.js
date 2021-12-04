@@ -13,7 +13,6 @@ class Code extends Component {
         super();
         this.name = "code";
         this.ID = randstr();
-        this.editableHandler = new EditableHandler(this);
         this.keyHandler = new KeyHandler(this);
         if (initContent) {
             this.content = initContent;
@@ -28,6 +27,7 @@ class Code extends Component {
         this.initTemps();
         this.html = DomWorker.create("div", {}, [this.templates[0].html]);
         this.loadTemp(true, initTemp);
+        this.editableHandler = new EditableHandler(this);
     }
     initTemps() {
         let domElement_temp1 = DomWorker.create("p", {

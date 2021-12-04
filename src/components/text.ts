@@ -22,7 +22,6 @@ class Txt extends Component {
     constructor({data: initContent, template: initTemp}:Data){
         super();
         this.ID = randstr();
-        this.editableHandler = new EditableHandler(this);
         this.keyHandler = new KeyHandler(this);
 
         console.log(initContent, initTemp);
@@ -42,6 +41,8 @@ class Txt extends Component {
         this.html = DomWorker.create("div", {}, [this.templates[0].html]); // ! TODO: has to be implemented into Template as well!
 
         this.loadTemp(true, initTemp);
+
+        this.editableHandler = new EditableHandler(this);
     }
 
     public initTemps(){

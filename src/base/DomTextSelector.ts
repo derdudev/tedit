@@ -1,15 +1,52 @@
 class DomTextSelector {
+    // TODO: maybe later on extract selectAllOf method
+    /**
+     * Creates a selection that either spans over the entirety of an element (all its content) or specific boundaries or sets a cursor if startPos = endPos
+     * @param textNode 
+     * @param startPos 
+     * @param endPos 
+     */
     public static setSelection(textNode:Node, startPos:number, endPos:number){
         let range = document.createRange();
 
-        (startPos < endPos) ? range.setStart(textNode, startPos) : range.setStart(textNode, endPos);
-        if(startPos == endPos) range.collapse(true);
-        else (endPos > startPos) ? range.setEnd(textNode, endPos) : range.setEnd(textNode, startPos); 
+        if(textNode.childNodes.length < 2 && textNode.childNodes.length > 0) {
+            // ! textNode.childNodes[0] only works for length >= 1
+            // ranges working with selecting text
+            if(startPos < endPos) {
+                range.setStart(textNode.childNodes[0], startPos);
+                range.setEnd(textNode.childNodes[0], endPos);
+            } else {
+                range.setStart(textNode, endPos);
+                range.setEnd(textNode, startPos);
+            }
+        } else {
+            // ranges working with selecting elements
+            range.selectNodeContents(textNode);
+        }
 
         let selection = document.getSelection();
 
         selection?.removeAllRanges();
         selection?.addRange(range);
+
+        if(selection?.rangeCount as number > 0) console.log(selection?.getRangeAt(0).endOffset, range.commonAncestorContainer);
+    }
+
+    /**
+     * Sets a selection over the entirety of the given textNode
+     * @param textNode 
+     */
+    public static selectAllOf(textNode: Node){ }
+
+    /**
+     * Creates a selection spanning over multiple html text elements
+     * @param startNode node that contains the start of the selection (and thus startPos)
+     * @param endNode node containing the end of the selection (and thus endPos)
+     * @param startPos start offset inside of the startNode
+     * @param endPos end offset inside of the endNode
+     */
+    public static spanSelection(startNode: Node, endNode: Node, startPos: number, endPos: number) {
+
     }
 
     public static select(){}

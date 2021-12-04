@@ -1,5 +1,5 @@
 class ShortcutHandler {
-    constructor() {
+    constructor(refElement) {
         this.controlKeyMap = {
             "Control": this.getControlPressed.bind(this),
             "Alt": this.getAltPressed.bind(this),
@@ -12,7 +12,8 @@ class ShortcutHandler {
         if (!ShortcutHandler.isBodySet) {
             ShortcutHandler.isBodySet = true;
         }
-        document.body.addEventListener("keydown", ((e) => {
+        let referenceElement = refElement || document.body;
+        referenceElement.addEventListener("keydown", ((e) => {
             if (e.key == "Control")
                 this.isControlPressed = true;
             else if (e.key == "Alt")
@@ -21,7 +22,7 @@ class ShortcutHandler {
                 this.isShiftPressed = true;
             this.check(e);
         }).bind(this));
-        document.body.addEventListener("keyup", ((e) => {
+        referenceElement.addEventListener("keyup", ((e) => {
             if (e.key == "Control")
                 this.isControlPressed = false;
             else if (e.key == "Alt")
@@ -52,6 +53,7 @@ class ShortcutHandler {
                     blockKeys = ["Control", "Shift"];
                 if (this.controlKeyMap[shortcutKeys[0]]() && e.key.toUpperCase() == shortcutKeys[1] && !(this.controlKeyMap[blockKeys[0]]()) && !(this.controlKeyMap[blockKeys[1]]())) {
                     e.preventDefault();
+                    console.log("hello");
                     shortcut.handler();
                 }
             }

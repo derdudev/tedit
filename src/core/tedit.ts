@@ -35,7 +35,7 @@ class Tedit {
             console.log(reloadButton)
         })
         this.shortcutHandler.registerShortcut(["Control", "B"], ()=>{
-            DomTextSelectorWorker.surroundSelection(DomWorker.create("b", {className:"ted-text-bold"}));
+            if(!document.getSelection()?.isCollapsed) DomTextSelectorWorker.surroundSelection(DomWorker.create("b", {className:"ted-text-bold"}));
         })
 
         // document.body.addEventListener("click", ()=>{

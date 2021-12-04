@@ -94,7 +94,7 @@ abstract class Component {
 
     // TODO: check for already loaded navbar - otherwise unecessary loading cycles
     private onclick() {
-        console.log(this);
+        // console.log(this);
         Component.tedit.navbar.load(this.activeTemplate.barConfig);
     }
 }

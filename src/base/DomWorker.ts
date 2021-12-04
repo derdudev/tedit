@@ -31,6 +31,8 @@ class DomWorker {
                 for(let i=0; i<events.length; i++){
                     element.addEventListener(events[i].type, events[i].handler);
                 }
+            } else if (key.toLowerCase() === "classname"){
+                element.className = getKeyValue(key as never)(options);
             } else if(key !== "style"){
                 element.setAttribute(key, valueOfKey as string);
                 setKeyValue(key as never, valueOfKey as string)(element);
