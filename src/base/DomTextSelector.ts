@@ -1,3 +1,5 @@
+import Logger from "../log/logger.js";
+
 class DomTextSelector {
     // TODO: maybe later on extract selectAllOf method
     /**
@@ -29,7 +31,7 @@ class DomTextSelector {
         selection?.removeAllRanges();
         selection?.addRange(range);
 
-        if(selection?.rangeCount as number > 0) console.log(selection?.getRangeAt(0).endOffset, range.commonAncestorContainer);
+        if(selection?.rangeCount as number > 0) Logger.clog("setSelection", "## set selection to: ", range.commonAncestorContainer, "from " + selection?.getRangeAt(0).startOffset + " to " + selection?.getRangeAt(0).endOffset);
     }
 
     /**

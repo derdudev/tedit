@@ -1,3 +1,4 @@
+import Logger from "../log/logger.js";
 class ShortcutHandler {
     constructor(refElement) {
         this.controlKeyMap = {
@@ -53,7 +54,7 @@ class ShortcutHandler {
                     blockKeys = ["Control", "Shift"];
                 if (this.controlKeyMap[shortcutKeys[0]]() && e.key.toUpperCase() == shortcutKeys[1] && !(this.controlKeyMap[blockKeys[0]]()) && !(this.controlKeyMap[blockKeys[1]]())) {
                     e.preventDefault();
-                    console.log("hello");
+                    Logger.clog("twoDigitShortcut", "## shortcut handler called for: " + shortcutKeys[0] + " + " + shortcutKeys[1]);
                     shortcut.handler();
                 }
             }

@@ -1,4 +1,5 @@
 import Component from "../core/component.js";
+import Logger from "../log/logger.js";
 import DomTextSelector from "./DomTextSelector.js";
 import ShortcutHandler from "./shortcutHandler.js";
 
@@ -100,7 +101,10 @@ class EditableHandler {
         if(isDelete){
 
         } else {
-            if(!selection?.isCollapsed) selection?.deleteFromDocument();
+            if(!selection?.isCollapsed) {
+                selection?.deleteFromDocument();
+                affectedNode = selection?.anchorNode;
+            }
             else {
                 selectionNode = selection?.anchorNode;
 
@@ -127,52 +131,6 @@ class EditableHandler {
             }
         }
 
-        // if(pos != 0){
-        //     // * NOTE : these two cases seem to work pretty nicely, if the selection is only in one textNode
-        //     // ! BUT the selection can also span over multiple nodes - this case has to be addressed (thoughts: https://trello.com/c/Nxbimnhc)
-        //     if(selection?.isCollapsed){ // returns true only if selection is cursor
-        //         if(isDelete) firstHalf = textContent?.slice(0,(pos as number)) || "";
-        //         else firstHalf = textContent.slice(0,--(pos as number)) || "";
-        //         secondHalf = textContent.slice(++(pos as number), textContent.length) || "";
-        //     } else {
-        //         let startPos = selection?.anchorOffset || 0;
-        //         let endPos = selection?.focusOffset || 0;
-        //         console.log(startPos, endPos)
-
-        //         // depending on how the mouse was dragged, startPos can be bigger than endPos
-        //         if(startPos > endPos) {
-        //             let temp = startPos;
-        //             startPos = endPos;
-        //             endPos = temp;
-        //         }
-
-        //         firstHalf = textContent.slice(0, startPos) || "";
-        //         secondHalf = textContent.slice(endPos, textContent.length);
-
-        //         console.log(secondHalf?.match(/\s*\w/),(secondHalf?.match(/\s*/) || [])[0].length);
-
-        //         // ! adding more spaces via &nbsp; necessary with Node.textContent? (hopefully not)
-        //         if(secondHalf?.match(/^\s+\w/)){ // if secondHalf starts with a space
-        //             secondHalf = "&nbsp;" + secondHalf.slice(1, secondHalf.length);
-        //         }
-        //     }
-        //     refCompHtml.textContent = firstHalf + secondHalf;
-        //     selectionNode = refCompHtml.childNodes[0] || refCompHtml;
-        // } else {
-        //     if(!selection?.isCollapsed){
-        //         // * NOTE only in firefox there is a problem with Ctrl+A and Selection (0:1) in Chrome Selection works
-        //         // selection spans from start (0) to some position (n)
-
-        //         let endPos = selection?.focusOffset || 0;
-                
-        //         firstHalf = "";
-
-        //         console.log(endPos, textContent, textContent.length);
-        //         refCompHtml.textContent = textContent.slice(endPos, textContent.length) || "";
-
-        //         selectionNode = refCompHtml;
-        //     }
-        // }
         if(refCompHtml.textContent?.length == 0 && refCompHtml.textContent == textContent){
             let prev = Component.tedit.collection.prev(this.refComponent);
 
@@ -183,8 +141,8 @@ class EditableHandler {
             prev?.focus();
 
         } else {
-            console.log(affectedNode,affectedNode?.nodeType)
-            DomTextSelector.setCursor(affectedNode as Node, pos - 1);
+            Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + affectedNode?.nodeType);
+            DomTextSelector.setCursor(affectedNode as Node, pos );
         }
     }
 }

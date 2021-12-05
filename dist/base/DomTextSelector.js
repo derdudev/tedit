@@ -1,3 +1,4 @@
+import Logger from "../log/logger.js";
 class DomTextSelector {
     static setSelection(textNode, startPos, endPos) {
         let range = document.createRange();
@@ -18,7 +19,7 @@ class DomTextSelector {
         selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
         selection === null || selection === void 0 ? void 0 : selection.addRange(range);
         if ((selection === null || selection === void 0 ? void 0 : selection.rangeCount) > 0)
-            console.log(selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).endOffset, range.commonAncestorContainer);
+            Logger.clog("setSelection", "## set selection to: ", range.commonAncestorContainer, "from " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).startOffset) + " to " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).endOffset));
     }
     static selectAllOf(textNode) { }
     static spanSelection(startNode, endNode, startPos, endPos) {

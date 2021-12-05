@@ -9,6 +9,7 @@ import { getKeyValue } from "../utilities/objectOperations.js";
 import EditableHandler from "../base/editableHandler.js";
 import KeyHandler from "../base/keyHandler.js";
 import { Data } from "../core/data.js";
+import Logger from "../log/logger.js";
 //import getTextCaretPosition from "../utilities/textCaretPosition.js";
 class Txt extends Component {
     public name: string = "text";
@@ -24,7 +25,7 @@ class Txt extends Component {
         this.ID = randstr();
         this.keyHandler = new KeyHandler(this);
 
-        console.log(initContent, initTemp);
+        Logger.clog("initText", initContent, initTemp);
 
         // TODO<issue>: this class has to extend component but that class has to be rethought again 
         //Component.tedit.append(this);

@@ -15,8 +15,6 @@ class DomTextSelectorWorker {
         let parent = selectedNode?.parentElement;
         let mainElement = parent?.parentElement;
 
-        console.log(selection);
-
         let selectionNode;
 
         if(parent?.className == element.className) {

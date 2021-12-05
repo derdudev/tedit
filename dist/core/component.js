@@ -1,4 +1,5 @@
 import DomTextSelector from "../base/DomTextSelector.js";
+import Logger from "../log/logger.js";
 class Component {
     constructor() {
         this.templates = [];
@@ -22,7 +23,7 @@ class Component {
             selectionNode = this.html.childNodes[0] || this.html;
         }
         DomTextSelector.setSelection(selectionNode, startPos, endPos);
-        setTimeout(() => console.log(document.getSelection()), 1);
+        setTimeout(() => Logger.clog("renderSelectionCheck", document.getSelection()), 1);
     }
     loadTemp(isFirstLoad, index) {
         if (this.templates[index] != this.activeTemplate)

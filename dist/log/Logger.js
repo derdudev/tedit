@@ -1,8 +1,9 @@
 import globalConfig from "../base/config.js";
+import { getKeyValue } from "../utilities/objectOperations.js";
 class Logger {
-    static clog(message) {
-        if (globalConfig.debug)
-            console.log(message);
+    static clog(type, ...message) {
+        if (getKeyValue(type)(globalConfig.debug))
+            console.log(...message, "[" + type + "]");
     }
 }
 export default Logger;

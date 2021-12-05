@@ -7,7 +7,6 @@ class DomTextSelectorWorker {
         let selectedNode = selection === null || selection === void 0 ? void 0 : selection.focusNode;
         let parent = selectedNode === null || selectedNode === void 0 ? void 0 : selectedNode.parentElement;
         let mainElement = parent === null || parent === void 0 ? void 0 : parent.parentElement;
-        console.log(selection);
         let selectionNode;
         if ((parent === null || parent === void 0 ? void 0 : parent.className) == element.className) {
             let textNodeParent = DomWorker.create("p", { innerText: (selectedNode === null || selectedNode === void 0 ? void 0 : selectedNode.textContent) || "" });

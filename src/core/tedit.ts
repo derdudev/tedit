@@ -37,6 +37,9 @@ class Tedit {
         this.shortcutHandler.registerShortcut(["Control", "B"], ()=>{
             if(!document.getSelection()?.isCollapsed) DomTextSelectorWorker.surroundSelection(DomWorker.create("b", {className:"ted-text-bold"}));
         })
+        this.shortcutHandler.registerShortcut(["Control", "I"], ()=>{
+            if(!document.getSelection()?.isCollapsed) DomTextSelectorWorker.surroundSelection(DomWorker.create("i", {className:"ted-text-italic"}));
+        })
 
         // document.body.addEventListener("click", ()=>{
         //     console.log(document.getSelection())
@@ -69,11 +72,11 @@ class Tedit {
     }
 
     public save(){
-        Logger.clog("# Saving...");
+        Logger.clog("stage", "%c# Saving...", "font-family: 'Roboto Mono'; font-weight: bold");
     }
 
     public getContent(){
-        Logger.clog("# Fetching content...");
+        Logger.clog("stage", "%c# Fetching content...", "font-family: 'Roboto Mono'; font-weight: bold");
         let teditContent:Content[] = [];
         for(let i=0; i<this.collection.length; i++){
             //console.log(this.collection.get(i).getContent());
@@ -84,7 +87,7 @@ class Tedit {
     }
 
     public getCompData(){
-        Logger.clog("# Fetching component data...");
+        Logger.clog("stage", "%c# Fetching component data...", "font-family: 'Roboto Mono'; font-weight: bold");
         let teditCompData: ComponentData[] = [];
         for(let i=0; i<this.collection.length; i++){
             teditCompData.push(this.collection.get(i).getCompData());

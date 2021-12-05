@@ -7,13 +7,14 @@ import DomButton from "../tedUI/domButton.js";
 import { getKeyValue } from "../utilities/objectOperations.js";
 import EditableHandler from "../base/editableHandler.js";
 import KeyHandler from "../base/keyHandler.js";
+import Logger from "../log/logger.js";
 class Txt extends Component {
     constructor({ data: initContent, template: initTemp }) {
         super();
         this.name = "text";
         this.ID = randstr();
         this.keyHandler = new KeyHandler(this);
-        console.log(initContent, initTemp);
+        Logger.clog("initText", initContent, initTemp);
         if (initContent) {
             this.content = initContent;
         }

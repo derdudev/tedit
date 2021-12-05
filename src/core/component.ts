@@ -1,4 +1,5 @@
 import DomTextSelector from "../base/DomTextSelector.js";
+import Logger from "../log/logger.js";
 import Content, { ComponentData } from "./content.js";
 import Tedit from "./tedit.js";
 import Template from "./Template.js";
@@ -39,7 +40,7 @@ abstract class Component {
             selectionNode = this.html.childNodes[0] || this.html;
         }
         DomTextSelector.setSelection(selectionNode, startPos as number, endPos as number);
-        setTimeout(()=>console.log(document.getSelection()), 1);
+        setTimeout(()=>Logger.clog("renderSelectionCheck", document.getSelection()), 1);
     }
 
     /**

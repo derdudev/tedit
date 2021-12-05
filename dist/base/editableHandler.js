@@ -1,4 +1,5 @@
 import Component from "../core/component.js";
+import Logger from "../log/logger.js";
 import DomTextSelector from "./DomTextSelector.js";
 import ShortcutHandler from "./shortcutHandler.js";
 class EditableHandler {
@@ -59,8 +60,10 @@ class EditableHandler {
         if (isDelete) {
         }
         else {
-            if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed))
+            if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
                 selection === null || selection === void 0 ? void 0 : selection.deleteFromDocument();
+                affectedNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
+            }
             else {
                 selectionNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
                 if (pos == 0 && ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling) || ((_a = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _a === void 0 ? void 0 : _a.previousSibling))) {
@@ -87,8 +90,8 @@ class EditableHandler {
             prev === null || prev === void 0 ? void 0 : prev.focus();
         }
         else {
-            console.log(affectedNode, affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nodeType);
-            DomTextSelector.setCursor(affectedNode, pos - 1);
+            Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nodeType));
+            DomTextSelector.setCursor(affectedNode, pos);
         }
     }
 }

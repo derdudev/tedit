@@ -24,6 +24,11 @@ class Tedit {
             if (!((_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.isCollapsed))
                 DomTextSelectorWorker.surroundSelection(DomWorker.create("b", { className: "ted-text-bold" }));
         });
+        this.shortcutHandler.registerShortcut(["Control", "I"], () => {
+            var _a;
+            if (!((_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.isCollapsed))
+                DomTextSelectorWorker.surroundSelection(DomWorker.create("i", { className: "ted-text-italic" }));
+        });
         this.collection = new TeditCollection();
         this.html = DomWorker.create("div", { id: "tedit" });
         Component.setTedit(this);
@@ -41,10 +46,10 @@ class Tedit {
         this.navbar = new Navbar(this.navbarModule);
     }
     save() {
-        Logger.clog("# Saving...");
+        Logger.clog("stage", "%c# Saving...", "font-family: 'Roboto Mono'; font-weight: bold");
     }
     getContent() {
-        Logger.clog("# Fetching content...");
+        Logger.clog("stage", "%c# Fetching content...", "font-family: 'Roboto Mono'; font-weight: bold");
         let teditContent = [];
         for (let i = 0; i < this.collection.length; i++) {
             teditContent.push(this.collection.get(i).getContent());
@@ -52,7 +57,7 @@ class Tedit {
         return teditContent;
     }
     getCompData() {
-        Logger.clog("# Fetching component data...");
+        Logger.clog("stage", "%c# Fetching component data...", "font-family: 'Roboto Mono'; font-weight: bold");
         let teditCompData = [];
         for (let i = 0; i < this.collection.length; i++) {
             teditCompData.push(this.collection.get(i).getCompData());

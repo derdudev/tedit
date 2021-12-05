@@ -1,3 +1,5 @@
+import Logger from "../log/logger.js";
+
 type Shortcut = {
     keys: shortcutKeys,
     handler: Function
@@ -80,7 +82,7 @@ class ShortcutHandler {
 
                 if(this.controlKeyMap[shortcutKeys[0]]() && e.key.toUpperCase() == shortcutKeys[1] && !(this.controlKeyMap[blockKeys[0]]()) && !(this.controlKeyMap[blockKeys[1]]())) {
                     e.preventDefault();
-                    console.log("hello")
+                    Logger.clog("twoDigitShortcut", "## shortcut handler called for: " + shortcutKeys[0] + " + " + shortcutKeys[1]);
                     shortcut.handler();
                 }
             } else {

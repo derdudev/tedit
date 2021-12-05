@@ -1,3 +1,4 @@
+import Logger from "../log/logger.js";
 import DomComponent from "../tedUI/domComponent.js";
 
 class NavbarModule {
@@ -8,7 +9,7 @@ class NavbarModule {
         this.elements = initElements || [];
         this.size = this.elements.length;
 
-        console.log(this.elements)
+        Logger.clog("navbarLoading", this.elements);
     }
 
     public get(index:number): DomComponent{
