@@ -1,6 +1,7 @@
 import Component from "../core/component.js";
 import Logger from "../log/logger.js";
 import DomTextSelector from "./DomTextSelector.js";
+import DomWorker from "./DomWorker.js";
 import ShortcutHandler from "./shortcutHandler.js";
 class EditableHandler {
     constructor(refComponent) {
@@ -9,7 +10,6 @@ class EditableHandler {
         this.shortcutHandler.registerShortcut(["Control", "A"], this.handleSelectAll.bind(this));
     }
     handleKeys(e) {
-        this.handleSpace(e);
         this.handleBackspace(e);
         this.handleDelete(e);
         this.handleEnter(e);
@@ -50,12 +50,12 @@ class EditableHandler {
         }
     }
     handleDeleting(isDelete, e) {
-        var _a, _b, _c, _d, _e, _f;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
         e.preventDefault();
         const selection = document.getSelection();
         let pos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
         const refCompHtml = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
-        let firstHalf, secondHalf, selectionNode, textContent, affectedNode;
+        let firstHalf, secondHalf, selectionNode, textContent, affectedNode, affectedSibling, affectedParent;
         firstHalf = secondHalf = "";
         if (isDelete) {
         }
@@ -66,9 +66,12 @@ class EditableHandler {
             }
             else {
                 selectionNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
-                if (pos == 0 && ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling) || ((_a = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _a === void 0 ? void 0 : _a.previousSibling))) {
-                    affectedNode = (((_b = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling) === null || _b === void 0 ? void 0 : _b.childNodes[0]) || ((_c = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _c === void 0 ? void 0 : _c.previousSibling));
-                    pos = (((_d = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.textContent) === null || _d === void 0 ? void 0 : _d.length) || 0);
+                if (pos == 0 && hasPreviousSibling(selectionNode)) {
+                    if ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.nodeType) === 3 && (((_a = selectionNode.parentNode) === null || _a === void 0 ? void 0 : _a.nodeName.toLowerCase()) !== "p"))
+                        affectedNode = this.getInnerRightNode((_b = selectionNode.parentNode) === null || _b === void 0 ? void 0 : _b.previousSibling);
+                    else
+                        affectedNode = this.getInnerRightNode(selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling);
+                    pos = ((_c = affectedNode.textContent) === null || _c === void 0 ? void 0 : _c.length) || 0;
                 }
                 else if (pos == 0) {
                     affectedNode = selectionNode;
@@ -80,20 +83,89 @@ class EditableHandler {
                 textContent = (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.textContent) || "";
                 firstHalf = textContent.slice(0, pos - 1) || "";
                 secondHalf = textContent.slice(pos, textContent.length) || "";
+                if (((_d = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _d === void 0 ? void 0 : _d.nodeName.toLowerCase()) === "p") {
+                    affectedSibling = (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.previousSibling) || (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nextSibling);
+                    affectedParent = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode;
+                }
+                else {
+                    affectedSibling = ((_e = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _e === void 0 ? void 0 : _e.previousSibling) || ((_f = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _f === void 0 ? void 0 : _f.nextSibling);
+                    affectedParent = (_g = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _g === void 0 ? void 0 : _g.parentNode;
+                }
                 affectedNode.textContent = firstHalf + secondHalf;
+                if (firstHalf + secondHalf == "") {
+                    if ((affectedParent === null || affectedParent === void 0 ? void 0 : affectedParent.firstChild) == affectedSibling) {
+                        pos = ((_h = this.getInnerRightNode(affectedSibling).textContent) === null || _h === void 0 ? void 0 : _h.length) || 0;
+                        affectedNode = this.getInnerRightNode(affectedSibling);
+                    }
+                    else {
+                        pos = 0;
+                        affectedNode = this.getInnerRightNode(affectedSibling);
+                    }
+                }
+                if (firstHalf + secondHalf == " " && ((_j = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentElement) === null || _j === void 0 ? void 0 : _j.nodeName) != "p") {
+                    affectedNode.parentElement.innerHTML = "&nbsp;";
+                }
             }
         }
-        if (((_e = refCompHtml.textContent) === null || _e === void 0 ? void 0 : _e.length) == 0 && refCompHtml.textContent == textContent) {
+        if (((_k = refCompHtml.textContent) === null || _k === void 0 ? void 0 : _k.length) == 0 && refCompHtml.textContent == textContent) {
             let prev = Component.tedit.collection.prev(this.refComponent);
-            (_f = refCompHtml.parentElement) === null || _f === void 0 ? void 0 : _f.remove();
+            (_l = refCompHtml.parentElement) === null || _l === void 0 ? void 0 : _l.remove();
             Component.tedit.collection.remove(this.refComponent);
             prev === null || prev === void 0 ? void 0 : prev.focus();
         }
         else {
             Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nodeType));
-            DomTextSelector.setCursor(affectedNode, pos);
+            let parent = (_m = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentElement) === null || _m === void 0 ? void 0 : _m.parentElement;
+            if ((affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.textContent) == "")
+                parent === null || parent === void 0 ? void 0 : parent.removeChild(affectedNode.parentElement);
+            DomTextSelector.setCursor(affectedNode, pos - 1);
         }
     }
+    fuseNodes(node) {
+        let childNodes = node.childNodes || [];
+        console.log(childNodes, node);
+        let updatedChildNotes = [];
+        for (let i = 1; i < childNodes.length; i++) {
+            console.log(childNodes[i - 1].nodeName, childNodes[i].nodeName);
+            if (childNodes[i - 1].nodeName == childNodes[i].nodeName) {
+                if (childNodes[i].nodeName == "#text")
+                    updatedChildNotes.push(document.createTextNode(childNodes[i - 1].textContent || "" + childNodes[i].textContent || ""));
+                else
+                    updatedChildNotes.push(DomWorker.create(childNodes[i].nodeName, { innerText: childNodes[i - 1].textContent || "" + childNodes[i].textContent }));
+            }
+            else {
+                updatedChildNotes.push(childNodes[i - 1]);
+                updatedChildNotes.push(childNodes[i]);
+            }
+        }
+        console.log(updatedChildNotes);
+        if (updatedChildNotes)
+            node.parentElement.innerHTML = "";
+        for (let i = 0; i < updatedChildNotes.length; i++) {
+            node.appendChild(updatedChildNotes[i]);
+        }
+    }
+    getInnerRightNode(parentNode) {
+        if (parentNode.hasChildNodes()) {
+            return this.getInnerRightNode(parentNode.lastChild);
+        }
+        else {
+            return parentNode;
+        }
+    }
+}
+function hasPreviousSibling(selectionNode) {
+    var _a, _b;
+    let check;
+    if (selectionNode.nodeType === 3 && (((_a = selectionNode.parentNode) === null || _a === void 0 ? void 0 : _a.nodeName.toLowerCase()) !== "p")) {
+        check = (_b = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _b === void 0 ? void 0 : _b.previousSibling;
+    }
+    else {
+        check = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling;
+    }
+    if (check)
+        return true;
+    return false;
 }
 export default EditableHandler;
 //# sourceMappingURL=editableHandler.js.map

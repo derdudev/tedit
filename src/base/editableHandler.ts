@@ -1,6 +1,7 @@
 import Component from "../core/component.js";
 import Logger from "../log/logger.js";
 import DomTextSelector from "./DomTextSelector.js";
+import DomWorker from "./DomWorker.js";
 import ShortcutHandler from "./shortcutHandler.js";
 
 class EditableHandler {
@@ -21,7 +22,7 @@ class EditableHandler {
 
     public handleKeys(e:KeyboardEvent){
         // this.handleSelectAll(e); - is handled by the shortcutHandler
-        this.handleSpace(e);
+        // this.handleSpace(e);
         this.handleBackspace(e);
         this.handleDelete(e);
         this.handleEnter(e);
@@ -95,24 +96,26 @@ class EditableHandler {
         // if(pos > (selection?.focusOffset as number)) pos = selection?.focusOffset || 0;
         const refCompHtml = selection?.anchorNode as Node;
 
-        let firstHalf, secondHalf, selectionNode, textContent, affectedNode;
+        let firstHalf, secondHalf, selectionNode, textContent, affectedNode, affectedSibling, affectedParent;
         firstHalf = secondHalf = "";
 
         if(isDelete){
 
         } else {
             if(!selection?.isCollapsed) {
+                // selection spans over multiple characters
                 selection?.deleteFromDocument();
-                affectedNode = selection?.anchorNode;
+                affectedNode = selection?.anchorNode; // ! if selection spans over the entire anchor node, this results in affectedNode = null
             }
             else {
                 selectionNode = selection?.anchorNode;
 
-                if(pos == 0 && (selectionNode?.previousSibling || selectionNode?.parentElement?.previousSibling)){ 
+                if(pos == 0 && hasPreviousSibling(selectionNode as Node)){ 
                     // on the lefthand side of the element is another inline style element/node
-                    // ! EDGE CASE MISSING: if selectionNode.parentElement.previousSibling is another styling element and not a pure #text node
-                    affectedNode = (selectionNode?.previousSibling?.childNodes[0] || selectionNode?.parentElement?.previousSibling);
-                    pos = (affectedNode?.textContent?.length || 0);
+                    if(selectionNode?.nodeType === 3 && (selectionNode.parentNode?.nodeName.toLowerCase() !== "p")) affectedNode = this.getInnerRightNode(selectionNode.parentNode?.previousSibling as Node);
+                    else affectedNode = this.getInnerRightNode(selectionNode?.previousSibling as Node);
+
+                    pos = affectedNode.textContent?.length || 0;
                 } else if  (pos == 0) {
                     // * NOTE (maybe) fuse element above?
                     // if first case failed and pos is 0, there is no previous sibling
@@ -127,7 +130,29 @@ class EditableHandler {
                 firstHalf = textContent.slice(0,pos - 1) || "";
                 secondHalf = textContent.slice(pos, textContent.length) || "";
 
+                if(affectedNode?.parentNode?.nodeName.toLowerCase() === "p") {
+                    affectedSibling = affectedNode?.previousSibling || affectedNode?.nextSibling;
+                    affectedParent = affectedNode?.parentNode;
+                } else {
+                    affectedSibling = affectedNode?.parentNode?.previousSibling || affectedNode?.parentNode?.nextSibling;
+                    affectedParent = affectedNode?.parentNode?.parentNode;
+                }
+
                 (affectedNode as Node).textContent = firstHalf + secondHalf;
+
+                if(firstHalf + secondHalf == ""){
+                    if(affectedParent?.firstChild == affectedSibling) {
+                        pos = this.getInnerRightNode(affectedSibling as Node).textContent?.length || 0;
+                        affectedNode = this.getInnerRightNode(affectedSibling as Node);
+                    } else {
+                        pos = 0;
+                        affectedNode = this.getInnerRightNode(affectedSibling as Node);
+                    }
+                }
+
+                if(firstHalf + secondHalf == " " && affectedNode?.parentElement?.nodeName != "p"){
+                    ((affectedNode as Node).parentElement as Element).innerHTML = "&nbsp;";
+                }
             }
         }
 
@@ -142,9 +167,63 @@ class EditableHandler {
 
         } else {
             Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + affectedNode?.nodeType);
-            DomTextSelector.setCursor(affectedNode as Node, pos );
+            let parent = affectedNode?.parentElement?.parentElement;
+            if(affectedNode?.textContent == "") parent?.removeChild(affectedNode.parentElement as Node);
+            // this.fuseNodes(parent as Node);
+            DomTextSelector.setCursor(affectedNode as Node, pos-1);
+
+            // if(affectedNode?.parentNode?.nodeName != "p") affectedNode?.parentNode?.parentNode?.normalize();
+            // else affectedNode?.parentNode?.normalize();
         }
     }
+
+    private fuseNodes(node: Node){
+        // * NOTE: look into Note.normalize() function
+        let childNodes = node.childNodes || [];
+
+        console.log(childNodes, node);
+
+        let updatedChildNotes: Node[] = [];
+
+        for(let i=1; i<childNodes.length; i++){
+            console.log(childNodes[i-1].nodeName, childNodes[i].nodeName)
+            if(childNodes[i-1].nodeName == childNodes[i].nodeName){
+                if(childNodes[i].nodeName == "#text") updatedChildNotes.push(document.createTextNode(childNodes[i-1].textContent || "" + childNodes[i].textContent || ""));
+                else updatedChildNotes.push(DomWorker.create(childNodes[i].nodeName, {innerText: childNodes[i-1].textContent || "" + childNodes[i].textContent}));
+            } else {
+                updatedChildNotes.push(childNodes[i-1]);
+                updatedChildNotes.push(childNodes[i]);
+            }
+        }
+
+        console.log(updatedChildNotes);
+
+        if(updatedChildNotes) (node.parentElement as HTMLElement).innerHTML = "";
+
+        for(let i=0; i<updatedChildNotes.length; i++){
+            node.appendChild(updatedChildNotes[i]);
+        }
+    }
+
+    private getInnerRightNode(parentNode: Node): Node{
+        if(parentNode.hasChildNodes()){
+            return this.getInnerRightNode(parentNode.lastChild as Node);
+        } else {
+            return parentNode;
+        }
+    }
+}
+
+// helper functions
+function hasPreviousSibling(selectionNode: Node){
+    let check; 
+    if(selectionNode.nodeType === 3 && (selectionNode.parentNode?.nodeName.toLowerCase() !== "p")) { // ! requires inline styles to be of a different element than a paragraph
+        check = selectionNode?.parentElement?.previousSibling;
+    } else {
+        check = selectionNode?.previousSibling;
+    }
+    if(check) return true;
+    return false;
 }
 
 export default EditableHandler;
