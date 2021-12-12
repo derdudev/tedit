@@ -31,7 +31,7 @@ class EditableHandler {
     /**
      * handler for Ctrl + A selection. Ensures compatabilty between chromium and firefox
      */
-    public handleSelectAll(e:KeyboardEvent){
+    public handleSelectAll(){
         const refCompHtml = this.refComponent.html;
 
         // ! in the case of multiple childNodes, only the first one would be selected completely
@@ -92,12 +92,17 @@ class EditableHandler {
 
         const selection = document.getSelection();
 
+        let anchorIsEmpty = false, isComponent = false, isComponentTextNode = false;
         let pos = selection?.anchorOffset || 0;
-        // if(pos > (selection?.focusOffset as number)) pos = selection?.focusOffset || 0;
-        const refCompHtml = selection?.anchorNode as Node;
 
         let firstHalf, secondHalf, selectionNode, textContent, affectedNode, affectedSibling, affectedParent;
         firstHalf = secondHalf = "";
+
+        selectionNode = selection?.anchorNode; // ! if childElementCounts == 0, hasPreviousSibling should 
+
+        anchorIsEmpty = (selectionNode?.nodeType != 3 && !selectionNode?.hasChildNodes());
+        isComponentTextNode = (selectionNode?.parentNode?.nodeName == "P") ? true : false;
+        isComponent = (selectionNode?.nodeName == "P") ? true : false;
 
         if(isDelete){
 
@@ -108,16 +113,15 @@ class EditableHandler {
                 affectedNode = selection?.anchorNode; // ! if selection spans over the entire anchor node, this results in affectedNode = null
                 pos = ((selection?.anchorOffset as number > (selection?.focusOffset as number)) ? selection?.anchorOffset : selection?.anchorOffset) as number;
             }
-            else {
-                selectionNode = selection?.anchorNode;
-
-                if(pos == 0 && hasPreviousSibling(selectionNode as Node)){ 
+            else if(!anchorIsEmpty && !isComponent){
+                if(pos == 0 && !anchorIsEmpty && hasPreviousSibling(selectionNode as Node)){ 
                     // on the lefthand side of the element is another inline style element/node
                     if(selectionNode?.nodeType === 3 && (selectionNode.parentNode?.nodeName.toLowerCase() !== "p")) affectedNode = this.getInnerRightNode(selectionNode.parentNode?.previousSibling as Node);
                     else affectedNode = this.getInnerRightNode(selectionNode?.previousSibling as Node);
 
                     pos = affectedNode.textContent?.length || 0;
                 } else if  (pos == 0) {
+                    console.log("case 2")
                     // * NOTE (maybe) fuse element above?
                     // if first case failed and pos is 0, there is no previous sibling
                     affectedNode = selectionNode;
@@ -142,12 +146,12 @@ class EditableHandler {
                 (affectedNode as Node).textContent = firstHalf + secondHalf;
 
                 if(firstHalf + secondHalf == ""){
-                    affectedNode?.parentNode?.parentNode?.removeChild(affectedNode?.parentNode as Node);
+                    // affectedNode?.parentNode?.parentNode?.removeChild(affectedNode?.parentNode as Node);
                     if(affectedParent?.firstChild == affectedSibling) {
                         pos = this.getInnerRightNode(affectedSibling as Node).textContent?.length || 0 +1 || 0;
                         affectedNode = this.getInnerRightNode(affectedSibling as Node);
                     } else {
-                        pos = 1;
+                        pos = 0;
                         console.log(affectedParent, affectedSibling)
                         affectedNode = this.getInnerRightNode(affectedSibling as Node);
                     }
@@ -155,25 +159,26 @@ class EditableHandler {
             }
         }
 
-        if(refCompHtml.textContent?.length == 0 && refCompHtml.textContent == textContent){
-            // let prev = Component.tedit.collection.prev(this.refComponent);
+        if(anchorIsEmpty && isComponent){
+            let prev = Component.tedit.collection.prev(this.refComponent);
 
-            // // ! not clear if it works
-            // refCompHtml.parentElement?.remove();
-            // Component.tedit.collection.remove(this.refComponent);
+            // ! not clear if it works
+            selectionNode?.parentNode?.removeChild(selectionNode);
+            Component.tedit.collection.remove(this.refComponent);
             
-            // prev?.focus();
+            prev?.focus();
 
         } else {
             Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + affectedNode?.nodeType);
             // let parent = affectedNode?.parentElement?.parentElement;
             // if(affectedNode?.textContent == "") parent?.removeChild(affectedNode.parentElement as Node);
             // this.fuseNodes(parent as Node);
-            console.log(pos);
-            if(pos > 0) DomTextSelector.setCursor(affectedNode as Node, pos-1);
-            else DomTextSelector.setCursor(affectedNode as Node, pos);
 
-            refCompHtml.parentElement?.normalize();
+            // * check necessary as cursor position could very well be at 0 and pos - 1 would result in an overflow
+            if(pos < 1 && isComponentTextNode) DomTextSelector.setCursor(affectedNode as Node, pos);
+            else DomTextSelector.setCursor(affectedNode as Node, pos-1);
+
+            selectionNode?.parentElement?.normalize();
             // console.log(refCompHtml.parentElement);
         }
     }

@@ -11,7 +11,11 @@ const data = [
         type: "text",
         data: {
             text: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Malesuada fames ac turpis egestas sed tempus urna. Id aliquet risus feugiat in ante metus. Augue eget arcu dictum varius duis at rem donec. Urna id volutpat lacus laoreet. In egestas erat d euismod nisi porta. Magnis dis parturient montes nascetur ridiculus. Aliquet lectus proin nibh nisl condimentum id. Habitant morbi tristique senectus et. Mauris a diam maecenas sed. Eget nunc lobortis mattis aliquam faucibus purus in. Enim tortor at auctor urna. Rhoncus dolor purus non enim praesent elementum facilisis. Hac habitasse platea dictumst vestibulum rhoncus. Pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus.",
-            children: {},
+            children: [
+                { type: "pText", content: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. " },
+                { type: "bold", content: "Malesuada fames" },
+                { type: "pText", content: " ac turpis egestas sed tempus urna. Id aliquet risus feugiat in ante metus. Augue eget arcu dictum varius duis at rem donec. Urna id volutpat lacus laoreet. In egestas erat d euismod nisi porta. Magnis dis parturient montes nascetur ridiculus. Aliquet lectus proin nibh nisl condimentum id. Habitant morbi tristique senectus et. Mauris a diam maecenas sed. Eget nunc lobortis mattis aliquam faucibus purus in. Enim tortor at auctor urna. Rhoncus dolor purus non enim praesent elementum facilisis. Hac habitasse platea dictumst vestibulum rhoncus. Pulvinar neque laoreet suspendisse interdum consectetur libero id faucibus." },
+            ],
         },
         template: 0,
     },

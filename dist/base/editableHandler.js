@@ -1,3 +1,4 @@
+import Component from "../core/component.js";
 import Logger from "../log/logger.js";
 import DomTextSelector from "./DomTextSelector.js";
 import DomWorker from "./DomWorker.js";
@@ -13,7 +14,7 @@ class EditableHandler {
         this.handleDelete(e);
         this.handleEnter(e);
     }
-    handleSelectAll(e) {
+    handleSelectAll() {
         var _a;
         const refCompHtml = this.refComponent.html;
         let selectionNode = refCompHtml;
@@ -49,13 +50,17 @@ class EditableHandler {
         }
     }
     handleDeleting(isDelete, e) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
         e.preventDefault();
         const selection = document.getSelection();
+        let anchorIsEmpty = false, isComponent = false, isComponentTextNode = false;
         let pos = (selection === null || selection === void 0 ? void 0 : selection.anchorOffset) || 0;
-        const refCompHtml = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
         let firstHalf, secondHalf, selectionNode, textContent, affectedNode, affectedSibling, affectedParent;
         firstHalf = secondHalf = "";
+        selectionNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
+        anchorIsEmpty = ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.nodeType) != 3 && !(selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.hasChildNodes()));
+        isComponentTextNode = (((_a = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentNode) === null || _a === void 0 ? void 0 : _a.nodeName) == "P") ? true : false;
+        isComponent = ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.nodeName) == "P") ? true : false;
         if (isDelete) {
         }
         else {
@@ -64,16 +69,16 @@ class EditableHandler {
                 affectedNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
                 pos = (((selection === null || selection === void 0 ? void 0 : selection.anchorOffset) > (selection === null || selection === void 0 ? void 0 : selection.focusOffset)) ? selection === null || selection === void 0 ? void 0 : selection.anchorOffset : selection === null || selection === void 0 ? void 0 : selection.anchorOffset);
             }
-            else {
-                selectionNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
-                if (pos == 0 && hasPreviousSibling(selectionNode)) {
-                    if ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.nodeType) === 3 && (((_a = selectionNode.parentNode) === null || _a === void 0 ? void 0 : _a.nodeName.toLowerCase()) !== "p"))
-                        affectedNode = this.getInnerRightNode((_b = selectionNode.parentNode) === null || _b === void 0 ? void 0 : _b.previousSibling);
+            else if (!anchorIsEmpty && !isComponent) {
+                if (pos == 0 && !anchorIsEmpty && hasPreviousSibling(selectionNode)) {
+                    if ((selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.nodeType) === 3 && (((_b = selectionNode.parentNode) === null || _b === void 0 ? void 0 : _b.nodeName.toLowerCase()) !== "p"))
+                        affectedNode = this.getInnerRightNode((_c = selectionNode.parentNode) === null || _c === void 0 ? void 0 : _c.previousSibling);
                     else
                         affectedNode = this.getInnerRightNode(selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.previousSibling);
-                    pos = ((_c = affectedNode.textContent) === null || _c === void 0 ? void 0 : _c.length) || 0;
+                    pos = ((_d = affectedNode.textContent) === null || _d === void 0 ? void 0 : _d.length) || 0;
                 }
                 else if (pos == 0) {
+                    console.log("case 2");
                     affectedNode = selectionNode;
                     pos++;
                 }
@@ -83,39 +88,41 @@ class EditableHandler {
                 textContent = (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.textContent) || "";
                 firstHalf = textContent.slice(0, pos - 1) || "";
                 secondHalf = textContent.slice(pos, textContent.length) || "";
-                if (((_d = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _d === void 0 ? void 0 : _d.nodeName.toLowerCase()) === "p") {
+                if (((_e = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _e === void 0 ? void 0 : _e.nodeName.toLowerCase()) === "p") {
                     affectedParent = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode;
                     affectedSibling = (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.previousSibling) || (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nextSibling) || affectedParent;
                 }
                 else {
-                    affectedSibling = ((_e = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _e === void 0 ? void 0 : _e.previousSibling) || ((_f = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _f === void 0 ? void 0 : _f.nextSibling);
-                    affectedParent = (_g = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _g === void 0 ? void 0 : _g.parentNode;
+                    affectedSibling = ((_f = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _f === void 0 ? void 0 : _f.previousSibling) || ((_g = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _g === void 0 ? void 0 : _g.nextSibling);
+                    affectedParent = (_h = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _h === void 0 ? void 0 : _h.parentNode;
                 }
                 affectedNode.textContent = firstHalf + secondHalf;
                 if (firstHalf + secondHalf == "") {
-                    (_j = (_h = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _h === void 0 ? void 0 : _h.parentNode) === null || _j === void 0 ? void 0 : _j.removeChild(affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode);
                     if ((affectedParent === null || affectedParent === void 0 ? void 0 : affectedParent.firstChild) == affectedSibling) {
-                        pos = ((_k = this.getInnerRightNode(affectedSibling).textContent) === null || _k === void 0 ? void 0 : _k.length) || 0 + 1 || 0;
+                        pos = ((_j = this.getInnerRightNode(affectedSibling).textContent) === null || _j === void 0 ? void 0 : _j.length) || 0 + 1 || 0;
                         affectedNode = this.getInnerRightNode(affectedSibling);
                     }
                     else {
-                        pos = 1;
+                        pos = 0;
                         console.log(affectedParent, affectedSibling);
                         affectedNode = this.getInnerRightNode(affectedSibling);
                     }
                 }
             }
         }
-        if (((_l = refCompHtml.textContent) === null || _l === void 0 ? void 0 : _l.length) == 0 && refCompHtml.textContent == textContent) {
+        if (anchorIsEmpty && isComponent) {
+            let prev = Component.tedit.collection.prev(this.refComponent);
+            (_k = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentNode) === null || _k === void 0 ? void 0 : _k.removeChild(selectionNode);
+            Component.tedit.collection.remove(this.refComponent);
+            prev === null || prev === void 0 ? void 0 : prev.focus();
         }
         else {
             Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nodeType));
-            console.log(pos);
-            if (pos > 0)
-                DomTextSelector.setCursor(affectedNode, pos - 1);
-            else
+            if (pos < 1 && isComponentTextNode)
                 DomTextSelector.setCursor(affectedNode, pos);
-            (_m = refCompHtml.parentElement) === null || _m === void 0 ? void 0 : _m.normalize();
+            else
+                DomTextSelector.setCursor(affectedNode, pos - 1);
+            (_l = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _l === void 0 ? void 0 : _l.normalize();
         }
     }
     fuseNodes(node) {
