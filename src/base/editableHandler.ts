@@ -22,7 +22,6 @@ class EditableHandler {
 
     public handleKeys(e:KeyboardEvent){
         // this.handleSelectAll(e); - is handled by the shortcutHandler
-        // this.handleSpace(e);
         this.handleBackspace(e);
         this.handleDelete(e);
         this.handleEnter(e);
@@ -43,32 +42,6 @@ class EditableHandler {
 
     public handleEnter(e:KeyboardEvent){
         if(e.key == "Enter") e.preventDefault();
-    }
-
-    public handleSpace(e:KeyboardEvent){
-        // const selection = document.getSelection();
-
-        const refCompHtml = this.refComponent.html;
-        const textContent = refCompHtml.textContent || "";
-
-        if(e.key == " "){
-            e.preventDefault();
-            let pos = document.getSelection()?.anchorOffset || 0;
-            //refCompHtml.childNodes[0].textContent += " "; // refCompHtml.innerText += " " doesnt work
-
-            let firstHalf = textContent.slice(0,pos) || "";
-            let secondHalf = textContent.slice(pos, textContent.length) || "";
-
-            console.log(firstHalf, secondHalf)
-            refCompHtml.textContent = firstHalf + "&nbsp;" + secondHalf;
-            
-            // refCompHtml.textContent += "&nbsp;"; // NOTE: if only " " (Space) is appended, after the first Space, the element text breaks somehow
-            let selectionNode = refCompHtml.childNodes[0];
-            // ! innerText does not get updated properly -> textContent is more reliable
-            // console.log(selectionNode, pos, textContent.length, refCompHtml.textContent.length)
-            DomTextSelector.setCursor(selectionNode as Node, ++pos);
-            // console.log(document.getSelection()?.anchorOffset)
-        }
     }
 
     public handleBackspace(e:KeyboardEvent){
@@ -121,7 +94,6 @@ class EditableHandler {
 
                     pos = affectedNode.textContent?.length || 0;
                 } else if  (pos == 0) {
-                    console.log("case 2")
                     // * NOTE (maybe) fuse element above?
                     // if first case failed and pos is 0, there is no previous sibling
                     affectedNode = selectionNode;
@@ -148,11 +120,10 @@ class EditableHandler {
                 if(firstHalf + secondHalf == ""){
                     // affectedNode?.parentNode?.parentNode?.removeChild(affectedNode?.parentNode as Node);
                     if(affectedParent?.firstChild == affectedSibling) {
-                        pos = this.getInnerRightNode(affectedSibling as Node).textContent?.length || 0 +1 || 0;
+                        pos = (this.getInnerRightNode(affectedSibling as Node).textContent?.length || 0) + 1 || 0;
                         affectedNode = this.getInnerRightNode(affectedSibling as Node);
                     } else {
                         pos = 0;
-                        console.log(affectedParent, affectedSibling)
                         affectedNode = this.getInnerRightNode(affectedSibling as Node);
                     }
                 }
@@ -179,7 +150,6 @@ class EditableHandler {
             else DomTextSelector.setCursor(affectedNode as Node, pos-1);
 
             selectionNode?.parentElement?.normalize();
-            // console.log(refCompHtml.parentElement);
         }
     }
 

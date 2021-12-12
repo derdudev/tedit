@@ -24,21 +24,6 @@ class EditableHandler {
         if (e.key == "Enter")
             e.preventDefault();
     }
-    handleSpace(e) {
-        var _a;
-        const refCompHtml = this.refComponent.html;
-        const textContent = refCompHtml.textContent || "";
-        if (e.key == " ") {
-            e.preventDefault();
-            let pos = ((_a = document.getSelection()) === null || _a === void 0 ? void 0 : _a.anchorOffset) || 0;
-            let firstHalf = textContent.slice(0, pos) || "";
-            let secondHalf = textContent.slice(pos, textContent.length) || "";
-            console.log(firstHalf, secondHalf);
-            refCompHtml.textContent = firstHalf + "&nbsp;" + secondHalf;
-            let selectionNode = refCompHtml.childNodes[0];
-            DomTextSelector.setCursor(selectionNode, ++pos);
-        }
-    }
     handleBackspace(e) {
         if (e.key == "Backspace") {
             this.handleDeleting(false, e);
@@ -78,7 +63,6 @@ class EditableHandler {
                     pos = ((_d = affectedNode.textContent) === null || _d === void 0 ? void 0 : _d.length) || 0;
                 }
                 else if (pos == 0) {
-                    console.log("case 2");
                     affectedNode = selectionNode;
                     pos++;
                 }
@@ -99,12 +83,11 @@ class EditableHandler {
                 affectedNode.textContent = firstHalf + secondHalf;
                 if (firstHalf + secondHalf == "") {
                     if ((affectedParent === null || affectedParent === void 0 ? void 0 : affectedParent.firstChild) == affectedSibling) {
-                        pos = ((_j = this.getInnerRightNode(affectedSibling).textContent) === null || _j === void 0 ? void 0 : _j.length) || 0 + 1 || 0;
+                        pos = (((_j = this.getInnerRightNode(affectedSibling).textContent) === null || _j === void 0 ? void 0 : _j.length) || 0) + 1 || 0;
                         affectedNode = this.getInnerRightNode(affectedSibling);
                     }
                     else {
                         pos = 0;
-                        console.log(affectedParent, affectedSibling);
                         affectedNode = this.getInnerRightNode(affectedSibling);
                     }
                 }
