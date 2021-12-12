@@ -47,7 +47,7 @@ class Tedit {
             }
         }
         Renderer.renderMain(true);
-        this.navbarModule = new NavbarModule([new DomButton({ innerText: "press me" })]);
+        this.navbarModule = new NavbarModule([new DomButton({ innerText: "New" }), new DomButton({ innerText: "Open" })]);
         this.navbar = new Navbar(this.navbarModule);
     }
     save() {

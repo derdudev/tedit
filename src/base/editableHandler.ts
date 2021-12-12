@@ -118,9 +118,12 @@ class EditableHandler {
                 (affectedNode as Node).textContent = firstHalf + secondHalf;
 
                 if(firstHalf + secondHalf == ""){
-                    // affectedNode?.parentNode?.parentNode?.removeChild(affectedNode?.parentNode as Node);
                     if(affectedParent?.firstChild == affectedSibling) {
                         pos = (this.getInnerRightNode(affectedSibling as Node).textContent?.length || 0) + 1 || 0;
+
+                        console.log(affectedNode?.parentNode)
+                        affectedNode?.parentNode?.parentNode?.removeChild(affectedNode.parentNode);
+
                         affectedNode = this.getInnerRightNode(affectedSibling as Node);
                     } else {
                         pos = 0;
@@ -133,7 +136,6 @@ class EditableHandler {
         if(anchorIsEmpty && isComponent){
             let prev = Component.tedit.collection.prev(this.refComponent);
 
-            // ! not clear if it works
             selectionNode?.parentNode?.removeChild(selectionNode);
             Component.tedit.collection.remove(this.refComponent);
             
@@ -141,15 +143,12 @@ class EditableHandler {
 
         } else {
             Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + affectedNode?.nodeType);
-            // let parent = affectedNode?.parentElement?.parentElement;
-            // if(affectedNode?.textContent == "") parent?.removeChild(affectedNode.parentElement as Node);
-            // this.fuseNodes(parent as Node);
 
             // * check necessary as cursor position could very well be at 0 and pos - 1 would result in an overflow
             if(pos < 1 && isComponentTextNode) DomTextSelector.setCursor(affectedNode as Node, pos);
             else DomTextSelector.setCursor(affectedNode as Node, pos-1);
 
-            selectionNode?.parentElement?.normalize();
+            affectedNode?.parentNode?.normalize();
         }
     }
 

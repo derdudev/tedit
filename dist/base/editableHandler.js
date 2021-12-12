@@ -35,7 +35,7 @@ class EditableHandler {
         }
     }
     handleDeleting(isDelete, e) {
-        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l;
+        var _a, _b, _c, _d, _e, _f, _g, _h, _j, _k, _l, _m, _o;
         e.preventDefault();
         const selection = document.getSelection();
         let anchorIsEmpty = false, isComponent = false, isComponentTextNode = false;
@@ -84,6 +84,8 @@ class EditableHandler {
                 if (firstHalf + secondHalf == "") {
                     if ((affectedParent === null || affectedParent === void 0 ? void 0 : affectedParent.firstChild) == affectedSibling) {
                         pos = (((_j = this.getInnerRightNode(affectedSibling).textContent) === null || _j === void 0 ? void 0 : _j.length) || 0) + 1 || 0;
+                        console.log(affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode);
+                        (_l = (_k = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _k === void 0 ? void 0 : _k.parentNode) === null || _l === void 0 ? void 0 : _l.removeChild(affectedNode.parentNode);
                         affectedNode = this.getInnerRightNode(affectedSibling);
                     }
                     else {
@@ -95,7 +97,7 @@ class EditableHandler {
         }
         if (anchorIsEmpty && isComponent) {
             let prev = Component.tedit.collection.prev(this.refComponent);
-            (_k = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentNode) === null || _k === void 0 ? void 0 : _k.removeChild(selectionNode);
+            (_m = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentNode) === null || _m === void 0 ? void 0 : _m.removeChild(selectionNode);
             Component.tedit.collection.remove(this.refComponent);
             prev === null || prev === void 0 ? void 0 : prev.focus();
         }
@@ -105,7 +107,7 @@ class EditableHandler {
                 DomTextSelector.setCursor(affectedNode, pos);
             else
                 DomTextSelector.setCursor(affectedNode, pos - 1);
-            (_l = selectionNode === null || selectionNode === void 0 ? void 0 : selectionNode.parentElement) === null || _l === void 0 ? void 0 : _l.normalize();
+            (_o = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _o === void 0 ? void 0 : _o.normalize();
         }
     }
     fuseNodes(node) {
