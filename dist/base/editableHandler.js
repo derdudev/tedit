@@ -1,4 +1,3 @@
-import Component from "../core/component.js";
 import Logger from "../log/logger.js";
 import DomTextSelector from "./DomTextSelector.js";
 import DomWorker from "./DomWorker.js";
@@ -63,6 +62,7 @@ class EditableHandler {
             if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
                 selection === null || selection === void 0 ? void 0 : selection.deleteFromDocument();
                 affectedNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
+                pos = (((selection === null || selection === void 0 ? void 0 : selection.anchorOffset) > (selection === null || selection === void 0 ? void 0 : selection.focusOffset)) ? selection === null || selection === void 0 ? void 0 : selection.anchorOffset : selection === null || selection === void 0 ? void 0 : selection.anchorOffset);
             }
             else {
                 selectionNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
@@ -84,8 +84,8 @@ class EditableHandler {
                 firstHalf = textContent.slice(0, pos - 1) || "";
                 secondHalf = textContent.slice(pos, textContent.length) || "";
                 if (((_d = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _d === void 0 ? void 0 : _d.nodeName.toLowerCase()) === "p") {
-                    affectedSibling = (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.previousSibling) || (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nextSibling);
                     affectedParent = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode;
+                    affectedSibling = (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.previousSibling) || (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nextSibling) || affectedParent;
                 }
                 else {
                     affectedSibling = ((_e = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _e === void 0 ? void 0 : _e.previousSibling) || ((_f = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _f === void 0 ? void 0 : _f.nextSibling);
@@ -93,32 +93,29 @@ class EditableHandler {
                 }
                 affectedNode.textContent = firstHalf + secondHalf;
                 if (firstHalf + secondHalf == "") {
+                    (_j = (_h = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode) === null || _h === void 0 ? void 0 : _h.parentNode) === null || _j === void 0 ? void 0 : _j.removeChild(affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentNode);
                     if ((affectedParent === null || affectedParent === void 0 ? void 0 : affectedParent.firstChild) == affectedSibling) {
-                        pos = ((_h = this.getInnerRightNode(affectedSibling).textContent) === null || _h === void 0 ? void 0 : _h.length) || 0;
+                        pos = ((_k = this.getInnerRightNode(affectedSibling).textContent) === null || _k === void 0 ? void 0 : _k.length) || 0 + 1 || 0;
                         affectedNode = this.getInnerRightNode(affectedSibling);
                     }
                     else {
-                        pos = 0;
+                        pos = 1;
+                        console.log(affectedParent, affectedSibling);
                         affectedNode = this.getInnerRightNode(affectedSibling);
                     }
                 }
-                if (firstHalf + secondHalf == " " && ((_j = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentElement) === null || _j === void 0 ? void 0 : _j.nodeName) != "p") {
-                    affectedNode.parentElement.innerHTML = "&nbsp;";
-                }
             }
         }
-        if (((_k = refCompHtml.textContent) === null || _k === void 0 ? void 0 : _k.length) == 0 && refCompHtml.textContent == textContent) {
-            let prev = Component.tedit.collection.prev(this.refComponent);
-            (_l = refCompHtml.parentElement) === null || _l === void 0 ? void 0 : _l.remove();
-            Component.tedit.collection.remove(this.refComponent);
-            prev === null || prev === void 0 ? void 0 : prev.focus();
+        if (((_l = refCompHtml.textContent) === null || _l === void 0 ? void 0 : _l.length) == 0 && refCompHtml.textContent == textContent) {
         }
         else {
             Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + (affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.nodeType));
-            let parent = (_m = affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.parentElement) === null || _m === void 0 ? void 0 : _m.parentElement;
-            if ((affectedNode === null || affectedNode === void 0 ? void 0 : affectedNode.textContent) == "")
-                parent === null || parent === void 0 ? void 0 : parent.removeChild(affectedNode.parentElement);
-            DomTextSelector.setCursor(affectedNode, pos - 1);
+            console.log(pos);
+            if (pos > 0)
+                DomTextSelector.setCursor(affectedNode, pos - 1);
+            else
+                DomTextSelector.setCursor(affectedNode, pos);
+            (_m = refCompHtml.parentElement) === null || _m === void 0 ? void 0 : _m.normalize();
         }
     }
     fuseNodes(node) {

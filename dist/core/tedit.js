@@ -30,7 +30,12 @@ class Tedit {
                 DomTextSelectorWorker.surroundSelection(DomWorker.create("i", { className: "ted-text-italic" }));
         });
         this.collection = new TeditCollection();
-        this.html = DomWorker.create("div", { id: "tedit" });
+        this.html = DomWorker.create("div", {
+            id: "tedit",
+            style: {
+                whiteSpace: "pre-wrap",
+            }
+        });
         Component.setTedit(this);
         if (data) {
             let compRef, compData, comp;

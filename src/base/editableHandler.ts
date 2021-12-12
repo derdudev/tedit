@@ -106,6 +106,7 @@ class EditableHandler {
                 // selection spans over multiple characters
                 selection?.deleteFromDocument();
                 affectedNode = selection?.anchorNode; // ! if selection spans over the entire anchor node, this results in affectedNode = null
+                pos = ((selection?.anchorOffset as number > (selection?.focusOffset as number)) ? selection?.anchorOffset : selection?.anchorOffset) as number;
             }
             else {
                 selectionNode = selection?.anchorNode;
@@ -131,8 +132,8 @@ class EditableHandler {
                 secondHalf = textContent.slice(pos, textContent.length) || "";
 
                 if(affectedNode?.parentNode?.nodeName.toLowerCase() === "p") {
-                    affectedSibling = affectedNode?.previousSibling || affectedNode?.nextSibling;
                     affectedParent = affectedNode?.parentNode;
+                    affectedSibling = affectedNode?.previousSibling || affectedNode?.nextSibling || affectedParent;
                 } else {
                     affectedSibling = affectedNode?.parentNode?.previousSibling || affectedNode?.parentNode?.nextSibling;
                     affectedParent = affectedNode?.parentNode?.parentNode;
@@ -141,39 +142,39 @@ class EditableHandler {
                 (affectedNode as Node).textContent = firstHalf + secondHalf;
 
                 if(firstHalf + secondHalf == ""){
+                    affectedNode?.parentNode?.parentNode?.removeChild(affectedNode?.parentNode as Node);
                     if(affectedParent?.firstChild == affectedSibling) {
-                        pos = this.getInnerRightNode(affectedSibling as Node).textContent?.length || 0;
+                        pos = this.getInnerRightNode(affectedSibling as Node).textContent?.length || 0 +1 || 0;
                         affectedNode = this.getInnerRightNode(affectedSibling as Node);
                     } else {
-                        pos = 0;
+                        pos = 1;
+                        console.log(affectedParent, affectedSibling)
                         affectedNode = this.getInnerRightNode(affectedSibling as Node);
                     }
-                }
-
-                if(firstHalf + secondHalf == " " && affectedNode?.parentElement?.nodeName != "p"){
-                    ((affectedNode as Node).parentElement as Element).innerHTML = "&nbsp;";
                 }
             }
         }
 
         if(refCompHtml.textContent?.length == 0 && refCompHtml.textContent == textContent){
-            let prev = Component.tedit.collection.prev(this.refComponent);
+            // let prev = Component.tedit.collection.prev(this.refComponent);
 
-            // ! not clear if it works
-            refCompHtml.parentElement?.remove();
-            Component.tedit.collection.remove(this.refComponent);
+            // // ! not clear if it works
+            // refCompHtml.parentElement?.remove();
+            // Component.tedit.collection.remove(this.refComponent);
             
-            prev?.focus();
+            // prev?.focus();
 
         } else {
             Logger.clog("deletingInfo", "## deleted in ", affectedNode, "that is of type " + affectedNode?.nodeType);
-            let parent = affectedNode?.parentElement?.parentElement;
-            if(affectedNode?.textContent == "") parent?.removeChild(affectedNode.parentElement as Node);
+            // let parent = affectedNode?.parentElement?.parentElement;
+            // if(affectedNode?.textContent == "") parent?.removeChild(affectedNode.parentElement as Node);
             // this.fuseNodes(parent as Node);
-            DomTextSelector.setCursor(affectedNode as Node, pos-1);
+            console.log(pos);
+            if(pos > 0) DomTextSelector.setCursor(affectedNode as Node, pos-1);
+            else DomTextSelector.setCursor(affectedNode as Node, pos);
 
-            // if(affectedNode?.parentNode?.nodeName != "p") affectedNode?.parentNode?.parentNode?.normalize();
-            // else affectedNode?.parentNode?.normalize();
+            refCompHtml.parentElement?.normalize();
+            // console.log(refCompHtml.parentElement);
         }
     }
 

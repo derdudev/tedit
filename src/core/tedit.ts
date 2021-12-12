@@ -47,7 +47,12 @@ class Tedit {
         
         this.collection = new TeditCollection();
         
-        this.html = DomWorker.create("div", {id:"tedit"});
+        this.html = DomWorker.create("div", {
+            id:"tedit", 
+            style: {
+                whiteSpace: "pre-wrap",
+            }
+        });
         // TODO: inside the container for the board should be the "real" board which then can also be easily reloaded
 
         //this.html = this.html.children[0] as HTMLElement;
