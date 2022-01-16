@@ -84,7 +84,7 @@ class EditableHandler {
                 // selection spans over multiple characters
                 selection?.deleteFromDocument();
                 affectedNode = selection?.anchorNode; // ! if selection spans over the entire anchor node, this results in affectedNode = null
-                pos = ((selection?.anchorOffset as number > (selection?.focusOffset as number)) ? selection?.anchorOffset : selection?.anchorOffset) as number;
+                pos = ((selection?.anchorOffset as number > (selection?.focusOffset as number)) ? selection?.anchorOffset : selection?.anchorOffset) as number + 1;
             }
             else if(!anchorIsEmpty && !isComponent){
                 if(pos == 0 && !anchorIsEmpty && hasPreviousSibling(selectionNode as Node)){ 
@@ -97,6 +97,8 @@ class EditableHandler {
                     // * NOTE (maybe) fuse element above?
                     // if first case failed and pos is 0, there is no previous sibling
                     affectedNode = selectionNode;
+
+                    // ! fusing needs to be implemented
                     pos++;
                 } else {
                     affectedNode = selectionNode;

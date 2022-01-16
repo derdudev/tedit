@@ -58,6 +58,7 @@ class Txt extends Component {
                 padding: "2px 10px",
                 fontSize: "20px",
                 fontWeight: "bold",
+                fontFamily: "Harding Text Web Bold",
             },
             events: [
                 {

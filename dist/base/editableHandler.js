@@ -52,7 +52,7 @@ class EditableHandler {
             if (!(selection === null || selection === void 0 ? void 0 : selection.isCollapsed)) {
                 selection === null || selection === void 0 ? void 0 : selection.deleteFromDocument();
                 affectedNode = selection === null || selection === void 0 ? void 0 : selection.anchorNode;
-                pos = (((selection === null || selection === void 0 ? void 0 : selection.anchorOffset) > (selection === null || selection === void 0 ? void 0 : selection.focusOffset)) ? selection === null || selection === void 0 ? void 0 : selection.anchorOffset : selection === null || selection === void 0 ? void 0 : selection.anchorOffset);
+                pos = (((selection === null || selection === void 0 ? void 0 : selection.anchorOffset) > (selection === null || selection === void 0 ? void 0 : selection.focusOffset)) ? selection === null || selection === void 0 ? void 0 : selection.anchorOffset : selection === null || selection === void 0 ? void 0 : selection.anchorOffset) + 1;
             }
             else if (!anchorIsEmpty && !isComponent) {
                 if (pos == 0 && !anchorIsEmpty && hasPreviousSibling(selectionNode)) {

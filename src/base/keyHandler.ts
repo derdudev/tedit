@@ -31,13 +31,15 @@ class KeyHandler {
 
     public handleDownArrow(e:KeyboardEvent){
         if (e.key == "ArrowDown"){
-            console.log(countLines(e.target as HTMLElement));
+            console.log(countLines(e.target as HTMLElement), getCursorLine(e.target as HTMLElement));
             if(getCursorLine(e.target as HTMLElement) == countLines(e.target as HTMLElement)){
                 e.preventDefault();
                 let nextComp = Component.tedit.collection.next(this.refComponent);
                 let selection = document.getSelection();
                 let endPos;
-                endPos = selection?.focusOffset || 0;
+                
+                console.log(this.refComponent?.html?.textContent?.length, selection?.focusOffset);
+                endPos = (this.refComponent?.html?.textContent?.length as number - (selection?.focusOffset as number) + (nextComp?.html.textContent?.length as number - (this.refComponent?.html?.textContent?.length as number))/5) as number;
 
                 nextComp?.focus(endPos);
             } 
@@ -54,7 +56,6 @@ function createMirror(element:HTMLElement){
     m.style.wordWrap = window.getComputedStyle(element).wordWrap;
     m.style.whiteSpace = window.getComputedStyle(element).whiteSpace;
     m.style.padding = element.style.padding;
-    m.style.width = window.getComputedStyle(element).width;
     m.style.fontFamily = window.getComputedStyle(element).fontFamily;
     m.style.fontSize = window.getComputedStyle(element).fontSize;
     m.style.lineHeight = window.getComputedStyle(element).lineHeight;
@@ -72,13 +73,13 @@ function getLineHeight(element: HTMLElement){
     document.body.appendChild(m);
 
     // ! has to be replaced with a regex
-    return m.clientHeight - (+m.style.paddingTop.slice(0,1) + +m.style.paddingBottom.slice(0,1));
+    return m.getBoundingClientRect().height - (+m.style.paddingTop.slice(0,1) + +m.style.paddingBottom.slice(0,1));
 }
 
 function countLines(element: HTMLElement){
     const lineHeight = getLineHeight(element);
 
-    return (element.clientHeight - (+element.style.paddingTop.slice(0,1) + +element.style.paddingBottom.slice(0,1))) / lineHeight;
+    return (element.getBoundingClientRect().height - (+element.style.paddingTop.slice(0,1) + +element.style.paddingBottom.slice(0,1))) / lineHeight;
 }
 
 function getCursorLine(element: HTMLElement){
@@ -90,7 +91,7 @@ function getCursorLine(element: HTMLElement){
     m.innerHTML = element.textContent?.slice(0,selection?.anchorOffset) || "";
     document.body.appendChild(m);
 
-    return (m.clientHeight - (+m.style.paddingTop.slice(0,1) + +m.style.paddingBottom.slice(0,1))) / lineHeight;
+    return (m.getBoundingClientRect().height - (+m.style.paddingTop.slice(0,1) + +m.style.paddingBottom.slice(0,1))) / lineHeight;
 }
 
 export default KeyHandler;

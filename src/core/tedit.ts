@@ -84,7 +84,6 @@ class Tedit {
         Logger.clog("stage", "%c# Fetching content...", "font-family: 'Roboto Mono'; font-weight: bold");
         let teditContent:Content[] = [];
         for(let i=0; i<this.collection.length; i++){
-            //console.log(this.collection.get(i).getContent());
             teditContent.push(this.collection.get(i).getContent());
         }
 
