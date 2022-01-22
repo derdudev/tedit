@@ -26,7 +26,7 @@ abstract class Component {
         let startPos = selection?.anchorOffset;
         let endPos = selection?.focusOffset;
 
-        console.log(startPos, endPos, this.html.childNodes[0]);
+        // console.log(startPos, endPos, this.html.childNodes[0]);
 
         let selectionNode;
 

@@ -8,7 +8,6 @@ class Component {
         const selection = document.getSelection();
         let startPos = selection === null || selection === void 0 ? void 0 : selection.anchorOffset;
         let endPos = selection === null || selection === void 0 ? void 0 : selection.focusOffset;
-        console.log(startPos, endPos, this.html.childNodes[0]);
         let selectionNode;
         if (template != this.activeTemplate) {
             template.html.addEventListener("click", this.onclick.bind(this));

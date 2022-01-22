@@ -11,8 +11,6 @@ class DomTextSelector {
     public static setSelection(textNode:Node, startPos:number, endPos:number){
         let range = document.createRange();
 
-        
-
         if(startPos == endPos) {
             range.setStart(textNode, startPos);
             range.collapse(true);
@@ -40,7 +38,10 @@ class DomTextSelector {
         selection?.removeAllRanges();
         selection?.addRange(range);
 
-        if(selection?.rangeCount as number > 0) Logger.clog("setSelection", "## selection was set to: ", range.commonAncestorContainer, "from " + selection?.getRangeAt(0).startOffset + " to " + selection?.getRangeAt(0).endOffset);
+        if(selection?.rangeCount as number > 0) {
+            if(range.collapsed) Logger.clog("setSelection", "## cursor was set to: ", selection?.getRangeAt(0).startOffset);
+            else Logger.clog("setSelection", "## selection was set to: ", range.commonAncestorContainer, "from " + selection?.getRangeAt(0).startOffset + " to " + selection?.getRangeAt(0).endOffset);
+        }
     }
 
     /**

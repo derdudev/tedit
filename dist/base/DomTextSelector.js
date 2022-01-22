@@ -24,8 +24,12 @@ class DomTextSelector {
         let selection = document.getSelection();
         selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
         selection === null || selection === void 0 ? void 0 : selection.addRange(range);
-        if ((selection === null || selection === void 0 ? void 0 : selection.rangeCount) > 0)
-            Logger.clog("setSelection", "## selection was set to: ", range.commonAncestorContainer, "from " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).startOffset) + " to " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).endOffset));
+        if ((selection === null || selection === void 0 ? void 0 : selection.rangeCount) > 0) {
+            if (range.collapsed)
+                Logger.clog("setSelection", "## cursor was set to: ", selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).startOffset);
+            else
+                Logger.clog("setSelection", "## selection was set to: ", range.commonAncestorContainer, "from " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).startOffset) + " to " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).endOffset));
+        }
     }
     static selectAllOf(textNode) { }
     static spanSelection(startNode, endNode, startPos, endPos) {
