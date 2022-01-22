@@ -11,19 +11,28 @@ class DomTextSelector {
     public static setSelection(textNode:Node, startPos:number, endPos:number){
         let range = document.createRange();
 
-        if(textNode.childNodes.length < 2 && textNode.childNodes.length > 0) {
-            // ! textNode.childNodes[0] only works for length >= 1
-            // ranges working with selecting text
-            if(startPos < endPos) {
-                range.setStart(textNode.childNodes[0], startPos);
-                range.setEnd(textNode.childNodes[0], endPos);
-            } else {
-                range.setStart(textNode, endPos);
-                range.setEnd(textNode, startPos);
-            }
+        
+
+        if(startPos == endPos) {
+            range.setStart(textNode, startPos);
+            range.collapse(true);
         } else {
-            // ranges working with selecting elements
-            range.selectNodeContents(textNode);
+            
+            if(textNode.childNodes.length < 2 && textNode.childNodes.length > 0) {
+                // ! textNode.childNodes[0] only works for length >= 1
+                // ranges working with selecting text
+                if(startPos < endPos) {
+                    range.setStart(textNode.childNodes[0], startPos);
+                    range.setEnd(textNode.childNodes[0], endPos);
+                } else {
+                    range.setStart(textNode, endPos);
+                    range.setEnd(textNode, startPos);
+                }
+            } else {
+                // TODO rather check for whether the endPos == textNode.length or sth (then selectNodeContents can be used efficiently)
+                // ranges working with selecting elements
+                range.selectNodeContents(textNode);
+            }   
         }
 
         let selection = document.getSelection();
@@ -31,7 +40,7 @@ class DomTextSelector {
         selection?.removeAllRanges();
         selection?.addRange(range);
 
-        if(selection?.rangeCount as number > 0) Logger.clog("setSelection", "## set selection to: ", range.commonAncestorContainer, "from " + selection?.getRangeAt(0).startOffset + " to " + selection?.getRangeAt(0).endOffset);
+        if(selection?.rangeCount as number > 0) Logger.clog("setSelection", "## selection was set to: ", range.commonAncestorContainer, "from " + selection?.getRangeAt(0).startOffset + " to " + selection?.getRangeAt(0).endOffset);
     }
 
     /**

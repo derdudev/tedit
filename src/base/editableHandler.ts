@@ -37,7 +37,7 @@ class EditableHandler {
         let selectionNode = refCompHtml;
 
         // if selection is not collapsed, anchorOffset != focusOffset
-        DomTextSelector.setSelection(selectionNode as Node, 0, refCompHtml.textContent?.length as number);
+        DomTextSelector.setSelection(selectionNode as Node, 0 as number, refCompHtml.textContent?.length as number);
     }
 
     public handleEnter(e:KeyboardEvent){

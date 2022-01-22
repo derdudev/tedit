@@ -2,24 +2,30 @@ import Logger from "../log/logger.js";
 class DomTextSelector {
     static setSelection(textNode, startPos, endPos) {
         let range = document.createRange();
-        if (textNode.childNodes.length < 2 && textNode.childNodes.length > 0) {
-            if (startPos < endPos) {
-                range.setStart(textNode.childNodes[0], startPos);
-                range.setEnd(textNode.childNodes[0], endPos);
-            }
-            else {
-                range.setStart(textNode, endPos);
-                range.setEnd(textNode, startPos);
-            }
+        if (startPos == endPos) {
+            range.setStart(textNode, startPos);
+            range.collapse(true);
         }
         else {
-            range.selectNodeContents(textNode);
+            if (textNode.childNodes.length < 2 && textNode.childNodes.length > 0) {
+                if (startPos < endPos) {
+                    range.setStart(textNode.childNodes[0], startPos);
+                    range.setEnd(textNode.childNodes[0], endPos);
+                }
+                else {
+                    range.setStart(textNode, endPos);
+                    range.setEnd(textNode, startPos);
+                }
+            }
+            else {
+                range.selectNodeContents(textNode);
+            }
         }
         let selection = document.getSelection();
         selection === null || selection === void 0 ? void 0 : selection.removeAllRanges();
         selection === null || selection === void 0 ? void 0 : selection.addRange(range);
         if ((selection === null || selection === void 0 ? void 0 : selection.rangeCount) > 0)
-            Logger.clog("setSelection", "## set selection to: ", range.commonAncestorContainer, "from " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).startOffset) + " to " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).endOffset));
+            Logger.clog("setSelection", "## selection was set to: ", range.commonAncestorContainer, "from " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).startOffset) + " to " + (selection === null || selection === void 0 ? void 0 : selection.getRangeAt(0).endOffset));
     }
     static selectAllOf(textNode) { }
     static spanSelection(startNode, endNode, startPos, endPos) {
